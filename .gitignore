@@ -3,3 +3,7 @@
 
 # Ignore ENV variables
 .env
+
+# Ignore build files
+/dist
+dist
