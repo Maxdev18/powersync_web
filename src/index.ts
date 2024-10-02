@@ -67,7 +67,7 @@ const server = createServer((req, res) => {
   } else {
     // 405 status code indicates a method not supported by the server
     res.writeHead(405, { 'Content-Type': 'text/html' })
-    res.end()
+    res.end("Unsupported request method")
   }
 
   res.end()
