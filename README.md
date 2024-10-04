@@ -1,15 +1,11 @@
-# PowerSync Web Application
-PowerSync is a fictitious company that sells its own manufactured electronic IoT products that have a built-in wifi capability. The goal of PowerSync is to allow people to manage and track battery status and power consuption across all thier PowerSync devices.
+# PowerSync Web Version
+PowerSync is a ficticious company that sells its own IoT products. These IoT devices can then be linked to PowerSync either through the Web or through the app. This repository contains all the code for the web version of PowerSync. This project is more dependant on backend services for all the different CRUD operations. You may clone and play around with the codebase however you want.
 
-This repository consists the codebase for the PowerSync Web Application. This application weighs more towards the implementation and design of web services and microservices. With the integration of NodeJS as the backend server of choice, this ensures the support of header configuration and reliablity of these services. 
+### 1. Cloning the project
+To clone the project, first open a terminal and go to a directory of your choice. Then run the command `git clone https://github.com/Maxdev18/powersync_web.git`. Then go inside the repository by running `cd powersync_web`.
 
-This is a public repository and may be forked by anyone who may want to play around and test the application.
+### 2. Installing dependencies
+After cloning the repository, you need to install all the necessary dependecies that the project utilizes. Since this project uses npm, run the command `npm install`.
 
-### Setup
-To start, open your terminal and navigate to a directory of your choosing. Then run the clone command `git clone https://github.com/Maxdev18/powersync_web.git` to get a copy of the repository. After doing so, navigate to the powersync_web root directory, `cd powersync_web`.
-
-### Install dependencies
-After cloning, you need to install all the necessary dependecies. We are utilizing npm packages so run the command `npm i`. After successful installation, you can now move on to starting the application.
-
-### Starting the server
-To start the server, simply run `npm start`. You should see a message in the terminal saying that the server is running on port 8080. You can then open your browser of your choice and enter in localhost:8080 into the url bar and should see the application running.
+### 3. Running the application
+To start the application, simply run `npm run start-dev`. Navigate to `localhost:8080` and you should see a message that says `This is the backend server`.

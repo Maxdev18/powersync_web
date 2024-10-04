@@ -1,77 +1,66 @@
 import { createServer } from 'node:http'
-import dotenv from 'dotenv'
-import URL from 'url'
+import { Request, Response } from 'express'
 
-// Dependency configurations
+// Require dependecies
+const express = require('express')
+const cors = require('cors')
+const app = express()
+const dotenv = require('dotenv')
+
+// Configuration for dotenv
 dotenv.config()
 
 // Server configurations
 const hostname: string = '127.0.0.1'
-const port: number = parseInt(process.env.PORT) || 8080;
+const port: number = parseInt(process.env.PORT as string) || 8080;
 
-// Create the server
-const server = createServer((req, res) => {
-  const method  = req.method
-  const url     = req.url
-  const query   = URL.parse(req.url, true).query;
+// Dependency middleware
+app.use(cors({
+  origin: ["http://localhost:3000"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}))
 
-  console.log(query, url)
+app.use(express.json())
 
-  res.statusCode = 200
-  res.setHeader("Content-Type", "text/html")
+// API Routes to services
+app.get("/", (req: Request, res: Response) => {
+  console.log("Request method is: ", req.method)
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
 
-  if(method == 'GET') {
-    if(url == '/') {
-      res.write("<html><body><h1>Home server route</h1></body></html>")
-    } else if(url == '/api/v1/products/get-products') {
-      res.write("<html><body><h1>Getting products</h1></body></html>")
-    } else if(url == '/api/v1/users/get-user-account') {
-      res.write("<html><body><h1>Getting user account</h1></body></html>")
-    } else {
-      res.writeHead(404, { 'Content-Type': 'text/html' })
-      res.write("<html><body><h1>404 Not found</h1></body></html>")
-    }
-  } else if(method == 'POST') {
-    if(url == '/api/v1/products/add-product') {
-      res.write("<html><body><h1>Adding product</h1></body></html>")
-    } else if(url == '/api/v1/categories/add-category') {
-      res.write("<html><body><h1>Adding category</h1></body></html>")
-    } else if(url == '/api/v1/users/add-user') {
-      res.write("<html><body><h1>Adding user</h1></body></html>")
-    } else {
-      res.writeHead(404, { 'Content-Type': 'text/html' })
-      res.write("<html><body><h1>404 Not found</h1></body></html>")
-    }
-  } else if(method == 'PUT') {
-    if(url == '/api/v1/categories/update-category-name') {
-      res.write("<html><body><h1>Updating category name</h1></body></html>")
-    } else if(url == '/api/v1/categories/update-category-list') {
-      res.write("<html><body><h1>Updating category</h1></body></html>")
-    } else if(url == '/api/v1/products/update-product-name') {
-      res.write("<html><body><h1>Updating product name</h1></body></html>")
-    } else {
-      res.writeHead(404, { 'Content-Type': 'text/html' })
-      res.write("<html><body><h1>404 Not found</h1></body></html>")
-    }
-  } else if(method == 'DELETE') {
-    if(url.includes('/api/v1/products/delete-product?id=')) {
-      res.write("<html><body><h1>Deleting product</h1></body></html>")
-    } else if(url == '/api/v1/categories/delete-category') {
-      res.write("<html><body><h1>Deleting category</h1></body></html>")
-    } else if(url == '/api/v1/users/delete-user?id=') {
-      res.write("<html><body><h1>Deleting user</h1></body></html>")
-    } else {
-      res.writeHead(404, { 'Content-Type': 'text/html' })
-      res.write("<html><body><h1>404 Not found</h1></body></html>")
-    }
-  } else {
-    // 405 status code indicates a method not supported by the server
-    res.writeHead(405, { 'Content-Type': 'text/html' })
-    res.end("Unsupported request method")
-  }
+  return res.end("This is the backend server")
+})
 
-  res.end()
-});
+/************ User Services ************/
+// This code will be used later on to separate the
+// services and routes into their own file. This is only
+// some sample code to get started later.
+// const userRoutes = require("./Routes/UserRoutes")
+// app.use("/api/v1/users", userRoutes)
+
+app.post("/api/v1/users/register-user", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successfully registered user")
+})
+
+/************ Device Services ************/
+app.get("/api/v1/devices/get-device", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successflly found device")
+})
+
+/************ Group Services ************/
+app.get("/api/v1/groups/get-group", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successflly found group")
+})
+
+// Initialize the server
+const server = createServer(app)
 
 // Listen to server
 server.listen(port, hostname, () => {

@@ -1,11 +1,26 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "target": "es5",
+    "allowJs": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
-    "target": "es6",
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "CommonJS",
     "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist"
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "noImplicitAny": false,
+    "noEmit": true,
+    "jsx": "react-jsx"
   },
-  "lib": ["es2015"]
+  "ts-node": {
+    "esm": true
+  },
+  "include": [
+    "src/**/*",
+    "server"
+, "postcss.config.js"  ]
 }
