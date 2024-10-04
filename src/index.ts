@@ -109,7 +109,7 @@ app.get("/api/v1/groups/get-group", (req: Request, res: Response) => {
 })
 
 //Get Devices by GroupID
-app.get("/api/v1/devices/get-devices-groupID", (req: Request, res: Response) => {
+app.get("/api/v1/devices/get-devices-by-groupID", (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'text/plain')
   res.status(200)
   res.end("Successflly found groupID")
