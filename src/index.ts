@@ -52,11 +52,67 @@ app.get("/api/v1/devices/get-device", (req: Request, res: Response) => {
   res.end("Successflly found device")
 })
 
+//get device location
+app.get("/api/v1/devices/get-device-location", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successflly found device location")
+})
+
+//get device power level
+app.get("/api/v1/devices/get-device-powerlevel", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successflly found device power level")
+})
+
+//get device estimated life
+app.get("/api/v1/devices/get-device-estimated-life", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successflly found device estimated life")
+})
+
+//get device power consumption
+app.get("/api/v1/devices/get-device-power-consumption", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successflly found device power consumption")
+})
+
+//get device estimated cost
+app.get("/api/v1/devices/get-device-estimated-cost", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successflly found device estimated cost")
+})
+
+//get low devices
+app.get("/api/v1/devices/get-low-devices", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successflly found low devices")
+})
+
+//get device cycles
+app.get("/api/v1/devices/get-device-cycles", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successflly found device cycles")
+})
+
 /************ Group Services ************/
 app.get("/api/v1/groups/get-group", (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'text/plain')
   res.status(200)
   res.end("Successflly found group")
+})
+
+//Get Devices by GroupID
+app.get("/api/v1/devices/get-devices-groupID", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successflly found groupID")
 })
 
 // Initialize the server
