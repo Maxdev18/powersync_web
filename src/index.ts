@@ -39,11 +39,30 @@ app.get("/", (req: Request, res: Response) => {
 // some sample code to get started later.
 // const userRoutes = require("./Routes/UserRoutes")
 // app.use("/api/v1/users", userRoutes)
-
+//Register user
 app.post("/api/v1/users/register-user", (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'text/plain')
   res.status(200)
   res.end("Successfully registered user")
+})
+//Update User
+app.put("/api/v1/users/update-user", (res: Request, res: Response) => {
+  res.serHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successfully edited user")
+})
+//Delete user
+app.delete("/api/v1/users/delete-user", (req: Request, res: Response)=> {
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successfully deleted user")
+})
+
+//Reset password
+app.put("api/v1/users/update-password", (res: Request, res: Response) => {
+  res.serHeader('Content-Type', 'text/plain')
+  res.status(200)
+  res.end("Successfully reset password")
 })
 //sign in with google
 app.post("/api/v1/users/create-user-with-google", (req: Request, res: Response) => {
