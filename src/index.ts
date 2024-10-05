@@ -39,18 +39,21 @@ app.get("/", (req: Request, res: Response) => {
 // some sample code to get started later.
 // const userRoutes = require("./Routes/UserRoutes")
 // app.use("/api/v1/users", userRoutes)
+
 //Register user
 app.post("/api/v1/users/register-user", (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'text/plain')
   res.status(200)
   res.end("Successfully registered user")
 })
+
 //Update User
-app.put("/api/v1/users/update-user", (res: Request, res: Response) => {
-  res.serHeader('Content-Type', 'text/plain')
+app.put("/api/v1/users/update-user", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
   res.status(200)
   res.end("Successfully edited user")
 })
+
 //Delete user
 app.delete("/api/v1/users/delete-user", (req: Request, res: Response)=> {
   res.setHeader('Content-Type', 'text/plain')
@@ -59,11 +62,12 @@ app.delete("/api/v1/users/delete-user", (req: Request, res: Response)=> {
 })
 
 //Reset password
-app.put("api/v1/users/update-password", (res: Request, res: Response) => {
-  res.serHeader('Content-Type', 'text/plain')
+app.put("/api/v1/users/update-password", (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain')
   res.status(200)
   res.end("Successfully reset password")
 })
+
 //sign in with google
 app.post("/api/v1/users/create-user-with-google", (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'text/plain')
@@ -84,6 +88,7 @@ app.get("/api/v1/devices/get-device", (req: Request, res: Response) => {
   res.status(200)
   res.end("Successfully found device")
 })
+
 // Create Device
 app.post("/api/v1/devices/create-device", (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'text/plain')
@@ -118,6 +123,7 @@ app.delete("/api/v1/devices/delete-device", (req: Request, res: Response) => {
   res.status(200)
   res.end("Successfully deleted device")
 })
+
 //get device location
 app.get("/api/v1/devices/get-device-location", (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'text/plain')
@@ -187,6 +193,7 @@ app.post("/api/v1/groups/create-group", (req: Request, res: Response) => {
   res.status(200)
   res.end("Successfully created group") 
 })
+
 // Initialize the server
 const server = createServer(app)
 
