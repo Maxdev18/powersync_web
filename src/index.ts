@@ -7,6 +7,7 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const dotenv = require('dotenv')
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 // Configuration for dotenv
 dotenv.config()
@@ -14,6 +15,16 @@ dotenv.config()
 // Server configurations
 const hostname: string = '127.0.0.1'
 const port: number = parseInt(process.env.PORT as string) || 8080;
+const uri = `mongodb+srv://maxpersonal1721:pemqdXgTCWhyGwVz@backenddb.df4xp.mongodb.net/?retryWrites=true&w=majority&appName=BackendDB`;
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
 
 // Dependency middleware
 app.use(cors({
@@ -26,7 +37,6 @@ app.use(express.json())
 
 // API Routes to services
 app.get("/", (req: Request, res: Response) => {
-  console.log("Request method is: ", req.method)
   res.setHeader('Content-Type', 'text/plain')
   res.status(200)
 
@@ -196,6 +206,15 @@ app.post("/api/v1/groups/create-group", (req: Request, res: Response) => {
 
 // Initialize the server
 const server = createServer(app)
+
+client.connect()
+  .then(() => {
+    console.log("Connected to database")
+  })
+  .catch(error => {
+    console.error("Unable to connect to database...")
+    console.error(error)
+  });
 
 // Listen to server
 server.listen(port, hostname, () => {
