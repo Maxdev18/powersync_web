@@ -46,35 +46,8 @@ const deviceRoutes = require("./Routes/DeviceRoutes")
 app.use("/api/v1/devices", deviceRoutes)
 
 /************ Group Services ************/
-// const groupRoutes = require("./Routes/GroupRoutes")
-// app.use("/api/v1/groups", groupRoutes)
-
-//edit group
-app.put("/api/v1/groups/update-group", (req: Request, res: Response) => {
-  res.setHeader('Content-Type', 'text/plain')
-  res.status(200)
-  res.end("Successfully edited group")
-})
-
-//delete group
-app.delete("/api/v1/groups/delete-group", (req: Request, res: Response) => {
-  res.setHeader('Content-Type', 'text/plain')
-  res.status(200)
-  res.end("Successfully deleted group")
-})
-
-app.get("/api/v1/groups/get-group", (req: Request, res: Response) => {
-  res.setHeader('Content-Type', 'text/plain')
-  res.status(200)
-  res.end("Successfully found group")
-})
-
-//create group
-app.post("/api/v1/groups/create-group", (req: Request, res: Response) => {
-  res.setHeader('Content-Type', 'text/plain')
-  res.status(200)
-  res.end("Successfully created group") 
-})
+const groupRoutes = require("./Routes/GroupRoutes")
+app.use("/api/v1/groups", groupRoutes)
 
 // Initialize the server
 const server = createServer(app)
