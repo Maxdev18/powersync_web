@@ -4,9 +4,9 @@ import { GroupService } from '../Services/GroupService'
 const router = express.Router()
 const groupService = new GroupService()
 
-router.put('/update-group', groupService.update-group.bind(groupService))
-router.delete('/delete-group', groupService.delete-group.bind(groupService))
-router.get('/get-group', groupService.get-group.bind(groupService))
-router.post('/create-group', groupService.create-group.bind(groupService))
+router.put('/updateGroup', groupService.updateGroup.bind(groupService))
+router.delete('/deleteGroup', groupService.deleteGroup.bind(groupService))
+router.get('/getGroup', groupService.getGroup.bind(groupService))
+router.post('/createGroup', groupService.createGroup.bind(groupService))
 
 module.exports = router
