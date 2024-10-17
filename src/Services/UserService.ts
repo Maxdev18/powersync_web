@@ -10,7 +10,8 @@ export class UserService {
             firstName: "Max",
             lastName: "Melnik",
             email: "mzm6958@psu.edu",
-            password: "password123"
+            password: "password123",
+            theme: "dark"
         })
 
         await user.save()
