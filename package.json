@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "tsc && node dist/index.js",
-    "start-dev": "ts-node-dev src/index.ts",
+    "start-dev": "concurrently \"ts-node-dev src/index.ts\" \"cd frontend && npm start\"",
     "start-db": "node DB_app.js",
     "build": "tsc",
     "start-build": "node dist/index.js",
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Maxdev18/powersync_web#readme",
   "dependencies": {
+    "concurrently": "^9.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
