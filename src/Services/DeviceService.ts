@@ -1,10 +1,28 @@
 import { Request, Response } from 'express';
+import Device from '../Schemas/DeviceSchema';
+import bcrypt from 'bcrypt'
 
 export class DeviceService {
     async getDevice(req: Request, res: Response) {
-        res.setHeader('Content-Type', 'text/plain')
-        res.status(200)
-        res.end("Successfully found device")
+        const data = req.body
+        res.setHeader('Content-Type', 'application/json')
+
+        try{
+            //sees if device exists 
+            const deviceDoc = await Device.findOne({name: data.name})
+
+            if(deviceDoc){
+                res.status(200).json({message: "Device " + data.name + " was found!"}).end()
+            }
+            else{
+                res.status(404).json({message: "Device " + data.name + " was not found."}).end()
+            }
+        }
+        catch(error) {
+            console.log(error)
+            res.status(500)
+            res.json({ message: "Internal server error" }).end()
+        }   
     }
 
     async createDevice(req: Request, res: Response) {
