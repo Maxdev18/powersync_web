@@ -105,9 +105,21 @@ export class UserService {
     }
 
     async deleteUser(req: Request, res: Response) {
-        // res.setHeader('Content-Type', 'text/plain')
-        // res.status(200)
-        // res.end("Successfully deleted user")
+        const data = req.body
+        res.setHeader('content-type', 'application/json')// use json to test for now   
+        try{
+            const userDoc = await User.findOne({email: data.email}) //check if email exists
+            if(userDoc){
+                await userDoc.deleteOne({email: data.email}) //delete user with email
+                res.status(200).json({message: "successfully deleted user"}).end()
+            } else {
+                res.status(404).json({message: "User not found"}).end()
+            }
+        }catch(error){
+            console.log(error)
+            res.status(500)
+            res.json({ message: "Internal server error"}).end()
+        }
     }
 
     async updatePassword(req: Request, res: Response) {
