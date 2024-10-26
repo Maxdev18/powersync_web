@@ -69,6 +69,7 @@ export class UserService {
         res.setHeader('Content-Type', 'text/plain')
         res.status(200)
         res.end("Successfully signed in with google")
+        
     }
 
     async updateUser(req: Request, res: Response) {
