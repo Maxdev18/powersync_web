@@ -32,10 +32,23 @@ export class GroupService {
         res.status(200)
         res.end("Successfully found group")
     }
-
     async createGroup(req: Request, res: Response) {
-        res.setHeader('Content-Type', 'text/plain')
-        res.status(200)
-        res.end("Successfully created group")
+        const { name } = req.body;
+        res.setHeader('Content-Type', 'application/json');
+
+        try {
+            // Check if a group with the same name already exists
+            const existingGroup = await Group.findOne({ name });
+            if (existingGroup) {
+                return res.status(409).json({ message: "Group name already exists" }).end();
+            }
+
+            // Create a new group if no duplicate is found
+            const newGroup = await Group.create({ name });
+            res.status(201).json({ message: "Successfully created group", group: newGroup }).end();
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Internal server error" }).end();
+        }
     }
-} 
+}
