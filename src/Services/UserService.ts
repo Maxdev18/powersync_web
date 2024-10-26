@@ -72,20 +72,62 @@ export class UserService {
     }
 
     async updateUser(req: Request, res: Response) {
-        res.setHeader('Content-Type', 'text/plain')
-        res.status(200)
-        res.end("Successfully edited user")
+        
+        const data = req.body // get user data
+        res.setHeader('content-type', 'application/json')// use json to test for now 
+        try{
+            const userDoc = await User.findOne({email: data.email}) //check if email exists
+            if(userDoc){ //if email exist, update user info
+                userDoc.firstName = data.firstName
+                userDoc.lastName = data.lastName
+                userDoc.theme = data.theme
+                //user might just update name, without changing email
+                if(userDoc.email !== data.newEmail){// attempting to change email 
+                    const checkEmail = await User.findOne({email: data.newEmail}) // check if email already in system
+                    if(checkEmail){ // if email already in system
+                        res.status(409).json({message: "Email already in use"}).end()
+                    }else{
+                        userDoc.email = data.newEmail
+                    }
+                }
+                
+                await userDoc.save()
+                res.status(200).json({message: "successfully updated user"}).end()
+            }else {
+                res.status(404).json({message: "User not found"}).end()
+            }
+        } catch(error){
+            console.log(error)
+            res.status(500)
+            res.json({ message: "Internal server error"}).end()
+        }
+
     }
 
     async deleteUser(req: Request, res: Response) {
-        res.setHeader('Content-Type', 'text/plain')
-        res.status(200)
-        res.end("Successfully deleted user")
+        // res.setHeader('Content-Type', 'text/plain')
+        // res.status(200)
+        // res.end("Successfully deleted user")
     }
 
     async updatePassword(req: Request, res: Response) {
-        res.setHeader('Content-Type', 'text/plain')
-        res.status(200)
-        res.end("Successfully reset password")
+        const data = req.body
+        res.setHeader('content-type', 'application/json')// use json to test for now   
+        
+        try{
+            const userDoc = await User.findOne({email: data.email}) //check if email exists
+            if(userDoc){
+                const newPassword = await bcrypt.hash(data.newPassword, bcrypt.genSaltSync(), null)
+                userDoc.password = newPassword //update the password now
+                await userDoc.save()// wait for user to save it
+                res.status(200).json({message: "successfully updated password"}).end()
+            } else {
+                res.status(404).json({message: "User not found"}).end()
+            }
+        }catch(error){
+            console.log(error)
+            res.status(500)
+            res.json({ message: "Internal server error"}).end()
+        }
     }
 } 
