@@ -41,9 +41,28 @@ export class UserService {
     }
 
     async loginUser(req: Request, res: Response) {
-        res.setHeader('Content-Type', 'text/plain')
-        res.status(200)
-        res.end("Successfully signed in")
+        const data = req.body// retrieve data sent by client
+        //to check if an account exist or not
+        res.setHeader('Content-Type', 'application/json')
+        try{
+            const userDoc = await User.findOne({email: data.email}) //wait to check if email exists duhhh
+            if(userDoc){
+                const validPassword = await bcrypt.compare(data.password, userDoc.password)
+                if(validPassword){ //password is gud
+                    res.status(200).json({message: "Successfully signed in"}).end()
+                } else{
+                    res.status(401).json({message: "Invalid password"}).end()
+                }
+            } else{ //couldn't find user email
+                res.status(404).json({message: "User not found"}).end()
+            }
+        }
+            catch(error) {
+                console.log(error)
+                res.status(500)
+                res.json({ message: "Internal server error" }).end()
+            
+        }
     }
 
     async loginGoogleUser(req: Request, res: Response) {
