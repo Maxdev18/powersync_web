@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Group from '../Schemas/GroupSchema';
-import bcrypt from 'bcrypt'
+
 /**
  * GroupService.ts
  */

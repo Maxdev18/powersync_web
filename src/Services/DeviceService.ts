@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import Device from '../Schemas/DeviceSchema';
-import bcrypt from 'bcrypt'
 
 export class DeviceService {
     async getDevice(req: Request, res: Response) {
