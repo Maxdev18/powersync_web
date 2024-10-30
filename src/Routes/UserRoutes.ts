@@ -2,7 +2,7 @@ import express from 'express'
 import { UserService } from '../Services/UserService'
 
 const router = express.Router()
-const userService = new UserService()
+const userService = new UserService() //create a new class instance
 
 router.post('/register-user', userService.registerUser.bind(userService))
 router.post('/create-user-with-google', userService.loginGoogleUser.bind(userService))

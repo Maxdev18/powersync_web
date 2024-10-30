@@ -59,13 +59,14 @@ export class UserService {
         }
             catch(error) {
                 console.log(error)
-                res.status(500)
+                res.status(500) 
                 res.json({ message: "Internal server error" }).end()
             
         }
     }
 
     async loginGoogleUser(req: Request, res: Response) {
+        //Implement this when we have the UI for google login
         res.setHeader('Content-Type', 'text/plain')
         res.status(200)
         res.end("Successfully signed in with google")
@@ -84,7 +85,7 @@ export class UserService {
                 userDoc.theme = data.theme
                 //user might just update name, without changing email
                 if(userDoc.email !== data.newEmail){// attempting to change email 
-                    const checkEmail = await User.findOne({email: data.newEmail}) // check if email already in system
+                    const checkEmail = await User.findOne({email: data.newEmail}) // check if new email already in system
                     if(checkEmail){ // if email already in system
                         res.status(409).json({message: "Email already in use"}).end()
                     }else{
@@ -118,7 +119,7 @@ export class UserService {
             }
         }catch(error){
             console.log(error)
-            res.status(500)
+            res.status(500) 
             res.json({ message: "Internal server error"}).end()
         }
     }

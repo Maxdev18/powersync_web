@@ -77,21 +77,21 @@ export class DeviceService {
             const deviceDoc = await Device.findOne({name: data.name})
             //sees if device already is in the system
             if(!deviceDoc){
-                res.status(200).json({message: "Device " + data.name + " doen't exist"}).end()
+                res.status(200).json({message: "Device " + data.name + " doesn't exist"}).end()
             }
             else{
-                    deviceDoc.name = data.name,
-                    deviceDoc.type = data.type,
-                    deviceDoc.serialNumber = data.serialNumber,
-                    deviceDoc.condition = data.condion,
-                    deviceDoc.notes = data.notes,
-                    deviceDoc.groupName = data.groupName,
-                    deviceDoc.groupID = data.groupID,
-                    deviceDoc.cycles = data.cycles,
-                    deviceDoc.batteryPercentage = data.batterPercentage,
-                    deviceDoc.wattage = data.wattage,
-                    deviceDoc.estimatedLife = data.estimatedLife,
-                    deviceDoc.estimatedCost = data.estimatedCost,
+                    deviceDoc.name = data.name
+                    deviceDoc.type = data.type
+                    deviceDoc.serialNumber = data.serialNumber
+                    deviceDoc.condition = data.condition
+                    deviceDoc.notes = data.notes
+                    deviceDoc.groupName = data.groupName
+                    deviceDoc.groupID = data.groupID
+                    deviceDoc.cycles = data.cycles
+                    deviceDoc.batteryPercentage = data.batterPercentage
+                    deviceDoc.wattage = data.wattage
+                    deviceDoc.estimatedLife = data.estimatedLife
+                    deviceDoc.estimatedCost = data.estimatedCost
                     deviceDoc.location = data.location
                 await deviceDoc.save()
 
@@ -113,7 +113,7 @@ export class DeviceService {
             const deviceDoc = await Device.findOne({name: data.name})
             //sees if device already is in the system
             if(!deviceDoc){
-                res.status(200).json({message: "Device " + data.name + " doen't exist"}).end()
+                res.status(200).json({message: "Device " + data.name + " doesn't exist"}).end()
             }
             else{
                 await Device.deleteOne({ name: data.name })
