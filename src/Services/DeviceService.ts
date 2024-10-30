@@ -36,6 +36,11 @@ export class DeviceService {
             if(deviceDoc){
                 res.status(200).json({message: "Device " + data.name + " was already made"}).end()
             }
+            //see if group is in the system
+            const groupDoc = await Groups.findOne({ id: data.groupID })
+            if (!groupDoc) {
+                res.status(404).json({ message: "Group with ID " + data.groupID + " doesn't exist." }).end()
+            } 
             else{
                 const device = new Device({
                     name: data.name,
@@ -84,9 +89,9 @@ export class DeviceService {
                     deviceDoc.groupID = data.groupID,
                     deviceDoc.cycles = data.cycles,
                     deviceDoc.batteryPercentage = data.batterPercentage,
-                    deviceDoc.wattage = data.number,
+                    deviceDoc.wattage = data.wattage,
                     deviceDoc.estimatedLife = data.estimatedLife,
-                    deviceDoc.estimatedCost = data.estimagedCost,
+                    deviceDoc.estimatedCost = data.estimatedCost,
                     deviceDoc.location = data.location
                 await deviceDoc.save()
 
