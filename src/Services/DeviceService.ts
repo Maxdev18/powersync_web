@@ -222,7 +222,7 @@ export class DeviceService {
             if (!groupDoc) {
                 res.status(404).json({ message: "Group with ID " + data.groupID + " doesn't exist." }).end()
             } 
-            const lowBatteryDevices = await Device.find({ batterPercentage: { $lt: 50 } })
+            const lowBatteryDevices = await Device.find({ batteryPercentage: { $lt: 50 } })
             if (lowBatteryDevices.length == 0) {
                 res.status(404).json({ message: "No low devices" }).end()
             } else {
@@ -256,17 +256,16 @@ export class DeviceService {
         const data = req.body
         res.setHeader('Content-Type', 'application/json')
         try{
+            //see if group is in the system
             const groupDoc = await Groups.findOne({ _id: data.groupID })
             if (!groupDoc) {
                 res.status(404).json({ message: "Group with ID " + data.groupID + " doesn't exist." }).end()
             } 
-            const devices = await Device.find({ groupID: data.groupID });
-
-            if(devices.length == 0){
-                res.status(404).json({ message: "No devices found for group ID " + data.groupID }).end()
-            }
-            else{
-                res.status(200).json(devices).end()
+            const lowBatteryDevices = await Device.find({ batteryPercentage: { $lt: 50 } })
+            if (lowBatteryDevices.length == 0) {
+                res.status(404).json({ message: "No low devices" }).end()
+            } else {
+                res.status(200).json(lowBatteryDevices).end();
             }
         }
         catch (error) {
