@@ -37,7 +37,7 @@ export class DeviceService {
                 res.status(200).json({message: "Device " + data.name + " was already made"}).end()
             }
             //see if group is in the system
-            const groupDoc = await Groups.findOne({ id: data.groupID })
+            const groupDoc = await Groups.findOne({ _id: data.groupID })
             if (!groupDoc) {
                 res.status(404).json({ message: "Group with ID " + data.groupID + " doesn't exist." }).end()
             } 
@@ -213,10 +213,15 @@ export class DeviceService {
         }
     }
 
-    async getLowDevices(req: Request, res: Response) {
+    async getLowDevices(req: Request, res: Response) {//something wrong
         const data = req.body
         res.setHeader('Content-Type', 'application/json')
         try{
+            //see if group is in the system
+            const groupDoc = await Groups.findOne({ _id: data.groupID })
+            if (!groupDoc) {
+                res.status(404).json({ message: "Group with ID " + data.groupID + " doesn't exist." }).end()
+            } 
             const lowBatteryDevices = await Device.find({ batterPercentage: { $lt: 50 } })
             if (lowBatteryDevices.length == 0) {
                 res.status(404).json({ message: "No low devices" }).end()
@@ -251,7 +256,7 @@ export class DeviceService {
         const data = req.body
         res.setHeader('Content-Type', 'application/json')
         try{
-            const groupDoc = await Groups.findOne({ id: data.groupID })
+            const groupDoc = await Groups.findOne({ _id: data.groupID })
             if (!groupDoc) {
                 res.status(404).json({ message: "Group with ID " + data.groupID + " doesn't exist." }).end()
             } 

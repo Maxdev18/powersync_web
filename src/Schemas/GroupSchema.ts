@@ -4,7 +4,7 @@ const { Schema, model } = mongoose;
 
 const GroupSchema = new Schema({
     name: String,
-    user: String,
+    userID: String,
 })
 
 const Group = model('Group', GroupSchema)
