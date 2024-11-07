@@ -1,0 +1,72 @@
+*{
+    margin: 0;
+    background-color: #EDFAFF;
+    padding: 0;
+    font-family: inter , roboto ,sans-serif;
+}
+
+.login-form, .login-image{
+    border: 1px solid black;
+    width: 50%;
+    padding: 10px;
+    height: 100vh;
+
+}
+
+.inputField, .buttonField{
+    /* border: 1px solid red;  */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    width: 65%;
+    margin-left: 18%;
+    margin-bottom: 30px;
+    text-align: right;
+}
+
+.para{
+    font-size: 10px;
+    color: #0000EE;
+
+}
+
+.para2{
+    margin: 18% 18% 10%;
+}
+
+.header{
+    margin: 11% 18% 14%;
+}
+
+.input{
+    border-radius: 5px;
+    height: 40px;
+    background-color: white;
+    padding: 0px 20px;
+
+}
+
+.buttonStyle{
+    border-radius: 5px;
+    height: 40px;
+    background-color: black;
+    color: white;
+    font-weight: bolder;
+    font-size: 16px;
+    padding: 10px;
+
+}
+
+.buttonField{
+    text-align: center;
+    font-size: 15px;
+    color: black;
+    font-weight: bold;
+}
+
+#google{
+    background-color: white;
+    color: black;
+    font-weight: bold;
+}

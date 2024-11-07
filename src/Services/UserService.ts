@@ -34,7 +34,7 @@ export class UserService {
                 res.status(200).json({ message: "Successfully added user to database" }).end()
             }
         } catch(error) {
-            console.log(error)
+            console.log(error)  
             res.status(500)
             res.json({ message: "Internal server error" }).end()
         }   
@@ -73,7 +73,8 @@ export class UserService {
         
     }
 
-    async updateUser(req: Request, res: Response) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async updateUser(req: Request, res: Response) : Promise<any> {
         
         const data = req.body // get user data
         res.setHeader('content-type', 'application/json')// use json to test for now 
@@ -87,9 +88,10 @@ export class UserService {
                 if(userDoc.email !== data.newEmail){// attempting to change email 
                     const checkEmail = await User.findOne({email: data.newEmail}) // check if new email already in system
                     if(checkEmail){ // if email already in system
-                        res.status(409).json({message: "Email already in use"}).end()
+                        return res.status(409).json({message: "Email already in use"}).end()
                     }else{
                         userDoc.email = data.newEmail
+
                     }
                 }
                 
