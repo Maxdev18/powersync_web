@@ -1,6 +1,17 @@
 //this page will have all the login functionality
 import '../styles/loginPage.css';
+import { useState } from 'react';
 const LoginPage = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleEmailChange = (event:any) => {
+        setEmail(event.target.value);
+    }
+    const handlePasswordChange = (event:any) => {
+        setPassword(event.target.value);
+    }
+    
 
     return (
         <div className="login">
@@ -9,8 +20,19 @@ const LoginPage = () => {
             <h1 className='header'>Login</h1>
 
                 <div className='inputField'>    
-                    <input className='input' type="text" placeholder='Email...' />
-                    <input className='input' type="password" placeholder='Password...' />
+                    <input 
+                     className='input'
+                     type="text" 
+                     placeholder='Email...' 
+                     value={email}
+                     onChange={handleEmailChange}/>
+                    <input
+                     className='input' 
+                     type="password" 
+                     placeholder='Password...' 
+                     value={password}
+                     onChange={handlePasswordChange}/>
+
                     <p className='para'>Forgot your password?</p>
                 </div>
 
