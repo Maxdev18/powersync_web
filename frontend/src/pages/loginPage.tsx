@@ -2,6 +2,7 @@
 import '../styles/loginPage.css';
 import { useState } from 'react';
 import Input from "../components/input";
+// import Button from "../components/button";
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -31,8 +32,11 @@ const LoginPage = () => {
 
                 <div className='buttonField'>
                     <button className='buttonStyle' type='submit'>Login</button>
+
                     <p>OR</p>
+
                     <button id='google' className='buttonStyle' type='submit'>Sign in with Google</button>
+
                 </div>
 
                 <p className='para para2'>Don't have an account?</p>
