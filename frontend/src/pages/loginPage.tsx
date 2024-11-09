@@ -1,7 +1,7 @@
 //this page will have all the login functionality
 import '../styles/loginPage.css';
 import { useState } from 'react';
-import Input from "../Components/input";
+import Input from "../components/input";
 // import Button from "../components/button";
 const LoginPage = () => {
     const [email, setEmail] = useState('');
