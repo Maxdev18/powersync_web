@@ -1,34 +1,22 @@
-import React from 'react';
-import './dashboard.css';
+import './dashboard.css'
 
-const Dashboard: React.FC = () => {
+export const DashboardPage: React.FC = () => {
   const handleNotificationClick = () => {
     alert("Notifications clicked!");
   };
-
+  
   return (
-    <div className="dashboard-container">
-      <aside className="sidebar">
-        <h2 className="brand-name">Powersync</h2>
-        <nav className="sidebar-menu">
-          <ul>
-            <li className="tab">Dashboard</li>
-            <li className="tab">Devices</li>
-            <li className="tab">Groups</li>
-            <li className="tab">Store</li>
-          </ul>
-        </nav>
-      </aside>
-
-      <main className="content">
+    <main className="dashboard-container">
         <header className="header">
           <div className="header-title">
             <h1>Welcome, Kevin</h1>
-            <p>Monday, November 4, 2024</p>
+            <p>{(new Date()).toLocaleDateString()}</p>
           </div>
           <div className="icons-container">
-            <span className="notification-icon" onClick={handleNotificationClick}>🔔</span>
-            <span className="notification-icon" onClick={handleNotificationClick}>🔔</span>
+            <img src={require("../../assets/notification-bell.png")} alt="Notification icon" onClick={handleNotificationClick}/>
+            <a href="/dashboard/profile">
+              <img src={require("../../assets/profile.png")} alt="Profile settings" />
+            </a>
           </div>
         </header>
 
@@ -38,27 +26,27 @@ const Dashboard: React.FC = () => {
             <div className="combined-summary-section">
               <div className="combined-summary-card">
                 <div className="summary-card">
-                  <h3>Power Consumption</h3>
-                  <p>10.43 kWh</p>
+                  <p>Power Consumption</p>
+                  <p>10.43<span>kWh</span></p>
                 </div>
                 <div className="summary-card">
-                  <h3>Low Devices</h3>
+                  <p>Low Devices</p>
                   <p>1</p>
                 </div>
                 <div className="summary-card">
-                  <h3>Estimated Cost</h3>
+                  <p>Estimated Cost</p>
                   <p>$1.89</p>
                 </div>
               </div>
             </div>
 
             <div className="this-weeks-consumption">
-              <h4>This week's consumption</h4>
-              <p>43.82 kWh</p>
+              <p>This week's consumption</p>
+              <p>43.82<span>kWh</span></p>
             </div>
 
             <section className="biggest-eaters">
-              <h3>Biggest Eaters</h3>
+              <h2>Biggest Eaters</h2>
               <div className="biggest-eater-item">
                 <span>Carl's Tablet</span>
                 <span>12.40 kWh</span>
@@ -110,8 +98,5 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
       </main>
-    </div>
-  );
-};
-
-export default Dashboard;
+  )
+}
