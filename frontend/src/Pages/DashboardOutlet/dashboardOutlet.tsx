@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Navigation } from '../../Components/Navigation/navigation';
+import { Navigation } from '../../components/Navigation/navigation';
 import './dashboardOutlet.css';
 
 const DashboardOutlet: React.FC = () => {

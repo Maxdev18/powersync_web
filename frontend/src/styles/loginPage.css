@@ -1,3 +1,6 @@
+*{
+    background-color: #EDFAFF;
+}
 .login-form, .login-image{
     border: 1px solid black;
     width: 50%;
@@ -6,7 +9,6 @@
 }
 
 .inputField, .buttonField{
-    /* border: 1px solid red;  */
     display: flex;
     flex-direction: column;
     gap: 20px;
