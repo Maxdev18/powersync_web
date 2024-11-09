@@ -14,7 +14,6 @@ const LoginPage = () => {
         setPassword(event.target.value);
     }
     
-
     return (
         <div className="login">
 

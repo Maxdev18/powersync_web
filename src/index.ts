@@ -11,7 +11,6 @@ const mongoose = require("mongoose");
 
 // Configuration for dotenv
 dotenv.config()
-
 // Server configurations
 const hostname: string = '127.0.0.1'
 const port: number = parseInt(process.env.PORT as string) || 8080;

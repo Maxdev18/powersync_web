@@ -2,7 +2,7 @@ import './styles/App.css';
 import LoginPage from './pages/loginPage';
 import { DashboardPage } from './pages/dashboardPage';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
+// import RegisterPage from './pages/registerPage';
 function App() {
   return (
     <div className="App">
