@@ -1,0 +1,165 @@
+.profile-container {
+  padding: 16px;
+  height: 100vh;
+}
+
+.profile-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-content-container {
+  display: flex;
+  height: 92%;
+}
+
+.profile-details-container {
+  background-color: #fff;
+  border-radius: 8px;
+  width: 40%;
+  padding: 16px;
+}
+
+.profile-details-content-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-image-container {
+  display: flex;
+  margin-top: 20px;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-image {
+  background-color: #76A6FF;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 144px;
+  height: 144px;
+}
+
+.profile-image p {
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+.profile-input-container {
+  margin-top: 10px;
+}
+
+.profile-input-container p {
+  font-weight: 700;
+}
+
+.profile-input {
+  height: 48px;
+  padding: 0px 12px;
+  width: 100%;
+  border-radius: 8px;
+  border-color: #00000030;
+}
+
+.profile-theme-container {
+  margin-top: 20px;
+  padding: 8px;
+  border: 2px solid;
+  border-radius: 8px;
+  border-color: #00000030;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-theme-container div p:nth-child(1) {
+  font-weight: 700;
+}
+
+.profile-theme-container div p:nth-child(2) {
+  color: #00000050;
+}
+
+.toggle-button {
+  width: 36px;
+  height: 16px;
+  background-color: #011452;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+}
+
+.circle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  top: -2px;
+}
+
+.circle-not-active {
+  background-color: #C0C0C0;
+  left: -2px;
+}
+
+.circle-active {
+  background-color: rgb(0, 212, 0);
+  right: 0;
+}
+
+.profile-save-btn {
+  background-color: #12B8FF;
+  height: 36px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 60%;
+  width: 86px;
+  margin-left: auto;
+}
+
+.profile-save-btn p {
+  color: white;
+  font-weight: 700;
+}
+
+.manage-password-container {
+  background-color: #FFF;
+  border-radius: 8px;
+  height: 100px;
+  width: 58%;
+  margin-left: auto;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.manage-password-info-container p {
+  color: #00000050;
+}
+
+.manage-password-btn {
+  background-color: #12B8FF;
+  height: 36px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 86px;
+}
+
+.manage-password-btn p {
+  color: white;
+  font-weight: 700;
+}
