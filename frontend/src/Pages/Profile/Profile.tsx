@@ -79,7 +79,7 @@ export const ProfilePage: React.FC = () => {
                 </div>
 
                 <div className='manage-password-btn' onClick={handleResetPassword}>
-                    <p>Save</p>
+                    <p>Send link</p>
                 </div>
             </div>
         </div>
