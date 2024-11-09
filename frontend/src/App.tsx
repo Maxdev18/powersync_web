@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DashboardOutlet from './Pages/DashboardOutlet/dashboardOutlet';
 import { ProfilePage } from './Pages/Profile/Profile';
 import { DashboardPage } from './Pages/Dashboard/dashboard';
+import LoginPage from './Pages/loginPage';
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} /> */}
+        <Route path="/login" element={<LoginPage />} />
+        {/* <Route path="/register" element={<Register />} /> */}
         <Route path="/dashboard" element={<DashboardOutlet />}>
           <Route path="" element={<DashboardPage />}/>
           {/* {/* <Route path="devices" element={<Devices />}/> */}
