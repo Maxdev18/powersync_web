@@ -1,0 +1,150 @@
+/* Container for dashboard layout */
+.dashboard-container {
+  padding: 16px;
+}
+
+/* Main content area */
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Header section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 28px;
+}
+
+.icons-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Main content container with left and right sections */
+.main-content {
+  display: flex;
+  gap: 20px; /* Space between left and right sections */
+}
+
+/* Left section for summaries, weekly consumption, and biggest eaters */
+.left-section {
+  flex: 1; /* Takes up available space */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Right section for the devices list */
+.right-section {
+  width: 50%; /* Occupies the right half */
+}
+
+/* Combined summary cards styling */
+.combined-summary-section {
+  margin-bottom: 20px;
+}
+
+.combined-summary-card {
+  display: flex;
+  align-items: center;
+  height: 132px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.summary-card {
+  flex: 1;
+}
+
+.summary-card p:nth-child(2){
+  font-weight: 700;
+  font-size: 36px;
+}
+
+.summary-card p:nth-child(2) span{
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.summary-card-title {
+  font-size: 12px;
+}
+
+/* "This Week's Consumption" styling */
+.this-weeks-consumption {
+  max-width: 250px; /* Constrain width */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 132px;
+}
+
+.this-weeks-consumption p:nth-child(2) {
+  font-weight: 700;
+  font-size: 36px;
+}
+
+.this-weeks-consumption p:nth-child(2) span {
+  font-size: 24px;
+}
+
+.biggest-eaters {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-grow: 1; /* Allows it to stretch vertically */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align items to start */
+  min-height: 400px; /* Set minimum height */
+}
+
+.biggest-eater-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+}
+
+/* Devices section styling */
+.devices-section {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 800px; /* Set minimum height */
+}
+
+.devices-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.devices-table th,
+.devices-table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.devices-table th {
+  background-color: #333;
+  color: white;
+}
+
+.devices-table .percentage {
+  color: green;
+  font-weight: bold;
+}

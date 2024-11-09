@@ -1,25 +1,23 @@
-import './styles/App.css';
-import LoginPage from './pages/loginPage';
-import { DashboardPage } from './pages/dashboardPage';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-// import RegisterPage from './pages/registerPage';
-function App() {
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import DashboardOutlet from './Pages/DashboardOutlet/dashboardOutlet';
+import { ProfilePage } from './Pages/Profile/Profile';
+import { DashboardPage } from './Pages/Dashboard/dashboard';
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          {/* <Route path="/register" element={<RegisterPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} /> */}
-          <Route path="/dashboard" element={<DashboardPage />}>
-            {/* <Route path="devices" element={<DevicesPage />} />
-            <Route path="profile" element={<ProfilePage />} /> */}
-          </Route>
-          <Route path="*" element={<Navigate to="/" replace />}/>
-        </Routes>
-      </Router>
-    </div>
-  );
-}
+    <Router>
+      <Routes>
+        {/* <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} /> */}
+        <Route path="/dashboard" element={<DashboardOutlet />}>
+          <Route path="" element={<DashboardPage />}/>
+          {/* {/* <Route path="devices" element={<Devices />}/> */}
+          <Route path="profile" element={<ProfilePage />} />
+        </Route>
+      </Routes>
+    </Router>
+  )
+};
 
 export default App;
