@@ -26,7 +26,7 @@ const LoginPage = () => {
 
                     <Input type="password" placeHolder="Password..." value={password} onChange={handlePasswordChange}/>
 
-                    <p className='para'>Forgot your password?</p>
+                    <p className='para'>Forgot your password?</p> 
                 </div>
 
                 <div className='buttonField'>

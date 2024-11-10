@@ -44,11 +44,10 @@ const LoginPage = () => {
                     <button className='buttonStyle' type='submit'>Register</button>
                 </div>
 
-                {/* <p className='para para2'>Already have an account?</p> */}
                 <Link to="/login" className='para para2'>Already have an account?</Link>
             </div>
 
-            <div className='login-image'>
+            <div id='login-image'>
             </div>
         </div>
     );
