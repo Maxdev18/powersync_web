@@ -2,7 +2,7 @@
 import '../styles/loginPage.css';
 import { useState } from 'react';
 import Input from "../components/input";
-// import Button from "../components/button";
+import { Link } from "react-router-dom";
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,7 +18,7 @@ const LoginPage = () => {
         <div className="login">
 
             <div className='login-form'>
-            <h1 className='header'>Login</h1>
+            <h1 className='headerTitle'>Login</h1>
 
                 <div className='inputField'>    
         
@@ -38,7 +38,7 @@ const LoginPage = () => {
 
                 </div>
 
-                <p className='para para2'>Don't have an account?</p>
+                <Link to="/register" className='para para2'>Don't have an account?</Link>
             </div>
 
             <div className='login-image'>
