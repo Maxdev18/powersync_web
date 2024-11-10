@@ -3,7 +3,29 @@ import Device from '../Schemas/DeviceSchema';
 import Groups from '../Schemas/GroupSchema';
 
 export class DeviceService {
-    async getDevice(req: Request, res: Response) {
+    async getDevice(req: Request, res: Response) {//gets device by ID and returns that is was found
+        const data = req.body
+        res.setHeader('Content-Type', 'application/json')
+
+        try{
+            //sees if device exists 
+            const deviceDoc = await Device.findOne({_id: data.deviceID})
+
+            if(deviceDoc){
+                res.status(200).json({message: "Device " + data.deviceID + " was found!"}).end()
+            }
+            else{
+                res.status(404).json({message: "Device " + data.deviceID + " was not found."}).end()
+            }
+        }
+        catch(error) {
+            console.log(error)
+            res.status(500)
+            res.json({ message: "Internal server error" }).end()
+        }   
+    }
+
+    async getDeviceByName(req: Request, res: Response) {
         const data = req.body
         res.setHeader('Content-Type', 'application/json')
 
@@ -58,7 +80,8 @@ export class DeviceService {
                     location: data.location
                 })
                 await device.save()
-
+                groupDoc.numberOfDevices = (groupDoc.numberOfDevices ?? 0) + 1 
+                await groupDoc.save()
                 res.status(200).json({message: "Successfully added!"}).end()
             }
         }
@@ -74,10 +97,10 @@ export class DeviceService {
         res.setHeader('Content-Type', 'application/json')
         
         try{
-            const deviceDoc = await Device.findOne({name: data.name})
+            const deviceDoc = await Device.findOne({_id: data.deviceID})
             //sees if device already is in the system
             if(!deviceDoc){
-                res.status(200).json({message: "Device " + data.name + " doesn't exist"}).end()
+                res.status(200).json({message: "Device " + data.deviceID + " doesn't exist"}).end()
             }
             else{
                     deviceDoc.name = data.name
@@ -105,36 +128,41 @@ export class DeviceService {
         }   
     }
 
-    async deleteDevice(req: Request, res: Response) {
-        const data = req.body
-        res.setHeader('Content-Type', 'application/json')
-
-        try{
-            const deviceDoc = await Device.findOne({name: data.name})
-            //sees if device already is in the system
-            if(!deviceDoc){
-                res.status(200).json({message: "Device " + data.name + " doesn't exist"}).end()
+    async deleteDevice(req: Request, res: Response): Promise<void> {
+        const data = req.body;
+        res.setHeader('Content-Type', 'application/json');
+        try {
+            const deviceDoc = await Device.findOne({ _id: data.deviceID });
+            if (!deviceDoc) {
+                res.status(200).json({ message: "Device " + data.deviceID + " doesn't exist" }).end();
+                return
             }
-            else{
-                await Device.deleteOne({ name: data.name })
-
-                res.status(200).json({ message: "Successfully deleted device " + data.name}).end();
+    
+            const group = deviceDoc.groupID;
+            const groupDoc = await Groups.findOne({ _id: group });
+            if (!groupDoc) {
+                res.status(404).json({ message: "Group not found" }).end();
+                return
             }
+    
+            await Device.deleteOne({ _id: data.deviceID });
+            res.status(200).json({ message: "Successfully deleted device " + data.deviceID }).end();
+            
+            groupDoc.numberOfDevices = (groupDoc.numberOfDevices ?? 0) - 1;
+            await groupDoc.save();
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal server error" }).end();
         }
-        catch(error) {
-            console.log(error)
-            res.status(500)
-            res.json({ message: "Internal server error" }).end()
-        }   
     }
 
     async getDeviceLocation(req: Request, res: Response) {
         const data = req.body
         res.setHeader('Content-Type', 'application/json')
         try{
-            const deviceDoc = await Device.findOne({ name: data.name });
+            const deviceDoc = await Device.findOne({_id: data.deviceID})
             if (!deviceDoc) {
-                res.status(404).json({ message: "Device " + data.name + " doesn't exist" }).end()
+                res.status(404).json({ message: "Device " + data.deviceID + " doesn't exist" }).end()
             } else {
                 res.status(200).json({ location: deviceDoc.location }).end();
             }
@@ -149,9 +177,9 @@ export class DeviceService {
         const data = req.body
         res.setHeader('Content-Type', 'application/json')
         try{
-            const deviceDoc = await Device.findOne({ name: data.name });
+            const deviceDoc = await Device.findOne({_id: data.deviceID})
             if (!deviceDoc) {
-                res.status(404).json({ message: "Device " + data.name + " doesn't exist" }).end()
+                res.status(404).json({ message: "Device " + data.deviceID + " doesn't exist" }).end()
             } else {
                 res.status(200).json({ batteryPercentage: deviceDoc.batteryPercentage }).end();
             }
@@ -166,9 +194,9 @@ export class DeviceService {
         const data = req.body
         res.setHeader('Content-Type', 'application/json')
         try{
-            const deviceDoc = await Device.findOne({ name: data.name });
+            const deviceDoc = await Device.findOne({_id: data.deviceID})
             if (!deviceDoc) {
-                res.status(404).json({ message: "Device " + data.name + " doesn't exist" }).end()
+                res.status(404).json({ message: "Device " + data.deviceID + " doesn't exist" }).end()
             } else {
                 res.status(200).json({ estimatedLife: deviceDoc.estimatedLife }).end();
             }
@@ -183,9 +211,9 @@ export class DeviceService {
         const data = req.body
         res.setHeader('Content-Type', 'application/json')
         try{
-            const deviceDoc = await Device.findOne({ name: data.name });
+            const deviceDoc = await Device.findOne({_id: data.deviceID})
             if (!deviceDoc) {
-                res.status(404).json({ message: "Device " + data.name + " doesn't exist" }).end()
+                res.status(404).json({ message: "Device " + data.deviceID + " doesn't exist" }).end()
             } else {
                 res.status(200).json({ wattage: deviceDoc.wattage }).end();
             }
@@ -200,9 +228,9 @@ export class DeviceService {
         const data = req.body
         res.setHeader('Content-Type', 'application/json')
         try{
-            const deviceDoc = await Device.findOne({ name: data.name });
+            const deviceDoc = await Device.findOne({_id: data.deviceID})
             if (!deviceDoc) {
-                res.status(404).json({ message: "Device " + data.name + " doesn't exist" }).end()
+                res.status(404).json({ message: "Device " + data.deviceID + " doesn't exist" }).end()
             } else {
                 res.status(200).json({ estimatedCost: deviceDoc.estimatedCost }).end();
             }
@@ -239,9 +267,9 @@ export class DeviceService {
         const data = req.body
         res.setHeader('Content-Type', 'application/json')
         try{
-            const deviceDoc = await Device.findOne({ name: data.name });
+            const deviceDoc = await Device.findOne({_id: data.deviceID})
             if (!deviceDoc) {
-                res.status(404).json({ message: "Device " + data.name + " doesn't exist" }).end()
+                res.status(404).json({ message: "Device " + data.deviceID + " doesn't exist" }).end()
             } else {
                 res.status(200).json({ cycles: deviceDoc.cycles }).end();
             }

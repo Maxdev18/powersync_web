@@ -5,6 +5,7 @@ const router = express.Router()
 const deviceService = new DeviceService()
 
 router.get('/get-device', deviceService.getDevice.bind(deviceService))
+router.get('/get-device-by-name', deviceService.getDeviceByName.bind(deviceService))
 router.get('/get-device-location', deviceService.getDeviceLocation.bind(deviceService))
 router.get('/get-device-powerlevel', deviceService.getDevicePowerLevel.bind(deviceService))
 router.get('/get-device-estimated-life', deviceService.getDeviceEstimatedLife.bind(deviceService))
