@@ -27,4 +27,30 @@ export class AuthenticationAPI {
                 return { message: "", isError: true, data: {} }
             })
     }
+
+    static async updatePassword(): Promise<Response> {
+        return Axios.post('/api/v1/users/update-password')
+            .then(res => {
+                return { message: "Updated password successfully", isError: false, data: res.data }
+            })
+            .catch(error => {
+                console.log("Unable to register user:", error)
+                return { message: "", isError: true, data: {} }
+            })
+    }
+
+    static async getCode(): Promise<Response> {
+        return Axios.get('/api/v1/users/get-code', {
+            params: {
+                
+            }
+        })
+        .then(res => {
+            return { message: "", isError: false, data: res.data }
+        })
+        .catch(error => {
+            console.log("Unable to get verification code:", error)
+            return { message: "", isError: true, data: {} }
+        })
+    }
 }
