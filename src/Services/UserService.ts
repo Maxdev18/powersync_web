@@ -146,35 +146,4 @@ export class UserService {
             res.json({ message: "Internal server error"}).end()
         }
     }
-
-    async getVerificationCode(req: Request, res: Response) {
-        const userId = req.params.userId
-
-        const values = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-        let code = ""
-
-        for(let i = 0; i < 6; i++) {
-            code += values[Math.floor(Math.random() * 36)]
-        }
-
-        try {
-            res.status(200).json()
-        } catch(error) {
-            console.log(error)
-            res.status(500)
-            res.json({ message: "Internal server error"}).end()
-        }
-    }
-
-    async verifyCode(req: Request, res: Response) {
-        const { code } = req.body
-
-        try {
-
-        } catch(error) {
-            console.log(error)
-            res.status(500)
-            res.json({ message: "Internal server error"}).end()
-        }
-    }
 } 
