@@ -2,8 +2,13 @@
 import '../styles/loginPage.css';
 import { useState } from 'react';
 import Input from "../components/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {UserAPI} from '../APIs/User'
+import {User} from '../Types/User'
+import { Response } from '../Types/Response';
 const LoginPage = () => {
+
+    const navigate = useNavigate(); // to navigate to dashboard page if login is successful
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstName , setFirstName] = useState('');
@@ -22,6 +27,21 @@ const LoginPage = () => {
         setLastName(event.target.value);
     }
     
+    const handleRegister = async () => {
+        if (email === '' || password === '' || firstName === '' || lastName === '') {
+            alert('Please fill in all fields');
+            return;
+        }
+        const user : User = { firstName, lastName, email, password};
+        const response: Response = await UserAPI.register(user);
+        console.log(response);
+        if (response.isError) {
+            alert(response.message);
+            return;
+        }
+        navigate('/dashboard'); // redirect to dashboard page if succeeded
+    }
+
     return (
         <div className="login">
 
@@ -41,7 +61,7 @@ const LoginPage = () => {
                 </div>
 
                 <div className='buttonField'>
-                    <button className='buttonStyle' type='submit'>Register</button>
+                    <button onClick={handleRegister} className='buttonStyle' type='submit'>Register</button>
                 </div>
 
                 <Link to="/login" className='para para2'>Already have an account?</Link>

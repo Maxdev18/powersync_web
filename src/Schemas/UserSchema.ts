@@ -7,7 +7,7 @@ const UserSchema = new Schema({
   lastName: String,
   email: String,
   password: String,
-  theme: String
+  theme:  {type: String, default: 'light'}
 });
 
 const User = model('User', UserSchema);
