@@ -1,5 +1,4 @@
 import Axios from 'axios'
-
 import { Credentials } from '../Types/Credentials'
 import { Response } from '../Types/Response'
 import { User } from '../Types/User'
