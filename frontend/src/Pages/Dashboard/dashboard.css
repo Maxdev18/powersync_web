@@ -1,6 +1,16 @@
-/* Container for dashboard layout */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f4f8;
+  color: #333;
+}
+
 .dashboard-container {
-  padding: 16px;
+  display: flex;
+}
+
+.tab:hover {
+  background-color: #777;
 }
 
 /* Main content area */
@@ -9,7 +19,6 @@
   padding: 20px;
 }
 
-/* Header section */
 .header {
   display: flex;
   justify-content: space-between;
@@ -23,38 +32,42 @@
 
 .icons-container {
   display: flex;
+  gap: 15px; /* Increased gap between icons for better spacing */
   align-items: center;
-  gap: 10px;
 }
 
-/* Main content container with left and right sections */
+.notification-icon, .profile-icon {
+  font-size: 24px; /* Same size for both icons */
+  cursor: pointer;
+}
+
+.notification-icon:hover, .profile-icon:hover {
+  color: #555; /* Change color when hovered */
+}
+
 .main-content {
   display: flex;
-  gap: 20px; /* Space between left and right sections */
+  gap: 20px;
 }
 
-/* Left section for summaries, weekly consumption, and biggest eaters */
 .left-section {
-  flex: 1; /* Takes up available space */
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* Right section for the devices list */
 .right-section {
-  width: 50%; /* Occupies the right half */
+  width: 50%;
 }
 
-/* Combined summary cards styling */
 .combined-summary-section {
   margin-bottom: 20px;
 }
 
 .combined-summary-card {
   display: flex;
-  align-items: center;
-  height: 132px;
+  gap: 20px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -63,42 +76,27 @@
 
 .summary-card {
   flex: 1;
+  text-align: center;
 }
 
-.summary-card p:nth-child(2){
-  font-weight: 700;
-  font-size: 36px;
+.summary-card h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
 }
 
-.summary-card p:nth-child(2) span{
-  font-weight: 700;
+.summary-card p {
   font-size: 24px;
+  margin: 0;
 }
 
-.summary-card-title {
-  font-size: 12px;
-}
-
-/* "This Week's Consumption" styling */
 .this-weeks-consumption {
-  max-width: 250px; /* Constrain width */
+  width: 100%;
+  max-width: 250px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 132px;
-}
-
-.this-weeks-consumption p:nth-child(2) {
-  font-weight: 700;
-  font-size: 36px;
-}
-
-.this-weeks-consumption p:nth-child(2) span {
-  font-size: 24px;
+  text-align: center;
 }
 
 .biggest-eaters {
@@ -106,11 +104,11 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  flex-grow: 1; /* Allows it to stretch vertically */
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align items to start */
-  min-height: 400px; /* Set minimum height */
+  justify-content: flex-start;
+  min-height: 400px;
 }
 
 .biggest-eater-item {
@@ -119,13 +117,12 @@
   font-size: 16px;
 }
 
-/* Devices section styling */
 .devices-section {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  min-height: 800px; /* Set minimum height */
+  min-height: 800px;
 }
 
 .devices-table {
@@ -144,7 +141,17 @@
   color: white;
 }
 
-.devices-table .percentage {
-  color: green;
+.devices-table .battery {
   font-weight: bold;
 }
+
+/* Styling for battery percentage (color logic) */
+.low-battery {
+  color: red;
+}
+
+.high-battery {
+  color: green;
+}
+
+

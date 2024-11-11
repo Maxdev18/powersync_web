@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DashboardOutlet from './pages/DashboardOutlet/dashboardOutlet';
 import { ProfilePage } from './pages/Profile/Profile';
-import { DashboardPage } from './pages/Dashboard/dashboard';
+import DashboardPage from './pages/Dashboard/dashboard';
 import  LoginPage  from './pages/loginPage';
 import RegisterPage from './pages/registerPage';
 const App: React.FC = () => {
