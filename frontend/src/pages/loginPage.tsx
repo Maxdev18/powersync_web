@@ -3,7 +3,23 @@ import '../styles/loginPage.css';
 import { useState } from 'react';
 import Input from "../components/input";
 import { Link } from "react-router-dom";
+import {OAuthProvider,Client, Account} from  'appwrite';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 const LoginPage = () => {
+
+
+    const client = new Client();
+    client.setEndpoint('https://cloud.appwrite.io/v1').setProject('6732473100039e9e1e52');
+    const account = new Account(client);
+
+    const handleGoogleLogin = async () => {
+        account.createOAuth2Session(
+            OAuthProvider.Google, 
+            'http://localhost:3000/dashboard',
+             'http://localhost:3000/')
+    };
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -34,7 +50,10 @@ const LoginPage = () => {
 
                     <p>OR</p>
 
-                    <button id='google' className='buttonStyle' type='submit'>Sign in with Google</button>
+                    <button onClick={handleGoogleLogin} id='google' className='buttonStyle' type='submit'>
+                    <FontAwesomeIcon icon={faGoogle} style={{ color: 'red', marginRight: '8px' }} />
+                        Sign in with Google
+                        </button>
 
                 </div>
 
