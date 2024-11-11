@@ -49,7 +49,11 @@ export class UserService {
             if(userDoc){
                 const validPassword = await bcrypt.compare(data.password, userDoc.password)
                 if(validPassword){ //password is gud
-                    res.status(200).json({message: "Successfully signed in"}).end()
+                    const user = {
+                        id: userDoc.id,
+                        email: userDoc.email
+                    }
+                    res.status(200).json({message: "Successfully signed in", data: { ...user }}).end()
                 } else{
                     res.status(401).json({message: "Invalid password"}).end()
                 }
@@ -131,7 +135,7 @@ export class UserService {
         res.setHeader('content-type', 'application/json')// use json to test for now   
         
         try{
-            const userDoc = await User.findOne({email: data.email}) //check if email exists
+            const userDoc = await User.findById(data.id) //check if email exists
             if(userDoc){
                 const newPassword = await bcrypt.hash(data.newPassword, bcrypt.genSaltSync(), null)
                 userDoc.password = newPassword //update the password now

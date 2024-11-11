@@ -6,7 +6,7 @@ export class UserAPI {
   static async login(credentials: { email: string, password: string }): Promise<Response> {
     return Axios.post('/api/v1/users/login', credentials)
       .then(res => {
-        console.log(res)
+        localStorage.setItem("userId", res.data.data.id)
         return { message: res.data.message, data: res.data.data, isError: false }
       })
       .catch(err => {
