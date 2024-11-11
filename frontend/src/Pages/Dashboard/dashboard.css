@@ -153,5 +153,8 @@ body {
 .high-battery {
   color: green;
 }
+.icons-container img {
+  cursor: pointer;
+}
 
 
