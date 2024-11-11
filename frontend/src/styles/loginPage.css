@@ -43,8 +43,8 @@
 .buttonStyle{
     border-radius: 5px;
     height: 40px;
-    background-color: black;
-    color: white;
+    /* background-color: black; */
+    /* color: white;     */
     font-weight: bolder;
     font-size: 16px;
     padding: 10px;
@@ -52,12 +52,21 @@
     cursor: pointer;
     transition: background-color 0.5s;
 }
-.buttonStyle:hover{
+.loginBtn{
+    background-color: black;
+    color: white;
+}
+.loginBtn:hover{
     background-color: white;
     color: black;
 
 }
 
+.googleBtn:hover{
+    background-color: black;
+    color: white;
+
+}
 
 .buttonField{
     text-align: center;
@@ -66,8 +75,3 @@
     font-weight: bold;
 }
 
-    #google{
-        background-color: white;
-        color: black;
-        font-weight: bold;
-    }

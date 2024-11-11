@@ -60,11 +60,11 @@ const LoginPage = () => {
                 </div>
 
                 <div className='buttonField'>
-                    <button onClick={handleLogin} className='buttonStyle' type='submit'>Login</button>
+                    <button onClick={handleLogin} className='loginBtn buttonStyle' type='submit'>Login</button>
 
                     <p>OR</p>
 
-                    <button onClick={handleGoogleLogin} id='google' className='buttonStyle' type='submit'>
+                    <button onClick={handleGoogleLogin}  className='googleBtn buttonStyle' type='submit'>
                     <FontAwesomeIcon icon={faGoogle} style={{ color: 'red', marginRight: '8px' }} />
                         Sign in with Google
                         </button>
