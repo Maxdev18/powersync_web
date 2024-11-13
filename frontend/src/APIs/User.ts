@@ -11,7 +11,7 @@ export class UserAPI {
       })
       .catch(err => {
         console.log(err.data)
-        return { message: "", isError: true, data: {} }
+        return { message: "", isError: true, data: {} }   
       })
   }
 
