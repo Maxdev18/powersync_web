@@ -41,6 +41,7 @@ const LoginPage = () => {
             setErrorMessage("Email or password is incorrect!");
         } else {
             setErrorMessage('');
+            localStorage.setItem('userId', response.data.id); // store user id in local storage for easier access
             navigate('/dashboard'); // redirect to dashboard page if succeeded
         }
     }

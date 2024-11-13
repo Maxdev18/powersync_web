@@ -1,5 +1,5 @@
 export type Response = {
   message: string
-  data?: object
+  data?: any
   isError: boolean
 }
