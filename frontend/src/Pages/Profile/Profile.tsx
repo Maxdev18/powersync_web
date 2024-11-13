@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import './profile.css'
+import { VerifcationAPI } from '../../APIs/Verification';
+import { useNavigate } from 'react-router-dom';
 
 export const ProfilePage: React.FC = () => {
     const [isDark, setIsDark] = useState<boolean>(false)
+    const navigate = useNavigate()
 
     const handleNotificationClick = () => {
         alert("Notifications clicked!");
@@ -12,8 +15,9 @@ export const ProfilePage: React.FC = () => {
         setIsDark(!isDark)
     }
 
-    const handleResetPassword = () => {
-
+    const handleResetPassword = async () => {
+        await VerifcationAPI.getCode("maxpersonal1721@gmail.com")
+        navigate("/code-verification")
     }
 
     return (

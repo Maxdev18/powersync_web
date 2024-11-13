@@ -48,6 +48,10 @@ app.use("/api/v1/devices", deviceRoutes)
 const groupRoutes = require("./Routes/GroupRoutes")
 app.use("/api/v1/groups", groupRoutes)
 
+/************ Verification Services ************/
+const verificationRoutes = require("./Routes/VerificationRoutes")
+app.use("/api/v1/verification", verificationRoutes)
+
 // Initialize the server
 const server = createServer(app)
 
