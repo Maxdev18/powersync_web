@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Maxdev18/powersync_web#readme",
   "dependencies": {
+    "@sendgrid/mail": "^8.1.4",
     "bcrypt": "^5.1.1",
     "concurrently": "^9.0.1",
     "cors": "^2.8.5",
@@ -31,6 +32,7 @@
     "express": "^4.21.1",
     "mongodb": "^6.9.0",
     "mongoose": "^8.7.1",
+    "nodemailer": "^6.9.16",
     "ts-node-dev": "^2.0.0"
   },
   "devDependencies": {

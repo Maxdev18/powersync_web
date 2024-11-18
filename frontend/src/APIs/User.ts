@@ -6,12 +6,12 @@ export class UserAPI {
   static async login(credentials: { email: string, password: string }): Promise<Response> {
     return Axios.post('/api/v1/users/login', credentials)
       .then(res => {
-        console.log(res)
+        localStorage.setItem("userId", res.data.data.id)
         return { message: res.data.message, data: res.data.data, isError: false }
       })
       .catch(err => {
         console.log(err.data)
-        return err.data as Response
+        return { message: "", isError: true, data: {} }   
       })
   }
 
@@ -22,8 +22,8 @@ export class UserAPI {
         return { message: res.data.message, data: res.data.data, isError: false }
       })
       .catch(err => {
-        console.log(err.data)
-        return err.data as Response
+        console.log(err)
+        return { message: "Something went wrong", isError: true }
       })
   }
 
@@ -34,32 +34,30 @@ export class UserAPI {
         return { message: res.data.message, data: res.data.data, isError: false }
       })
       .catch(err => {
-        console.log(err.data)
-        return err.data as Response
+        console.log(err)
+        return { message: "Something went wrong", isError: true }
       })
   }
 
-  static async updatePassword(user: User): Promise<Response> {
-    return Axios.put('/api/v1/users/update-password', user)
+  static async updatePassword(id: string, newPassword: string): Promise<Response> {
+    return Axios.put('/api/v1/users/update-password', { id, newPassword })
       .then(res => {
-        console.log(res)
-        return { message: res.data.message, data: res.data.data, isError: false }
+        return { message: res.data.message, data: res.data, isError: false }
       })
       .catch(err => {
-        console.log(err.data)
-        return err.data as Response
+        console.log(err)
+        return { message: "Something went wrong", isError: true }
       })
   }
 
   static async deleteUser(id: string): Promise<Response> {
     return Axios.delete('/api/v1/users/delete-user', { params: { id } })
       .then(res => {
-        console.log(res)
         return { message: res.data.message, data: res.data.data, isError: false }
       })
       .catch(err => {
-        console.log(err.data)
-        return err.data as Response
+        console.log(err)
+        return { message: "Something went wrong", isError: true }
       })
   }
 }

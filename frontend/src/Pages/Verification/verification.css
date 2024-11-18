@@ -1,0 +1,63 @@
+.verification-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-main-color);
+}
+
+.verification-input {
+  border-color: #00000030;
+  border-radius: 8px;
+  padding: 20px;
+  width: 356px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 48px;
+  margin: 24px 0px;
+  outline: none;
+}
+
+.verification-input::placeholder {
+  color: #00000030;
+}
+
+.verification-code-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.verification-password-input {
+  border-color: #00000030;
+  border-radius: 8px;
+  padding: 20px;
+  width: 356px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+  margin: 24px 0px;
+  outline: none;
+}
+
+.verification-btn {
+  width: 356px;
+  padding: 20px;
+  font-weight: 700;
+  font-size: 32px;
+  background-color: black;
+  color: white;
+  border-radius: 8px;
+  border-style: none;
+  cursor: pointer;
+}
+
+.verification-btn:hover {
+  transition: .3s;
+  background-color: #00000090;
+}
+
+.verification-error-message {
+  color: red;
+}
