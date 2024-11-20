@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import {UserAPI} from '../APIs/User'
 import { Response } from '../Types/Response';
-// import Mario from '../assets/YEE.png';
+import Gundam from '../assets/gundam.avif';
 const LoginPage = () => {
     const navigate = useNavigate(); // to navigate to dashboard page if login is successful
     const client = new Client();
@@ -77,6 +77,7 @@ const LoginPage = () => {
             </div>
 
             <div className='login-image'>
+                <img src={Gundam} alt="" />
             </div>
         </div>
     );

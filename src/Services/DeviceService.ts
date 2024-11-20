@@ -6,7 +6,7 @@ export class DeviceService {
     async getDevice(req: Request, res: Response) {//gets device by ID and returns that is was found
         const data = req.body
         res.setHeader('Content-Type', 'application/json')
-
+        
         try{
             //sees if device exists 
             const deviceDoc = await Device.findOne({_id: data.deviceID})
