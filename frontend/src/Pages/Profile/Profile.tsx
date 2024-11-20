@@ -2,9 +2,14 @@ import { useState } from 'react';
 import './profile.css'
 import { VerifcationAPI } from '../../APIs/Verification';
 import { useNavigate } from 'react-router-dom';
+import { User } from '../../Types/User';
+import { UserAPI } from '../../APIs/User';
 
 export const ProfilePage: React.FC = () => {
-    const [isDark, setIsDark] = useState<boolean>(false)
+    const [firstName, setFirstName] = useState<string>(JSON.parse(localStorage.getItem("user") as string).firstName)
+    const [lastName, setLastName] = useState<string>(JSON.parse(localStorage.getItem("user") as string).lastName)
+    const [email, setEmail] = useState<string>(JSON.parse(localStorage.getItem("user") as string).email)
+    const [isDark, setIsDark] = useState<boolean>(JSON.parse(localStorage.getItem("user") as string).theme === "light" ? false : true)
     const navigate = useNavigate()
 
     const handleNotificationClick = () => {
@@ -16,8 +21,20 @@ export const ProfilePage: React.FC = () => {
     }
 
     const handleResetPassword = async () => {
-        await VerifcationAPI.getCode("maxpersonal1721@gmail.com")
+        await VerifcationAPI.getCode(JSON.parse(localStorage.getItem("user") as string).email)
         navigate("/code-verification")
+    }
+
+    const handleUpdateUser = async () => {
+        const user: User = {
+            email,
+            firstName,
+            lastName,
+            theme: isDark ? "dark" : "light",
+            id: JSON.parse(localStorage.getItem("user") as string).id
+        }
+
+        await UserAPI.updateUser(user)
     }
 
     return (
@@ -44,19 +61,39 @@ export const ProfilePage: React.FC = () => {
                 <div className='profile-details-content-container'>
                     <div className='profile-image-container'>
                         <div className='profile-image'>
-                            <p>M</p>
+                            <p>{firstName[0]}</p>
                         </div>
-                        <p className='profile-name'>Max Melnik</p>
+                        <p className='profile-name'>{firstName} {lastName}</p>
                     </div>
 
                     <div className='profile-input-container'>
-                        <p>Name</p>
-                        <input className='profile-input' type='text' placeholder='Name' value="Max Melnik" />
+                        <p>First name</p>
+                        <input
+                            className='profile-input'
+                            type='text'
+                            placeholder='First name'
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)} />
+                    </div>
+
+                    <div className='profile-input-container'>
+                        <p>Last name</p>
+                        <input
+                            className='profile-input'
+                            type='text'
+                            placeholder='Last name'
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)} />
                     </div>
 
                     <div className='profile-input-container'>
                         <p>Email</p>
-                        <input className='profile-input' type='text' placeholder='Email' value="mzm6958@psu.edu" />
+                        <input
+                            className='profile-input'
+                            type='text'
+                            placeholder='Email'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)} />
                     </div>
 
                     <div className='profile-theme-container'>
@@ -70,7 +107,7 @@ export const ProfilePage: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className='profile-save-btn'>
+                    <div className='profile-save-btn' onClick={handleUpdateUser}>
                         <p>Save</p>
                     </div>
                 </div>
