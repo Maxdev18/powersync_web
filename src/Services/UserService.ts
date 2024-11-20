@@ -31,7 +31,7 @@ export class UserService {
 
                 await user.save()
 
-                res.status(200).json({ message: "Successfully added user to database" }).end()
+                res.status(200).json({ message: "Successfully added user to database", user: { ...user, password: undefined } }).end()
             }
         } catch(error) {
             console.log(error)  
@@ -51,9 +51,11 @@ export class UserService {
                 if(validPassword){ //password is gud
                     const user = {
                         id: userDoc.id,
-                        email: userDoc.email
+                        email: userDoc.email,
+                        firstName: userDoc.firstName,
+                        lastName: userDoc.lastName
                     }
-                    res.status(200).json({message: "Successfully signed in", data: { ...user }}).end()
+                    res.status(200).json({message: "Successfully signed in", user: { ...user }}).end()
                 } else{
                     res.status(401).json({message: "Invalid password"}).end()
                 }
@@ -100,7 +102,7 @@ export class UserService {
                 }
                 
                 await userDoc.save()
-                res.status(200).json({message: "successfully updated user"}).end()
+                res.status(200).json({message: "successfully updated user", user: { ...userDoc }}).end()
             }else {
                 res.status(404).json({message: "User not found"}).end()
             }

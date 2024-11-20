@@ -40,9 +40,12 @@ export class GroupAPI {
       })
   }
 
-  static async getAllGroups(): Promise<Response> {
-    return Axios.get("/api/v1/groups/get-all-groups")
+  static async getAllGroups(userId: string): Promise<Response> {
+    return Axios.get("/api/v1/groups/get-all-groups", {
+      params: { userId }
+    })
       .then(data => {
+        console.log(data.data.groups)
         localStorage.setItem("groups", JSON.stringify(data.data.groups))
         return { message: "Got all groups", isError: false, data: data.data.groups }
       })
@@ -52,10 +55,8 @@ export class GroupAPI {
       })
   }
 
-  static async createGroup(groupId: string): Promise<Response> {
-    return Axios.post("/api/v1/groups/create-group", {
-      params: { groupId }
-    })
+  static async createGroup(group: Group): Promise<Response> {
+    return Axios.post("/api/v1/groups/create-group", group)
       .then(data => {
         return { message: "Created group", isError: false, data: data.data.group }
       })

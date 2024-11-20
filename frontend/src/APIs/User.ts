@@ -6,7 +6,7 @@ export class UserAPI {
   static async login(credentials: { email: string, password: string }): Promise<Response> {
     return Axios.post('/api/v1/users/login', credentials)
       .then(res => {
-        localStorage.setItem("userId", res.data.data.id)
+        localStorage.setItem("user", JSON.stringify(res.data.user))
         return { message: res.data.message, data: res.data.data, isError: false }
       })
       .catch(err => {
@@ -18,7 +18,7 @@ export class UserAPI {
   static async register(credentials: User): Promise<Response> {
     return Axios.post('/api/v1/users/register-user', credentials)
       .then(res => {
-        console.log(res)
+        localStorage.setItem("user", JSON.stringify(res.data.user))
         return { message: res.data.message, data: res.data.data, isError: false }
       })
       .catch(err => {
@@ -30,7 +30,7 @@ export class UserAPI {
   static async updateUser(user: User): Promise<Response> {
     return Axios.put('/api/v1/users/update-user', user)
       .then(res => {
-        console.log(res)
+        localStorage.setItem("user", JSON.stringify(res.data.user))
         return { message: res.data.message, data: res.data.data, isError: false }
       })
       .catch(err => {

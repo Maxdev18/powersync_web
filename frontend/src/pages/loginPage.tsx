@@ -35,13 +35,13 @@ const LoginPage = () => {
             alert('Please fill in all fields');
             return;
         }
+        
         const response: Response = await UserAPI.login({email, password});
-        console.log(response);
+
         if (response.isError) {
             setErrorMessage("Email or password is incorrect!");
         } else {
             setErrorMessage('');
-            localStorage.setItem('userId', response.data.id); // store user id in local storage for easier access
             navigate('/dashboard'); // redirect to dashboard page if succeeded
         }
     }
