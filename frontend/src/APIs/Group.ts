@@ -4,9 +4,9 @@ import { Group } from "../Types/Group";
 
 export class GroupAPI {
   static async updateGroup(group: Group): Promise<Response> {
-    return Axios.put("/api/v1/group/update-group", { group })
+    return Axios.put("/api/v1/groups/update-group", { group })
       .then(data => {
-        return { message: "Updated group", isError: false, data: data.data }
+        return { message: "Updated group", isError: false, data: data.data.group }
       })
       .catch(error => {
         console.error(error)
@@ -15,11 +15,11 @@ export class GroupAPI {
   }
 
   static async deleteGroup(groupId: string): Promise<Response> {
-    return Axios.delete("/api/v1/group/delete-group", {
+    return Axios.delete("/api/v1/groups/delete-group", {
       params: { groupId }
     })
       .then(data => {
-        return { message: "Deleted group", isError: false, data: data.data }
+        return { message: "Deleted group", isError: false, data: data.data.group }
       })
       .catch(error => {
         console.error(error)
@@ -28,11 +28,11 @@ export class GroupAPI {
   }
 
   static async getGroup(groupId: string): Promise<Response> {
-    return Axios.get("/api/v1/group/get-group", {
+    return Axios.get("/api/v1/groups/get-group", {
       params: { groupId }
     })
       .then(data => {
-        return { message: "Got group", isError: false, data: data.data }
+        return { message: "Got group", isError: false, data: data.data.group }
       })
       .catch(error => {
         console.error(error)
@@ -40,10 +40,11 @@ export class GroupAPI {
       })
   }
 
-  static async getAllGroupIDs(): Promise<Response> {
-    return Axios.get("/api/v1/group/get-all-group-ids")
+  static async getAllGroups(): Promise<Response> {
+    return Axios.get("/api/v1/groups/get-all-groups")
       .then(data => {
-        return { message: "Got all groups", isError: false, data: data.data }
+        localStorage.setItem("groups", JSON.stringify(data.data.groups))
+        return { message: "Got all groups", isError: false, data: data.data.groups }
       })
       .catch(error => {
         console.error(error)
@@ -52,11 +53,11 @@ export class GroupAPI {
   }
 
   static async createGroup(groupId: string): Promise<Response> {
-    return Axios.post("/api/v1/group/create-group", {
+    return Axios.post("/api/v1/groups/create-group", {
       params: { groupId }
     })
       .then(data => {
-        return { message: "Created group", isError: false, data: data.data }
+        return { message: "Created group", isError: false, data: data.data.group }
       })
       .catch(error => {
         console.error(error)

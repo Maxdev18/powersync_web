@@ -53,17 +53,17 @@ export class GroupService {
         }
     }
 
-        async getAllGroupIDs(req: Request, res: Response): Promise<void> {
+        async getAllGroups(req: Request, res: Response): Promise<void> {
             res.setHeader('Content-Type', 'application/json');
             try {
                 // Find all groups and select only the '_id' field
-                const groups = await Group.find({}, '_id'); // The second argument tells Mongoose to only return the _id field
+                const groups = await Group.find(); // The second argument tells Mongoose to only return the _id field
     
                 if (groups.length === 0) {
                     res.status(404).json({ message: "No groups found" }).end();
                 } else {
                     // Return the list of group IDs
-                    res.status(200).json({ message: "Successfully retrieved group IDs", groupIDs: groups }).end();
+                    res.status(200).json({ message: "Successfully retrieved group IDs", groups }).end();
                 }
             } catch (error) {
                 console.log(error);

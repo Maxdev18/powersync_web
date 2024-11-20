@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './dashboard.css';
 import { useNavigate } from 'react-router-dom';
+import { GroupAPI } from '../../APIs/Group';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -26,6 +27,13 @@ const Dashboard: React.FC = () => {
 
   // Calculate the estimated cost (10 cents per kWh)
   const estimatedCost = (totalConsumption / 10) * 0.10;
+
+  useEffect(() => {
+    async function getGroups() {
+      await GroupAPI.getAllGroups()
+    }
+    getGroups()
+  }, [])
 
   const handleNotificationClick = () => {
     alert("Notifications clicked!");
