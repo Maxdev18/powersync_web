@@ -1,3 +1,66 @@
+import Axios from "axios";
+import { Response } from "../Types/Response";
+import { Group } from "../Types/Group";
+
 export class GroupAPI {
-  
+  static async updateGroup(group: Group): Promise<Response> {
+    return Axios.put("/api/v1/group/update-group", { group })
+      .then(data => {
+        return { message: "Updated group", isError: false, data: data.data }
+      })
+      .catch(error => {
+        console.error(error)
+        return { message: "Unable to update group", isError: true }
+      })
+  }
+
+  static async deleteGroup(groupId: string): Promise<Response> {
+    return Axios.delete("/api/v1/group/delete-group", {
+      params: { groupId }
+    })
+      .then(data => {
+        return { message: "Deleted group", isError: false, data: data.data }
+      })
+      .catch(error => {
+        console.error(error)
+        return { message: "Unable to delete group", isError: true }
+      })
+  }
+
+  static async getGroup(groupId: string): Promise<Response> {
+    return Axios.get("/api/v1/group/get-group", {
+      params: { groupId }
+    })
+      .then(data => {
+        return { message: "Got group", isError: false, data: data.data }
+      })
+      .catch(error => {
+        console.error(error)
+        return { message: "Unable to get group", isError: true }
+      })
+  }
+
+  static async getAllGroupIDs(): Promise<Response> {
+    return Axios.get("/api/v1/group/get-all-group-ids")
+      .then(data => {
+        return { message: "Got all groups", isError: false, data: data.data }
+      })
+      .catch(error => {
+        console.error(error)
+        return { message: "Unable to get all groups", isError: true }
+      })
+  }
+
+  static async createGroup(groupId: string): Promise<Response> {
+    return Axios.post("/api/v1/group/create-group", {
+      params: { groupId }
+    })
+      .then(data => {
+        return { message: "Created group", isError: false, data: data.data }
+      })
+      .catch(error => {
+        console.error(error)
+        return { message: "Unable to create group", isError: true }
+      })
+  }
 }
