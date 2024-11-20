@@ -52,6 +52,26 @@ export class GroupService {
             res.status(500).json({ message: "Internal server error" }).end();
         }
     }
+
+        async getAllGroupIDs(req: Request, res: Response): Promise<void> {
+            res.setHeader('Content-Type', 'application/json');
+            try {
+                // Find all groups and select only the '_id' field
+                const groups = await Group.find({}, '_id'); // The second argument tells Mongoose to only return the _id field
+    
+                if (groups.length === 0) {
+                    res.status(404).json({ message: "No groups found" }).end();
+                } else {
+                    // Return the list of group IDs
+                    res.status(200).json({ message: "Successfully retrieved group IDs", groupIDs: groups }).end();
+                }
+            } catch (error) {
+                console.log(error);
+                res.status(500).json({ message: "Internal server error" }).end();
+            }
+        }
+    
+    
     async createGroup(req: Request, res: Response): Promise<void> {
         console.log('Received request to create a group'); 
         console.log('Request Body:', req.body); //Check the request body content

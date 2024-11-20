@@ -1,7 +1,9 @@
 import React from 'react';
 import './dashboard.css';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
   const devices = [
     { name: "Carl's Tablet", consumption: 14.4, battery: 25 },
     { name: "Kevin's Spoon", consumption: 60.9, battery: 19 },
@@ -9,25 +11,20 @@ const Dashboard: React.FC = () => {
     { name: "Logan's iPhone", consumption: 8.1, battery: 85 },
   ];
 
-  
   const totalConsumption = devices.reduce((sum, device) => sum + device.consumption, 0);
 
-  //top 3 biggest eaters decending
+  // Top 3 biggest eaters in descending order
   const biggestEaters = [...devices]
     .sort((a, b) => b.consumption - a.consumption)
     .slice(0, 3);
 
   const getBatteryClass = (battery: number) => {
-    if (battery < 20) {
-      return 'low-battery'; //red for below 20%
-    } else {
-      return 'high-battery'; //green for above 20
-    }
+    return battery < 20 ? 'low-battery' : 'high-battery';
   };
 
   const lowBatteryCount = devices.filter(device => device.battery < 20).length;
 
-  // calpuate the estimated cost 10 cents per kw
+  // Calculate the estimated cost (10 cents per kWh)
   const estimatedCost = (totalConsumption / 10) * 0.10;
 
   const handleNotificationClick = () => {
@@ -35,7 +32,7 @@ const Dashboard: React.FC = () => {
   };
 
   const handleProfileClick = () => {
-    alert("Profile clicked!");
+    navigate("/dashboard/profile");
   };
 
   return (
@@ -47,8 +44,16 @@ const Dashboard: React.FC = () => {
             <p>Monday, November 4, 2024</p>
           </div>
           <div className="icons-container">
-            <span className="notification-icon" onClick={handleNotificationClick}>🔔</span>
-            <span className="profile-icon" onClick={handleProfileClick}>👤</span>
+            <img
+              src={require("../../assets/notification-bell.png")}
+              alt="Notification icon"
+              onClick={handleNotificationClick}
+            />
+            <img
+              src={require("../../assets/profile.png")}
+              alt="Profile settings"
+              onClick={handleProfileClick}
+            />
           </div>
         </header>
 
@@ -58,22 +63,22 @@ const Dashboard: React.FC = () => {
               <div className="combined-summary-card">
                 <div className="summary-card">
                   <h3>Power Consumption</h3>
-                  <p>{totalConsumption.toFixed(2)} kWh</p> {/* displaying the total consumption */}
+                  <p>{totalConsumption.toFixed(2)} kWh</p>
                 </div>
                 <div className="summary-card">
                   <h3>Low Devices</h3>
-                  <p>{lowBatteryCount}</p> {/*displaying the count of low devices */}
+                  <p>{lowBatteryCount}</p>
                 </div>
                 <div className="summary-card">
                   <h3>Estimated Cost</h3>
-                  <p>${estimatedCost.toFixed(2)}</p> {/*showing the estimated cost */}
+                  <p>${estimatedCost.toFixed(2)}</p>
                 </div>
               </div>
             </div>
 
             <div className="this-weeks-consumption">
               <h4>This week's consumption</h4>
-              <p>{totalConsumption.toFixed(2)} kWh</p> {/*displaying calculated consumption */}
+              <p>{totalConsumption.toFixed(2)} kWh</p>
             </div>
 
             <section className="biggest-eaters">
@@ -100,18 +105,16 @@ const Dashboard: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {devices.map((device, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{device.name}</td>
-                        <td>{device.name.split("'")[0]}'s Devices</td>
-                        <td className={`battery ${getBatteryClass(device.battery)}`}>
-                          {device.battery}%
-                        </td>
-                        <td>{device.consumption.toFixed(2)} kWh</td>
-                      </tr>
-                    );
-                  })}
+                  {devices.map((device, index) => (
+                    <tr key={index}>
+                      <td>{device.name}</td>
+                      <td>{device.name.split("'")[0]}'s Devices</td>
+                      <td className={`battery ${getBatteryClass(device.battery)}`}>
+                        {device.battery}%
+                      </td>
+                      <td>{device.consumption.toFixed(2)} kWh</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </section>

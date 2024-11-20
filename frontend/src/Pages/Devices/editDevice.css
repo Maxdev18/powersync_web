@@ -1,0 +1,116 @@
+/* Ensures the container takes the full viewport */
+.edit-device-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full height */
+    width: 100%; /* Full width */
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f9f9f9; /* Optional background color */
+}
+
+/* Header styling */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: #333;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Form styling */
+.edit-device-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds spacing between form elements */
+    width: 100%;
+    max-width: 800px; /* Responsive form width */
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.edit-device-form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    color: #555;
+}
+
+.edit-device-form input,
+.edit-device-form select,
+.edit-device-form textarea {
+    margin-top: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[readonly] {
+    background-color: #f5f5f5;
+    color: #999;
+    border: 1px solid #ddd;
+    cursor: not-allowed;
+}
+
+.group-type,
+.cycles-condition {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.group-type label,
+.cycles-condition label {
+    flex: 1; /* Each element takes equal space */
+}
+
+/* Save button */
+.save-button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .group-type,
+    .cycles-condition {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .edit-device-form {
+        padding: 15px;
+    }
+}
