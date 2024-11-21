@@ -3,6 +3,7 @@
   height: 100vh;
   display: flex;
   align-items: center;
+  overflow-y: hidden;
 }
 
 .outlet-container {

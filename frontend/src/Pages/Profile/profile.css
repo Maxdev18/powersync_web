@@ -27,6 +27,7 @@
   width: 100%;
   flex-direction: column;
   justify-content: center;
+  position: relative;
 }
 
 .profile-image-container {
@@ -122,9 +123,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-top: 256px;
   width: 86px;
   margin-left: auto;
+  position: absolute;
+  bottom: -144px;
+  right: 0;
 }
 
 .profile-save-btn p {

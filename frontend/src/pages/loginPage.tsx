@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import {UserAPI} from '../APIs/User'
 import { Response } from '../Types/Response';
+import Gundam from '../assets/gundam.avif';
 const LoginPage = () => {
     const navigate = useNavigate(); // to navigate to dashboard page if login is successful
     const client = new Client();
@@ -35,13 +36,13 @@ const LoginPage = () => {
             alert('Please fill in all fields');
             return;
         }
+        
         const response: Response = await UserAPI.login({email, password});
-        console.log(response);
+
         if (response.isError) {
             setErrorMessage("Email or password is incorrect!");
         } else {
             setErrorMessage('');
-            localStorage.setItem('userId', response.data.id); // store user id in local storage for easier access
             navigate('/dashboard'); // redirect to dashboard page if succeeded
         }
     }
@@ -76,6 +77,7 @@ const LoginPage = () => {
             </div>
 
             <div className='login-image'>
+                <img src={Gundam} alt="" />
             </div>
         </div>
     );

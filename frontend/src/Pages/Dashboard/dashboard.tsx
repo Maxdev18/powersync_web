@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import './dashboard.css';
 import { useNavigate } from 'react-router-dom';
 import { GroupAPI } from '../../APIs/Group';
+import { DeviceAPI } from '../../APIs/Devices';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -29,10 +30,11 @@ const Dashboard: React.FC = () => {
   const estimatedCost = (totalConsumption / 10) * 0.10;
 
   useEffect(() => {
-    async function getGroups() {
-      await GroupAPI.getAllGroups()
+    async function getData() {
+      await GroupAPI.getAllGroups(JSON.parse(localStorage.getItem("user") as string).id)
+      await DeviceAPI.getDevicesByGroupIds(JSON.parse(localStorage.getItem("groups") as string))
     }
-    getGroups()
+    getData()
   }, [])
 
   const handleNotificationClick = () => {
@@ -48,8 +50,8 @@ const Dashboard: React.FC = () => {
       <main className="content">
         <header className="header">
           <div className="header-title">
-            <h1>Welcome, Kevin</h1>
-            <p>Monday, November 4, 2024</p>
+            <h1>Welcome, {(JSON.parse(localStorage.getItem("user") as string)).firstName} {(JSON.parse(localStorage.getItem("user") as string)).lastName}</h1>
+            <p>{new Date().getMonth()}/{new Date().getDate()}/{new Date().getFullYear()}</p>
           </div>
           <div className="icons-container">
             <img
