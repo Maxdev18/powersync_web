@@ -1,17 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import './dashboard.css';
 import { useNavigate } from 'react-router-dom';
 import { GroupAPI } from '../../APIs/Group';
 import { DeviceAPI } from '../../APIs/Devices';
+import {User} from '../../Types/User'
+import {Devices} from '../../Types/Devices'
 
 const Dashboard: React.FC = () => {
+  const [data, setData] = useState({} as User); // to store the user data from local storage
+  const [devicesData, setDevicesData] = useState<Devices[]>([]); // to store the devices
+  const [currentDate, setCurrentDate] = useState(new Date());//store current date
   const navigate = useNavigate();
-  const devices = [
+
+  const devices = [ //! -------------------------------- delete this soon
     { name: "Carl's Tablet", consumption: 14.4, battery: 25 },
     { name: "Kevin's Spoon", consumption: 60.9, battery: 19 },
     { name: "Kevin's Pant", consumption: 3.5, battery: 7 },
     { name: "Logan's iPhone", consumption: 8.1, battery: 85 },
   ];
+//!---------------------------------------------------------------
 
   const totalConsumption = devices.reduce((sum, device) => sum + device.consumption, 0);
 
@@ -21,7 +28,7 @@ const Dashboard: React.FC = () => {
     .slice(0, 3);
 
   const getBatteryClass = (battery: number) => {
-    return battery < 20 ? 'low-battery' : 'high-battery';
+    return battery < 25 ? 'low-battery' : 'high-battery';
   };
 
   const lowBatteryCount = devices.filter(device => device.battery < 20).length;
@@ -29,17 +36,35 @@ const Dashboard: React.FC = () => {
   // Calculate the estimated cost (10 cents per kWh)
   const estimatedCost = (totalConsumption / 10) * 0.10;
 
+  async function getData() {
+    await GroupAPI.getAllGroups(JSON.parse(localStorage.getItem("user") as string).id) //update groups from db
+    await DeviceAPI.getDevicesByGroupIds(JSON.parse(localStorage.getItem("groups") as string)) //update devices from db
+  }
+  const getUserInfo = () => {
+    const storedData = localStorage.getItem('user');
+    return storedData ? JSON.parse(storedData) : null;
+  };
+
+  const getDevicesData = () => { //todo: need to test this
+    const storedData = localStorage.getItem('devices');
+    return storedData ? JSON.parse(storedData) : null;
+  };
+
+  const updateTime = () => { 
+    const intervalId = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000); // Update every second
+    return () => clearInterval(intervalId); // Cleanup on unmount
+  }; 
+
+  //this will run when the component mounts
   useEffect(() => {
-    async function getData() {
-      await GroupAPI.getAllGroups(JSON.parse(localStorage.getItem("user") as string).id)
-      await DeviceAPI.getDevicesByGroupIds(JSON.parse(localStorage.getItem("groups") as string))
-    }
+    updateTime(); 
+    getUserInfo() && setData(getUserInfo()); //pass the user data
+    getDevicesData() && setDevicesData(getDevicesData());//pass devices data
     getData()
   }, [])
 
-  const handleNotificationClick = () => {
-    alert("Notifications clicked!");
-  };
 
   const handleProfileClick = () => {
     navigate("/dashboard/profile");
@@ -47,17 +72,16 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <main className="content">
+      <div className="content">
         <header className="header">
           <div className="header-title">
-            <h1>Welcome, {(JSON.parse(localStorage.getItem("user") as string)).firstName} {(JSON.parse(localStorage.getItem("user") as string)).lastName}</h1>
-            <p>{new Date().getMonth()}/{new Date().getDate()}/{new Date().getFullYear()}</p>
+            <h1>Welcome, {data.firstName} {data.lastName}</h1>
+            <p> {currentDate.toLocaleDateString()}</p>
           </div>
           <div className="icons-container">
             <img
               src={require("../../assets/notification-bell.png")}
-              alt="Notification icon"
-              onClick={handleNotificationClick}
+              alt="Notification icon"          
             />
             <img
               src={require("../../assets/profile.png")}
@@ -115,14 +139,14 @@ const Dashboard: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {devices.map((device, index) => (
+                  {devicesData.map((device, index) => (
                     <tr key={index}>
                       <td>{device.name}</td>
-                      <td>{device.name.split("'")[0]}'s Devices</td>
-                      <td className={`battery ${getBatteryClass(device.battery)}`}>
-                        {device.battery}%
+                      <td>{device.name.split("'")[0]}</td>
+                      <td className={`battery ${getBatteryClass(device.batteryPercentage)}`}>
+                        {device.batteryPercentage.toString()}%
                       </td>
-                      <td>{device.consumption.toFixed(2)} kWh</td>
+                      <td>{device.wattage.toFixed(2)} kWh</td>
                     </tr>
                   ))}
                 </tbody>
@@ -130,7 +154,7 @@ const Dashboard: React.FC = () => {
             </section>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

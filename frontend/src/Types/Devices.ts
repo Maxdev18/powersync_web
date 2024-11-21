@@ -1,18 +1,18 @@
 export type Devices = {
-    name: String,
-    type: String,
-    serialNumber: String,
-    condition: String,
-    notes: String,
-    groupName: String,
-    groupID: String,
-    cycles: Number,
-    batteryPercentage: Number,
-    wattage: Number,
-    estimatedLife: Number,
-    estimatedCost: Number,
+    name: string,
+    type: string,
+    serialNumber: string,
+    condition: string,
+    notes: string,
+    groupName: string,
+    groupID: string,
+    cycles: number,
+    batteryPercentage: number,
+    wattage: number,
+    estimatedLife: number,
+    estimatedCost: number,
     location: {
-        longitude: Number,
-        latitude: Number
+        longitude: number,
+        latitude: number
     }
 }
