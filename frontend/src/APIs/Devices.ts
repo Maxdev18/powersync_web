@@ -1,10 +1,11 @@
 import Axios from 'axios'
 import { Response } from '../Types/Response'
 import { Devices } from '../Types/Devices'
+import { Group } from "../Types/Group";
 
 export class DeviceAPI {
     static async createDevice(device: Devices): Promise<Response> {
-        return Axios.put('/api/v1/devices/create-device', device)
+        return Axios.post('/api/v1/devices/create-device', device)
           .then(res => {
             console.log(res)
             return { message: res.data.message, data: res.data.data, isError: false }
@@ -26,7 +27,7 @@ export class DeviceAPI {
           })
       }
     static async deleteDevice(device: Devices): Promise<Response> {
-        return Axios.put('/api/v1/devices/delete-device', device)
+        return Axios.delete('/api/v1/devices/delete-device')
           .then(res => {
             console.log(res)
             return { message: res.data.message, data: res.data.data, isError: false }
@@ -37,7 +38,7 @@ export class DeviceAPI {
           })
       }
     static async getDevice(device: Devices): Promise<Response> {
-        return Axios.put('/api/v1/devices/get-device', device)
+        return Axios.get('/api/v1/devices/get-device')
           .then(res => {
             console.log(res)
             return { message: res.data.message, data: res.data.data, isError: false }
@@ -48,7 +49,7 @@ export class DeviceAPI {
           })
       }
     static async getDeviceLocation(device: Devices): Promise<Response> {
-        return Axios.put('/api/v1/devices/get-device-location', device)
+        return Axios.get('/api/v1/devices/get-device-location')
           .then(res => {
             console.log(res)
             return { message: res.data.message, data: res.data.data, isError: false }
@@ -59,7 +60,7 @@ export class DeviceAPI {
           })
       }
       static async getDevicePowerLevel(device: Devices): Promise<Response> {
-        return Axios.put('/api/v1/devices/get-device-powerlevel', device)
+        return Axios.get('/api/v1/devices/get-device-powerlevel')
           .then(res => {
             console.log(res)
             return { message: res.data.message, data: res.data.data, isError: false }
@@ -70,7 +71,7 @@ export class DeviceAPI {
           })
       }
       static async getDeviceEstimatedLife(device: Devices): Promise<Response> {
-        return Axios.put('/api/v1/devices/get-device-estimated-life', device)
+        return Axios.get('/api/v1/devices/get-device-estimated-life')
           .then(res => {
             console.log(res)
             return { message: res.data.message, data: res.data.data, isError: false }
@@ -81,7 +82,7 @@ export class DeviceAPI {
           })
       }
       static async getDevicePowerConsumption(device: Devices): Promise<Response> {
-        return Axios.put('/api/v1/devices/get-device-power-consumption', device)
+        return Axios.get('/api/v1/devices/get-device-power-consumption')
           .then(res => {
             console.log(res)
             return { message: res.data.message, data: res.data.data, isError: false }
@@ -92,7 +93,7 @@ export class DeviceAPI {
           })
       }
       static async getDeviceEstimatedCost(device: Devices): Promise<Response> {
-        return Axios.put('/api/v1/devices/get-device-estimated-cost', device)
+        return Axios.get('/api/v1/devices/get-device-estimated-cost')
           .then(res => {
             console.log(res)
             return { message: res.data.message, data: res.data.data, isError: false }
@@ -102,8 +103,8 @@ export class DeviceAPI {
             return { message: "Something went wrong", isError: true }
           })
       }
-      static async getLowDevices(device: Devices): Promise<Response> {//needs group
-        return Axios.put('/api/v1/devices/get-low-devices', device)
+      static async getLowDevices(group: Group): Promise<Response> {//needs group
+        return Axios.get('/api/v1/devices/get-low-devices')
           .then(res => {
             console.log(res)
             return { message: res.data.message, data: res.data.data, isError: false }
@@ -114,7 +115,7 @@ export class DeviceAPI {
           })
       }
       static async getDeviceCycles(device: Devices): Promise<Response> {
-        return Axios.put('/api/v1/devices/get-device-cycles', device)
+        return Axios.get('/api/v1/devices/get-device-cycles')
           .then(res => {
             console.log(res)
             return { message: res.data.message, data: res.data.data, isError: false }
@@ -124,8 +125,8 @@ export class DeviceAPI {
             return { message: "Something went wrong", isError: true }
           })
       }
-      static async getDeviceByGroup(device: Devices): Promise<Response> {//needs group
-        return Axios.put('/get-devices-by-groupID', device)
+      static async getDeviceByGroup(group: Group): Promise<Response> {//needs group
+        return Axios.get('/get-devices-by-groupID')
           .then(res => {
             console.log(res)
             return { message: res.data.message, data: res.data.data, isError: false }
@@ -136,7 +137,7 @@ export class DeviceAPI {
           })
       }
       static async getDeviceByName(device: Devices): Promise<Response> {
-        return Axios.put('/api/v1/devices/get-device-by-name', device)
+        return Axios.get('/api/v1/devices/get-device-by-name')
           .then(res => {
             console.log(res)
             return { message: res.data.message, data: res.data.data, isError: false }
