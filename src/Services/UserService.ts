@@ -31,7 +31,7 @@ export class UserService {
 
                 await user.save()
 
-                res.status(200).json({ message: "Successfully added user to database" }).end()
+                res.status(200).json({ message: "Successfully added user to database", user: { ...user, password: undefined } }).end()
             }
         } catch(error) {
             console.log(error)  
@@ -51,9 +51,12 @@ export class UserService {
                 if(validPassword){ //password is gud
                     const user = {
                         id: userDoc.id,
-                        email: userDoc.email
+                        email: userDoc.email,
+                        firstName: userDoc.firstName,
+                        lastName: userDoc.lastName,
+                        theme: userDoc.theme
                     }
-                    res.status(200).json({message: "Successfully signed in", data: { ...user }}).end()
+                    res.status(200).json({message: "Successfully signed in", user: { ...user }}).end()
                 } else{
                     res.status(401).json({message: "Invalid password"}).end()
                 }
@@ -79,28 +82,33 @@ export class UserService {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async updateUser(req: Request, res: Response) : Promise<any> {
-        
         const data = req.body // get user data
         res.setHeader('content-type', 'application/json')// use json to test for now 
+
         try{
-            const userDoc = await User.findOne({email: data.email}) //check if email exists
-            if(userDoc){ //if email exist, update user info
+            const userDoc = await User.findById(data.id)
+
+            if(userDoc) {
                 userDoc.firstName = data.firstName
                 userDoc.lastName = data.lastName
                 userDoc.theme = data.theme
                 //user might just update name, without changing email
-                if(userDoc.email !== data.newEmail){// attempting to change email 
-                    const checkEmail = await User.findOne({email: data.newEmail}) // check if new email already in system
+                if(userDoc.email !== data.email){// attempting to change email 
+                    const checkEmail = await User.findOne({email: data.email}) // check if new email already in system
                     if(checkEmail){ // if email already in system
                         return res.status(409).json({message: "Email already in use"}).end()
                     }else{
-                        userDoc.email = data.newEmail
-
+                        userDoc.email = data.email
                     }
                 }
                 
                 await userDoc.save()
-                res.status(200).json({message: "successfully updated user"}).end()
+                res.status(200).json({message: "successfully updated user", user: {
+                    firstName: userDoc.firstName,
+                    lastName: userDoc.lastName,
+                    email: userDoc.email,
+                    id: userDoc.id,
+                    theme: userDoc.theme }}).end()
             }else {
                 res.status(404).json({message: "User not found"}).end()
             }

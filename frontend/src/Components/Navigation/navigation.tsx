@@ -14,7 +14,7 @@ export const Navigation: React.FC = () => {
       <h2 className="brand-name">Powersync</h2>
       <nav className="nav-link-container">
         <Link to="/dashboard" className={`nav-link ${currentPath === "dashboard" ? "active-link" : null}`}>Dashboard</Link>
-        <Link to="/devices" className={`nav-link ${currentPath === "devices" ? "active-link" : null}`}>Devices</Link>
+        <Link to="/dashboard/devices" className={`nav-link ${currentPath === "devices" ? "active-link" : null}`}>Devices</Link>
         <Link to="/store" className={`nav-link ${currentPath === "store" ? "active-link" : null}`}>Store</Link>
       </nav>
     </div>

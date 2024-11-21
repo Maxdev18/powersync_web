@@ -27,6 +27,7 @@ const App: React.FC = () => {
 
         {/*these three below are child routes of dashboard */}
           <Route path="" element={<DashboardPage />}/>
+          <Route path="devices" element={<Devices />}/>
           <Route path="profile" element={<ProfilePage />} />
         </Route>
 

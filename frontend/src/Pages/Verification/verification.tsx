@@ -31,7 +31,7 @@ export const VerificationPage: React.FC = () => {
       setIsWrongPassword(true)
       setMessage("Passwords don't match")
     } else {
-      const id = localStorage.getItem("userId")
+      const id = JSON.parse(localStorage.getItem("user") as string).id
       const response: Response = await UserAPI.updatePassword(id as string, newPassword)
       if(response.isError) {
         setIsWrongPassword(true)
