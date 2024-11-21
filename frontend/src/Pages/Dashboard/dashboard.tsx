@@ -20,6 +20,7 @@ const Dashboard: React.FC = () => {
   ];
 //!---------------------------------------------------------------
 
+//this will be for daily consumption
   const totalConsumption = devices.reduce((sum, device) => sum + device.consumption, 0);
 
   // Top 3 biggest eaters in descending order
@@ -96,7 +97,7 @@ const Dashboard: React.FC = () => {
             <div className="combined-summary-section">
               <div className="combined-summary-card">
                 <div className="summary-card">
-                  <h3>Power Consumption</h3>
+                  <h3>Daily Consumption</h3>
                   <p>{totalConsumption.toFixed(2)} kWh</p>
                 </div>
                 <div className="summary-card">
@@ -108,11 +109,6 @@ const Dashboard: React.FC = () => {
                   <p>${estimatedCost.toFixed(2)}</p>
                 </div>
               </div>
-            </div>
-
-            <div className="this-weeks-consumption">
-              <h4>This week's consumption</h4>
-              <p>{totalConsumption.toFixed(2)} kWh</p>
             </div>
 
             <section className="biggest-eaters">
@@ -142,7 +138,7 @@ const Dashboard: React.FC = () => {
                   {devicesData.map((device, index) => (
                     <tr key={index}>
                       <td>{device.name}</td>
-                      <td>{device.name.split("'")[0]}</td>
+                      <td>{device.groupName} </td>
                       <td className={`battery ${getBatteryClass(device.batteryPercentage)}`}>
                         {device.batteryPercentage.toString()}%
                       </td>
@@ -154,6 +150,8 @@ const Dashboard: React.FC = () => {
             </section>
           </div>
         </div>
+
+
       </div>
     </div>
   );
