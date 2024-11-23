@@ -5,37 +5,32 @@ import { GroupAPI } from '../../APIs/Group';
 import { DeviceAPI } from '../../APIs/Devices';
 import {User} from '../../Types/User'
 import {Devices} from '../../Types/Devices'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const Dashboard: React.FC = () => {
   const [data, setData] = useState({} as User); // to store the user data from local storage
-  const [devicesData, setDevicesData] = useState<Devices[]>([]); // to store the devices
+  const [devicesData, setDevicesData] = useState<Devices[]>([]); // to store the devices from local storage
   const [currentDate, setCurrentDate] = useState(new Date());//store current date
   const navigate = useNavigate();
 
-  const devices = [ //! -------------------------------- delete this soon
-    { name: "Carl's Tablet", consumption: 14.4, battery: 25 },
-    { name: "Kevin's Spoon", consumption: 60.9, battery: 19 },
-    { name: "Kevin's Pant", consumption: 3.5, battery: 7 },
-    { name: "Logan's iPhone", consumption: 8.1, battery: 85 },
-  ];
-//!---------------------------------------------------------------
-
 //this will be for daily consumption
-  const totalConsumption = devices.reduce((sum, device) => sum + device.consumption, 0);
+  const totalConsumption = devicesData.reduce((sum, device) => sum + device.wattage, 0);
 
   // Top 3 biggest eaters in descending order
-  const biggestEaters = [...devices]
-    .sort((a, b) => b.consumption - a.consumption)
-    .slice(0, 3);
+  const biggestEaters = [...devicesData]
+    .sort((a, b) => b.wattage - a.wattage)
+    .slice(0, 5);
 
   const getBatteryClass = (battery: number) => {
     return battery < 25 ? 'low-battery' : 'high-battery';
   };
 
-  const lowBatteryCount = devices.filter(device => device.battery < 20).length;
+  const lowBatteryCount = devicesData.filter(device => device.batteryPercentage < 25).length;
 
-  // Calculate the estimated cost (10 cents per kWh)
-  const estimatedCost = (totalConsumption / 10) * 0.10;
+  // Calculate the estimated cost by add all estimated cost of devices
+  const estimatedCost = devicesData.reduce((sum, device) => sum + device.estimatedCost, 0);
 
   async function getData() {
     await GroupAPI.getAllGroups(JSON.parse(localStorage.getItem("user") as string).id) //update groups from db
@@ -46,7 +41,7 @@ const Dashboard: React.FC = () => {
     return storedData ? JSON.parse(storedData) : null;
   };
 
-  const getDevicesData = () => { //todo: need to test this
+  const getDevicesData = () => { 
     const storedData = localStorage.getItem('devices');
     return storedData ? JSON.parse(storedData) : null;
   };
@@ -72,8 +67,10 @@ const Dashboard: React.FC = () => {
   };
 
   return (
+    
     <div className="dashboard-container">
-      <div className="content">
+      <Container className="content">
+
         <header className="header">
           <div className="header-title">
             <h1>Welcome, {data.firstName} {data.lastName}</h1>
@@ -93,66 +90,74 @@ const Dashboard: React.FC = () => {
         </header>
 
         <div className="main-content">
+
           <div className="left-section">
-            <div className="combined-summary-section">
+
               <div className="combined-summary-card">
-                <div className="summary-card">
-                  <h3>Daily Consumption</h3>
-                  <p>{totalConsumption.toFixed(2)} kWh</p>
+                <Row className='summaryCardHeader'>
+                  <Col>Power Consumption</Col>
+                  <Col>Low Devices</Col>
+                  <Col>Estimated Cost</Col>
+                </Row>
+                <Row className='summaryCardSubHeader'>
+                  <Col>{totalConsumption.toFixed(2)} kWh</Col>
+                  <Col>{lowBatteryCount}</Col>
+                  <Col>${estimatedCost.toFixed(2)}</Col>
+                </Row>
+              </div>
+
+              <div className="biggestEaters">
+                <div className='biggestEatersHeader'>
+                  <h3>Biggest Eaters</h3>
                 </div>
-                <div className="summary-card">
-                  <h3>Low Devices</h3>
-                  <p>{lowBatteryCount}</p>
-                </div>
-                <div className="summary-card">
-                  <h3>Estimated Cost</h3>
-                  <p>${estimatedCost.toFixed(2)}</p>
+                <div className='biggestEaterItems'>
+                {biggestEaters.map((device) => (
+                  <Row className='BiggestEaterItem'> 
+                  <Col sm={1}>
+                  <div className='icon'>
+                    <i className="bi bi-lightning-charge"></i>
+                  </div>
+                  </Col>
+                  <Col sm={8}>{device.name}</Col>
+                  <Col className='wattage' sm={3} >{device.wattage.toFixed(2)} kWh</Col>
+                </Row>
+              ))}
                 </div>
               </div>
-            </div>
-
-            <section className="biggest-eaters">
-              <h3>Biggest Eaters</h3>
-              {biggestEaters.map((device, index) => (
-                <div key={index} className="biggest-eater-item">
-                  <span>{device.name}</span>
-                  <span>{device.consumption.toFixed(2)} kWh</span>
-                </div>
-              ))}
-            </section>
           </div>
 
+
           <div className="right-section">
-            <section className="devices-section">
-              <h3>Devices</h3>
-              <table className="devices-table">
-                <thead>
-                  <tr>
-                    <th>Device name</th>
-                    <th>Group</th>
-                    <th>Battery</th>
-                    <th>Consumption</th>
-                  </tr>
-                </thead>
-                <tbody>
+
+            <div className='devicesSection'>
+                <div className='devicesSectionHeader'>
+                  <Row className='mainHeader'>Devices</Row>
+                  <Row>
+                    <Col>Device Name</Col>
+                    <Col>Group</Col>
+                    <Col>Percentage</Col>
+                    <Col>Consumption</Col>
+                  </Row>
+                </div>
+
+                <div className='devicesSectionItems'>
                   {devicesData.map((device, index) => (
-                    <tr key={index}>
-                      <td>{device.name}</td>
-                      <td>{device.groupName} </td>
-                      <td className={`battery ${getBatteryClass(device.batteryPercentage)}`}>
+                    <Row className='deviceItem' key={index}>
+                      <Col>{device.name}</Col>
+                      <Col>{device.groupName}</Col>
+                      <Col className={`battery ${getBatteryClass(device.batteryPercentage)}`}>
                         {device.batteryPercentage.toString()}%
-                      </td>
-                      <td>{device.wattage.toFixed(2)} kWh</td>
-                    </tr>
+                      </Col>
+                      <Col>{device.wattage.toFixed(2)} kWh</Col>
+                    </Row>
                   ))}
-                </tbody>
-              </table>
-            </section>
+                </div>
+            </div>
           </div>
         </div>
 
 
-      </div>
+      </Container>
     </div>
   );
 };
