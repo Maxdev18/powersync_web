@@ -48,22 +48,35 @@ export class DeviceAPI {
             return { message: "Something went wrong", isError: true }
           })
       }
-      static async getDevicesByGroupIds(groups: Group[]): Promise<Response> {
-        return Axios.get('/api/v1/devices/get-devices-by-groupID', {
-          params: {
-            groups
-          }
-        })
-          .then(res => {
-            console.log(res)
-            localStorage.setItem("devices", JSON.stringify(res.data.devices))
-            return { message: res.data.message, data: res.data.data, isError: false }
-          })
-          .catch(err => {
-            console.log(err)
-            return { message: "Something went wrong", isError: true }
-          })
+      static async getDevicesByGroupIds(groupIds: string[]): Promise<Response> {
+        try {
+          const res = await Axios.get('/api/v1/devices/get-devices-by-groupID', {
+            params: { groups: groupIds }, // Passing the group IDs as query parameters
+          });
+      
+          console.log(res);
+      
+          // Storing devices in localStorage
+          localStorage.setItem("devices", JSON.stringify(res.data.devices));
+      
+          return {
+            message: res.data.message,
+            data: res.data.devices,
+            isError: false,
+          };
+        } catch (err) {
+          console.log(err);
+          
+          return {
+            message: "Something went wrong",
+            isError: true,
+          };
+        }
       }
+      
+      
+    
+      
     static async getDeviceLocation(device: Devices): Promise<Response> {
         return Axios.get('/api/v1/devices/get-device-location')
           .then(res => {
