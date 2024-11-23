@@ -1,6 +1,7 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 0%;
+  font-family: 'Inter', sans-serif;
   background-color: #f0f4f8;
   color: #333;
 }
@@ -15,8 +16,7 @@ body {
 
 /* Main content area */
 .content {
-  flex: 1;
-  padding: 20px;
+  padding: 15px;
 }
 
 .header {
@@ -24,26 +24,24 @@ body {
   justify-content: space-between;
   align-items: center;
   min-width: 100%;
-  margin-bottom: 20px;
 }
 
 .header h1 {
-  font-size: 28px;
+  font-size: 25px;
+}
+.header p{
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .icons-container {
   display: flex;
-  gap: 15px; /* Increased gap between icons for better spacing */
+  gap: 15px; 
   align-items: center;
 }
 
 .notification-icon, .profile-icon {
-  font-size: 24px; /* Same size for both icons */
-  cursor: pointer;
-}
-
-.notification-icon:hover, .profile-icon:hover {
-  color: #555; /* Change color when hovered */
+  font-size: 25px; 
 }
 
 .main-content {
@@ -55,39 +53,29 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 40px;
 }
 
 .right-section {
   width: 50%;
 }
 
-.combined-summary-section {
-  margin-bottom: 20px;
-}
-
 .combined-summary-card {
-  display: flex;
-  gap: 20px;
-  background-color: white;
+  background-color: #333;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-}
-
-.summary-card {
-  flex: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  padding: 18px;
   text-align: center;
+  color: white;
+}
+.summaryCardHeader{
+  font-weight: 700;
+  padding-bottom: 10px;
 }
 
-.summary-card h3 {
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
-.summary-card p {
-  font-size: 24px;
-  margin: 0;
+.summaryCardSubHeader{
+  font-weight: 400;
+  font-size: 25px;
 }
 
 .this-weeks-consumption {
@@ -100,50 +88,91 @@ body {
   text-align: center;
 }
 
-.biggest-eaters {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  flex-grow: 1;
+.biggestEaters {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  min-height: 400px;
-}
-
-.biggest-eater-item {
-  display: flex;
-  justify-content: space-between;
-  font-size: 16px;
-}
-
-.devices-section {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  min-height: 800px;
-}
-
-.devices-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.devices-table th,
-.devices-table td {
-  padding: 10px;
-  text-align: left;
-}
-
-.devices-table th {
   background-color: #333;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  height: 60vh;
+}
+
+.biggestEatersHeader{
+  padding: 18px;
   color: white;
 }
+.biggestEaterItems{
+  background-color: white;
+  flex-grow: 1;
+  padding: 20px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.BiggestEaterItem{
+  padding: 10px;
+  border: 1px solid #333;
+  border-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  background-color: #f4f3f3;
+}
 
-.devices-table .battery {
-  font-weight: bold;
+.icon{
+ border-radius: 80%;
+ background-color: #333; 
+  color: white;
+  text-align: center;
+}
+
+.wattage{
+  text-align: right;
+}
+
+.devicesSection {
+  display: flex;
+  flex-direction: column;
+  background-color: #333;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  min-height: 100%;
+}
+
+.mainHeader{
+ 
+  padding-left: 20px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 28px;
+
+}
+.devicesSectionHeader{
+  padding: 20px;
+  color: white;
+  font-size: 18px;
+  text-align: center;
+}
+
+.devicesSectionItems{
+  background-color: white;
+  flex-grow: 1; 
+  padding: 20px;
+  text-align: center;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  overflow-y: auto;
+}
+
+.deviceItem{
+  padding: 10px;
+  border: 1px solid #333;
+  border-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  background-color: #f4f3f3;
 }
 
 /* Styling for battery percentage (color logic) */
