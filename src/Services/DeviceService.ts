@@ -281,24 +281,24 @@ export class DeviceService {
     }
 
     async getDevicesByGroupID(req: Request, res: Response) {
-        const data: any = req.query
-
-        res.setHeader('Content-Type', 'application/json')
-        try{
-            const devices: any = []
-            //see if group is in the system
-            for(let i = 0; i < data.groups.length; i++) {
-                const deviceDocs = await Device.find({ groupID: data.groups[i]._id })
-                deviceDocs.map(device => {
-                    devices.push(device)
-                })
-            }
-
-            res.status(200).json({ message: "Retireved all devices from groups", devices })
+        const { groups } = req.query;
+        res.setHeader('Content-Type', 'application/json');
+      
+        try {
+          const devices = await Device.find({ groupID: { $in: groups } });
+          
+          res.status(200).json({
+            message: "Retrieved all devices from groups",
+            devices,
+          });
+        } catch (error) {
+          console.log(error);
+          
+          res.status(500).json({
+            message: "Internal server error",
+          }).end();
         }
-        catch (error) {
-            console.log(error);
-            res.status(500).json({ message: "Internal server error" }).end();
-        }
-    }
+      }
+      
+    
 }
