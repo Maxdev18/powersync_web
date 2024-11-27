@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './editDevice.css';
 import { GroupAPI } from '../../APIs/Group';
 import { DeviceAPI } from '../../APIs/Devices';
+import { useLocation } from 'react-router-dom';
 
 const EditDevice: React.FC = () => {
     const [device, setDevice] = useState({
@@ -26,6 +27,8 @@ const EditDevice: React.FC = () => {
     const [devices, setDevices] = useState<{ name: string; _id: string; groupID: string; [key: string]: any }[]>([]);
     const [groups, setGroups] = useState<{ name: string; _id: string }[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const location = useLocation();
 
     useEffect(() => {
         async function getData() {
@@ -55,6 +58,35 @@ const EditDevice: React.FC = () => {
 
         getData();
     }, []);
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(location.search);
+        const deviceName = urlParams.get('deviceName');
+
+        if (deviceName) {
+            const selectedDevice = devices.find((dev) => dev.name === deviceName);
+            if (selectedDevice) {
+                setDevice({
+                    name: selectedDevice.name,
+                    newName: '', // Reset the newName field when switching devices
+                    group: groups.find((g) => g._id === selectedDevice.groupID)?.name || '',
+                    type: selectedDevice.type || '',
+                    serialNumber: selectedDevice.serialNumber || '',
+                    cycles: String(selectedDevice.cycles || ''),
+                    condition: selectedDevice.condition || 'Good',
+                    notes: selectedDevice.notes || '',
+                    batteryPercentage: selectedDevice.batteryPercentage || 0,
+                    wattage: selectedDevice.wattage || 0,
+                    estimatedLife: selectedDevice.estimatedLife || 0,
+                    estimatedCost: selectedDevice.estimatedCost || 0,
+                    location: {
+                        longitude: selectedDevice.location?.longitude || 0,
+                        latitude: selectedDevice.location?.latitude || 0,
+                    },
+                });
+            }
+        }
+    }, [location.search, devices, groups]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;

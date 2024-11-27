@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./devices.css";
+import { useNavigate } from 'react-router-dom';
 import { DeviceAPI } from '../../APIs/Devices';
 import { GroupAPI } from '../../APIs/Group';
 
@@ -21,6 +22,7 @@ function Dashboard() {
   const [expandedGroup, setExpandedGroup] = useState<string | null>(null);
   const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
   const [groups, setGroups] = useState<Group[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -64,6 +66,10 @@ function Dashboard() {
     setSelectedDevice(device);
   };
 
+  const handleEditClick = (device: Device) => {
+    navigate(`/editDevice?deviceName=${device.name}`);
+  };
+
   return (
     <div className="dashboard">
       <div className="location">
@@ -104,14 +110,15 @@ function Dashboard() {
                 {expandedGroup === group.name && (
                   <ul>
                     {group.devices.map((device: Device, deviceIndex: number) => (
-                      <li key={deviceIndex} onClick={() => handleDeviceClick(device)}>
+                      <li key={deviceIndex}>
                         <div className="item-header">
-                          <h4>{device.name}</h4>
+                          <h4 onClick={() => handleDeviceClick(device)}>{device.name}</h4>
                           <div className={`battery-indicator ${getBatteryColorClass(device.battery)}`}></div>
                         </div>
                         <p>Battery: {device.battery}%</p>
                         <p>Estimated Life: {device.life}</p>
                         <p>Condition: {device.condition}</p>
+                        <button onClick={() => handleEditClick(device)}>Edit</button>
                       </li>
                     ))}
                   </ul>
