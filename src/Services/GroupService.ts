@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Group from '../Schemas/GroupSchema';
+import User from '../Schemas/UserSchema';
 
 /**
  * GroupService.ts
@@ -54,11 +55,19 @@ export class GroupService {
     }
 
         async getAllGroups(req: Request, res: Response): Promise<void> {
-            const { userId } = req.query
+            const data = req.query
             res.setHeader('Content-Type', 'application/json');
             try {
-                const groups = await Group.find({ userID: userId });
-                res.status(200).json({ message: "Successfully retrieved group IDs", groups }).end();
+                const userDoc = await User.findOne({_id: data.userId})
+                if(userDoc){
+                    const groups = await Group.find({userID: data.userId});
+                    res.status(200).json({ message: "Successfully retrieved group IDs", groups }).end();
+                    return;
+                }
+                else{
+                    res.status(404).json({ message: "Wasn't able to find user"}).end();
+                    return;
+                }
             } catch (error) {
                 console.log(error);
                 res.status(500).json({ message: "Internal server error" }).end();

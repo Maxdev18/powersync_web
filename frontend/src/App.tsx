@@ -19,12 +19,9 @@ const App: React.FC = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/code-verification" element={<VerificationPage />} />
-        <Route path="/devices" element={<Devices />}/>
         <Route path="/addDevice" element={<AddDevice />}/>
         <Route path="/editDevice" element={<EditDevice />}/>
         <Route path="/dashboard" element={<DashboardOutlet />}>
-
-
         {/*these three below are child routes of dashboard */}
           <Route path="" element={<DashboardPage />}/>
           <Route path="devices" element={<Devices />}/>
