@@ -49,6 +49,7 @@ export class DeviceAPI {
           })
       }
       static async getDevicesByGroupIds(groupIds: string[]): Promise<Response> {
+        console.log(groupIds)
         try {
           const res = await Axios.get('/api/v1/devices/get-devices-by-groupID', {
             params: { groups: groupIds }, // Passing the group IDs as query parameters

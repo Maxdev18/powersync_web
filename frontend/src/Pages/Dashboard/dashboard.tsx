@@ -3,6 +3,7 @@ import './dashboard.css';
 import { useNavigate } from 'react-router-dom';
 import { GroupAPI } from '../../APIs/Group';
 import { DeviceAPI } from '../../APIs/Devices';
+import { startDeviceSimulation } from '../../Simulation/simulation';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -35,6 +36,10 @@ const Dashboard: React.FC = () => {
       await DeviceAPI.getDevicesByGroupIds(JSON.parse(localStorage.getItem("groups") as string))
     }
     getData()
+  }, [])
+
+  useEffect(() => {
+    startDeviceSimulation()
   }, [])
 
   const handleNotificationClick = () => {
