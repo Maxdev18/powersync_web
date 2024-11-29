@@ -45,7 +45,6 @@ export class GroupAPI {
       params: { userId }
     })
       .then(data => {
-        console.log(data.data.groups)
         localStorage.setItem("groups", JSON.stringify(data.data.groups))
         return { message: "Got all groups", isError: false, data: data.data.groups }
       })
