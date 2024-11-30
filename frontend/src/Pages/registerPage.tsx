@@ -45,7 +45,7 @@ const LoginPage = () => {
         if(localStorage.getItem("user") !== null) {
             navigate('/dashboard')
         }
-    }, [])
+    }, [navigate])
 
     return (
         <div className="login">
