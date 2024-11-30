@@ -12,7 +12,6 @@ import Col from 'react-bootstrap/Col';
 const Dashboard: React.FC = () => {
   const [data, setData] = useState({} as User); // to store the user data from local storage
   const [devicesData, setDevicesData] = useState<Devices[]>([]); // to store the devices from local storage
-  const [currentDate, setCurrentDate] = useState(new Date());//store current date
   const navigate = useNavigate();
 
 //this will be for daily consumption
@@ -46,21 +45,12 @@ const Dashboard: React.FC = () => {
     return storedData ? JSON.parse(storedData) : null;
   };
 
-  const updateTime = () => { 
-    const intervalId = setInterval(() => {
-      setCurrentDate(new Date());
-    }, 1000); // Update every second
-    return () => clearInterval(intervalId); // Cleanup on unmount
-  }; 
-
   //this will run when the component mounts
   useEffect(() => {
-    updateTime(); 
     getUserInfo() && setData(getUserInfo()); //pass the user data
     getDevicesData() && setDevicesData(getDevicesData());//pass devices data
     getData()
-  }, [])
-
+  }, [devicesData])
 
   const handleProfileClick = () => {
     navigate("/dashboard/profile");
@@ -74,7 +64,7 @@ const Dashboard: React.FC = () => {
         <header className="header">
           <div className="header-title">
             <h1>Welcome, {data.firstName} {data.lastName}</h1>
-            <p> {currentDate.toLocaleDateString()}</p>
+            <p> {(new Date).toLocaleDateString()}</p>
           </div>
           <div className="icons-container">
             <img

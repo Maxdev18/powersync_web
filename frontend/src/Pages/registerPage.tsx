@@ -1,13 +1,14 @@
 //this page will have all the login functionality
 import '../styles/loginPage.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Input from "../components/input";
 import { Link, useNavigate } from "react-router-dom";
 import {UserAPI} from '../APIs/User'
 import {User} from '../Types/User'
 import { Response } from '../Types/Response';
-const LoginPage = () => {
+import Gundam from '../assets/gundam.avif';
 
+const LoginPage = () => {
     const navigate = useNavigate(); // to navigate to dashboard page if login is successful
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -42,6 +43,12 @@ const LoginPage = () => {
         navigate('/dashboard'); // redirect to dashboard page if succeeded
     }
 
+    useEffect(() => {
+        if(localStorage.getItem("user") !== null) {
+            navigate('/dashboard')
+        }
+    }, [navigate])
+
     return (
         <div className="login">
 
@@ -61,13 +68,14 @@ const LoginPage = () => {
                 </div>
 
                 <div className='buttonField'>
-                    <button onClick={handleRegister} className='buttonStyle' type='submit'>Register</button>
+                    <button onClick={handleRegister} className='loginBtn buttonStyle' type='submit'>Register</button>
                 </div>
 
                 <Link to="/login" className='para para2'>Already have an account?</Link>
             </div>
 
-            <div id='login-image'>
+            <div className='login-image'>
+            <img src={Gundam} alt="" />
             </div>
         </div>
     );
