@@ -1,6 +1,6 @@
 //this page will have all the login functionality
 import '../styles/loginPage.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Input from "../components/input";
 import { Link, useNavigate } from "react-router-dom";
 import {OAuthProvider,Client, Account} from  'appwrite';
@@ -46,6 +46,12 @@ const LoginPage = () => {
             navigate('/dashboard'); // redirect to dashboard page if succeeded
         }
     }
+
+    useEffect(() => {
+        if(localStorage.getItem("user") !== null) {
+            navigate('/dashboard')
+        }
+    }, [])
     
     return (
         <div className="login">
