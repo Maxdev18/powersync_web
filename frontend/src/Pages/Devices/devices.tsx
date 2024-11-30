@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./devices.css";
 import { useNavigate } from 'react-router-dom';
 import { DeviceAPI } from '../../APIs/Devices';
@@ -6,8 +6,8 @@ import { GroupAPI } from '../../APIs/Group';
 
 interface Device {
   name: string;
-  battery: number;
-  life: string;
+  batteryPercentage: number;
+  estimatedLife: string;
   condition: string;
   groupID: string;
 }
@@ -34,21 +34,21 @@ function Dashboard() {
           console.log("Fetched Groups:", groups);
           localStorage.setItem("groups", JSON.stringify(groups));
           setGroups(groups);
-  
+
           if (groups.length > 0) {
             const devicesResponse = await DeviceAPI.getDevicesByGroupIds(groups);
             const devices = devicesResponse.data || [];
-            console.log("Fetched Devices:", devices); // Check device structure here
-  
+            console.log("Fetched Devices:", devices);
+
             const updatedGroups = groups.map((group: Group) => {
               const groupDevices = devices.filter((device: Device) => device.groupID === group._id);
-              console.log("Group Devices for", group.name, groupDevices); // Check filtered devices
+              console.log("Group Devices for", group.name, groupDevices);
               return {
                 ...group,
                 devices: groupDevices
               };
             });
-  
+
             console.log("Updated Groups with Devices:", updatedGroups);
             setGroups(updatedGroups);
           }
@@ -57,12 +57,9 @@ function Dashboard() {
         console.error("Error fetching data", error);
       }
     }
-  
+
     fetchData();
   }, []);
-  
-
-  
 
   const handleExpandClick = (groupName: string) => {
     setExpandedGroup(expandedGroup === groupName ? null : groupName);
@@ -88,8 +85,8 @@ function Dashboard() {
         {selectedDevice ? (
           <div className="device-details">
             <h3>{selectedDevice.name} Details</h3>
-            <p>Battery: {selectedDevice.battery}%</p>
-            <p>Estimated Life: {selectedDevice.life}</p>
+            <p>Battery: {selectedDevice.batteryPercentage}%</p>
+            <p>Estimated Life: {selectedDevice.estimatedLife}</p>
             <p>Condition: {selectedDevice.condition}</p>
             {/* Add more details as needed */}
           </div>
@@ -116,20 +113,19 @@ function Dashboard() {
                 {expandedGroup === group.name && (
                   <ul>
                     {group.devices.map((device: Device, deviceIndex: number) => (
-                      <li key={deviceIndex}>
+                      <li key={deviceIndex} className={`battery-indicator ${getBatteryColorClass(device.batteryPercentage)}`}>
                         <div className="item-header">
                           <h4 onClick={() => handleDeviceClick(device)}>{device.name}</h4>
-                          <div className={`battery-indicator ${getBatteryColorClass(device.battery)}`}></div>
                         </div>
-                        <p>Battery: {device.battery}%</p>
-                        <p>Estimated Life: {device.life}</p>
+                        <p>Battery: {device.batteryPercentage}%</p>
+                        <p>Estimated Life: {device.estimatedLife}</p>
                         <p>Condition: {device.condition}</p>
                         <button onClick={() => handleEditClick(device)}>Edit</button>
                       </li>
                     ))}
                   </ul>
                 )}
-                {index < groups.length - 1 && <hr />} {/* Add separator line between groups */}
+                {index < groups.length - 1 && <hr />}
               </div>
             ))
           ) : (
