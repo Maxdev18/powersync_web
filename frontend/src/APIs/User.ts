@@ -62,9 +62,7 @@ export class UserAPI {
   }
 
   static logoutUser() {
-    localStorage.removeItem("user")
-    localStorage.removeItem("devices")
-    localStorage.removeItem("groups")
+    localStorage.clear()
 
     window.location.href = "http://localhost:3000"
   }

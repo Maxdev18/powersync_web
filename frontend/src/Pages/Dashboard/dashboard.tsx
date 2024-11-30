@@ -50,7 +50,7 @@ const Dashboard: React.FC = () => {
     getUserInfo() && setData(getUserInfo()); //pass the user data
     getDevicesData() && setDevicesData(getDevicesData());//pass devices data
     getData()
-  }, [devicesData])
+  }, [])
 
   const handleProfileClick = () => {
     navigate("/dashboard/profile");
@@ -60,7 +60,6 @@ const Dashboard: React.FC = () => {
     
     <div className="dashboard-container">
       <Container className="content">
-
         <header className="header">
           <div className="header-title">
             <h1>Welcome, {data.firstName} {data.lastName}</h1>
@@ -80,9 +79,7 @@ const Dashboard: React.FC = () => {
         </header>
 
         <div className="main-content">
-
           <div className="left-section">
-
               <div className="combined-summary-card">
                 <Row className='summaryCardHeader'>
                   <Col>Power Consumption</Col>
@@ -116,9 +113,7 @@ const Dashboard: React.FC = () => {
               </div>  
           </div>
 
-
           <div className="right-section">
-
             <div className='devicesSection'>
                 <div className='devicesSectionHeader'>
                   <Row className='mainHeader'>Devices</Row>
@@ -145,8 +140,6 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         </div>
-
-
       </Container>
     </div>
   );
