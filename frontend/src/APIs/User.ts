@@ -60,4 +60,12 @@ export class UserAPI {
         return { message: "Something went wrong", isError: true }
       })
   }
+
+  static logoutUser() {
+    localStorage.removeItem("user")
+    localStorage.removeItem("devices")
+    localStorage.removeItem("groups")
+
+    window.location.href = "http://localhost:3000"
+  }
 }

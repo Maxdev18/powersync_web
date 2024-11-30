@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import "./navigation.css"
 import { useEffect, useState } from "react"
+import { UserAPI } from "../../APIs/User"
 
 export const Navigation: React.FC = () => {
   const [currentPath, setCurrentPath] = useState<string>()
@@ -16,6 +17,7 @@ export const Navigation: React.FC = () => {
         <Link to="/dashboard" className={`nav-link ${currentPath === "dashboard" ? "active-link" : null}`}>Dashboard</Link>
         <Link to="/dashboard/devices" className={`nav-link ${currentPath === "devices" ? "active-link" : null}`}>Devices</Link>
         <Link to="/store" className={`nav-link ${currentPath === "store" ? "active-link" : null}`}>Store</Link>
+        <h2 className="logout-btn" onClick={() => UserAPI.logoutUser()}>Logout</h2>
       </nav>
     </div>
   )
