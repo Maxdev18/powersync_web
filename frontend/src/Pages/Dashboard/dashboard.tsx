@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from 'react';
+import { useQuery } from "react-query";
 import './dashboard.css';
 import { useNavigate } from 'react-router-dom';
 import { GroupAPI } from '../../APIs/Group';
@@ -10,17 +11,15 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 const Dashboard: React.FC = () => {
-  const [data, setData] = useState({} as User); // to store the user data from local storage
+  const [userData, setUserData] = useState({} as User); // to store the user data from local storage
   const [devicesData, setDevicesData] = useState<Devices[]>([]); // to store the devices from local storage
+  const {
+    data,
+  } = useQuery("postsData", getData);
   const navigate = useNavigate();
 
-//this will be for daily consumption
+  // this will be for daily consumption
   const totalConsumption = devicesData.reduce((sum, device) => sum + device.wattage, 0);
-
-  // Top 3 biggest eaters in descending order
-  const biggestEaters = [...devicesData]
-    .sort((a, b) => b.wattage - a.wattage)
-    .slice(0, 5);
 
   const getBatteryClass = (battery: number) => {
     return battery < 25 ? 'low-battery' : 'high-battery';
@@ -32,8 +31,10 @@ const Dashboard: React.FC = () => {
   const estimatedCost = devicesData.reduce((sum, device) => sum + device.estimatedCost, 0);
 
   async function getData() {
-    await GroupAPI.getAllGroups(JSON.parse(localStorage.getItem("user") as string).id) //update groups from db
-    await DeviceAPI.getDevicesByGroupIds(JSON.parse(localStorage.getItem("groups") as string)) //update devices from db
+    const groups = (await GroupAPI.getAllGroups(JSON.parse(localStorage.getItem("user") as string).id)).data //update groups from db
+    const devices = (await DeviceAPI.getDevicesByGroupIds(JSON.parse(localStorage.getItem("groups") as string))).data //update devices from db
+
+    return { groups, devices }
   }
   const getUserInfo = () => {
     const storedData = localStorage.getItem('user');
@@ -47,10 +48,17 @@ const Dashboard: React.FC = () => {
 
   //this will run when the component mounts
   useEffect(() => {
-    getUserInfo() && setData(getUserInfo()); //pass the user data
-    getDevicesData() && setDevicesData(getDevicesData());//pass devices data
-    getData()
-  }, [])
+    async function getAllData() {
+      getUserInfo() && setUserData(getUserInfo()); //pass the user data
+      getDevicesData() && setDevicesData(getDevicesData());//pass devices data
+      getData()
+    }
+
+    console.log(devicesData)
+    if(devicesData.length === 0) {
+      getAllData()
+    }
+  }, [devicesData])
 
   const handleProfileClick = () => {
     navigate("/dashboard/profile");
@@ -62,7 +70,7 @@ const Dashboard: React.FC = () => {
       <Container className="content">
         <header className="header">
           <div className="header-title">
-            <h1>Welcome, {data.firstName} {data.lastName}</h1>
+            <h1>Welcome, {userData.firstName} {userData.lastName}</h1>
             <p> {(new Date).toLocaleDateString()}</p>
           </div>
           <div className="icons-container">
@@ -98,17 +106,20 @@ const Dashboard: React.FC = () => {
                   <h3>Biggest Eaters</h3>
                 </div>
                 <div className='biggestEaterItems'>
-                {biggestEaters.map((device) => (
-                  <Row className='BiggestEaterItem'> 
-                  <Col sm={1}>
-                  <div className='icon'>
-                    <i className="bi bi-lightning-charge"></i>
-                  </div>
-                  </Col>
-                  <Col sm={8}>{device.name}</Col>
-                  <Col className='wattage' sm={3} >{device.wattage.toFixed(2)} kWh</Col>
-                </Row>
-              ))}
+                {data?.devices.sort((a: any, b: any) => b.wattage - a.wattage)
+                .slice(0, 5).map((device: Devices) => {
+                  return (
+                    <Row className='BiggestEaterItem'> 
+                      <Col sm={1}>
+                      <div className='icon'>
+                        <i className="bi bi-lightning-charge"></i>
+                      </div>
+                      </Col>
+                      <Col sm={8}>{device.name}</Col>
+                      <Col className='wattage' sm={3} >{device.wattage.toFixed(2)} kWh</Col>
+                    </Row>
+                  )
+                })}
                 </div>
               </div>  
           </div>
@@ -126,7 +137,7 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 <div className='devicesSectionItems'>
-                  {devicesData.map((device, index) => (
+                  {data?.devices.map((device: any, index: any) => (
                     <Row className='deviceItem' key={index}>
                       <Col>{device.name}</Col>
                       <Col>{device.groupName}</Col>
