@@ -83,7 +83,7 @@ const Dashboard: React.FC = () => {
             />
             <img
               src={require("../../assets/profile.png")}
-              alt="Profile settings"
+              alt="Profile settings"    
               onClick={handleProfileClick}
             />
           </div>
@@ -123,7 +123,7 @@ const Dashboard: React.FC = () => {
                 </Row>
               ))}
                 </div>
-              </div>
+              </div>  
           </div>
 
 
