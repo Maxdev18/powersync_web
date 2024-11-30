@@ -1,4 +1,5 @@
 export type Devices = {
+    _id?: string
     name: string,
     type: string,
     serialNumber: string,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./devices.css";
+import { useNavigate } from 'react-router-dom';
 import { DeviceAPI } from '../../APIs/Devices';
 import { GroupAPI } from '../../APIs/Group';
 
@@ -21,6 +22,7 @@ function Dashboard() {
   const [expandedGroup, setExpandedGroup] = useState<string | null>(null);
   const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
   const [groups, setGroups] = useState<Group[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -29,10 +31,9 @@ function Dashboard() {
         const user = JSON.parse(localStorage.getItem("user") as string);
         if (user) {
           // Fetch groups by user ID
-          console.log(user)
           const groupsResponse = await GroupAPI.getAllGroups(user.id);
-          console.log(groupsResponse)
           const groups = groupsResponse.data || []; // Ensure groups is an array
+          console.log("Fetched Groups:", groups); // Debugging log
           localStorage.setItem("groups", JSON.stringify(groups));
           setGroups(groups);
 
@@ -40,10 +41,12 @@ function Dashboard() {
           if (groups.length > 0) {
             const devicesResponse = await DeviceAPI.getDevicesByGroupIds(groups);
             const devices = devicesResponse.data || []; // Ensure devices is an array
+            console.log("Fetched Devices:", devices); // Debugging log
             const updatedGroups = groups.map((group: Group) => {
-              group.devices = devices.filter((device: Device) => device.groupId === group.id);
+              group.devices = devices.filter((device: Device) => device.groupId === group.id) || [];
               return group;
             });
+            console.log("Updated Groups with Devices:", updatedGroups); // Debugging log
             setGroups(updatedGroups);
           }
         }
@@ -61,6 +64,10 @@ function Dashboard() {
 
   const handleDeviceClick = (device: Device) => {
     setSelectedDevice(device);
+  };
+
+  const handleEditClick = (device: Device) => {
+    navigate(`/editDevice?deviceName=${device.name}`);
   };
 
   return (
@@ -93,24 +100,25 @@ function Dashboard() {
             groups.map((group, index) => (
               <div key={index} className={`group ${expandedGroup === group.name ? "expanded" : "collapsed"}`}>
                 <h3 onClick={() => handleExpandClick(group.name)}>
-                  {group.name} ({group.devices.length} devices) (Click to {expandedGroup === group.name ? "collapse" : "expand"})
+                  {group.name} ({group.devices?.length || 0} devices) (Click to {expandedGroup === group.name ? "collapse" : "expand"})
                 </h3>
                 {expandedGroup !== group.name && (
                   <div className="collapsed-info">
-                    <p>{group.devices.length} devices available</p>
+                    <p>{group.devices?.length || 0} devices available</p>
                   </div>
                 )}
                 {expandedGroup === group.name && (
                   <ul>
                     {group.devices.map((device: Device, deviceIndex: number) => (
-                      <li key={deviceIndex} onClick={() => handleDeviceClick(device)}>
+                      <li key={deviceIndex}>
                         <div className="item-header">
-                          <h4>{device.name}</h4>
+                          <h4 onClick={() => handleDeviceClick(device)}>{device.name}</h4>
                           <div className={`battery-indicator ${getBatteryColorClass(device.battery)}`}></div>
                         </div>
                         <p>Battery: {device.battery}%</p>
                         <p>Estimated Life: {device.life}</p>
                         <p>Condition: {device.condition}</p>
+                        <button onClick={() => handleEditClick(device)}>Edit</button>
                       </li>
                     ))}
                   </ul>

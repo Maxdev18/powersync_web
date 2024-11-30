@@ -1,49 +1,124 @@
-import React, { useState } from 'react';
-import "./addDevice.css";
+import React, { useState, useEffect } from 'react';
+import './addDevice.css';
+import { GroupAPI } from '../../APIs/Group';
+import { DeviceAPI } from '../../APIs/Devices';
 
-const AddDevice = () => {
+const AddDevice: React.FC = () => {
     const [device, setDevice] = useState({
         name: '',
         group: '',
-        type: '',
+        type: 'Type 1', // Default type
         serialNumber: '',
         cycles: '',
-        condition: '',
-        notes: ''
+        condition: 'Good', // Default condition
+        notes: '',
+        batteryPercentage: 100,
+        wattage: 0,
+        estimatedLife: 0,
+        estimatedCost: 0,
+        location: {
+            longitude: 0,
+            latitude: 0
+        }
     });
+
+    const [groups, setGroups] = useState<{ name: string; _id: string }[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const availableTypes = ['Powerbank', 'Phone', 'Vehicle', 'Tablet,','iPhone', 'iPad','Flashlight', 'Misc']; // Available device types
+
+    useEffect(() => {
+        async function fetchGroups() {
+            const user = JSON.parse(localStorage.getItem('user') as string);
+
+            if (user) {
+                try {
+                    const response = await GroupAPI.getAllGroups(user.id);
+                    setGroups(response.data || []);
+                } catch (error) {
+                    console.error('Error fetching groups:', error);
+                    setGroups([]);
+                } finally {
+                    setLoading(false);
+                }
+            }
+        }
+
+        fetchGroups();
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setDevice(prevState => ({ ...prevState, [name]: value }));
+        setDevice((prevState) => ({ ...prevState, [name]: value }));
     };
 
-    const handleSave = () => {
-        // Validate the input fields
+    const handleSave = async () => {
         if (!device.name || !device.group || !device.type || !device.serialNumber) {
             alert('Please fill all the required fields.');
             return;
         }
 
-        // Add the save logic here (e.g., send data to an API or save it locally)
-        console.log('Device saved:', device);
-        alert('Device added successfully!');
-        // Reset the form
-        setDevice({
-            name: '',
-            group: '',
-            type: '',
-            serialNumber: '',
-            cycles: '',
-            condition: '',
-            notes: ''
-        });
+        try {
+            const selectedGroup = groups.find(group => group.name === device.group);
+            if (!selectedGroup) {
+                alert('Selected group not found.');
+                return;
+            }
+
+            const newDevice = {
+                name: device.name,
+                groupID: selectedGroup._id,
+                groupName: selectedGroup.name,
+                type: device.type,
+                serialNumber: device.serialNumber,
+                cycles: Number(device.cycles) || 0,
+                condition: device.condition,
+                notes: device.notes,
+                batteryPercentage: device.batteryPercentage,
+                wattage: device.wattage,
+                estimatedLife: device.estimatedLife,
+                estimatedCost: device.estimatedCost,
+                location: {
+                    longitude: device.location.longitude,
+                    latitude: device.location.latitude
+                }
+            };
+
+            const response = await DeviceAPI.createDevice(newDevice);
+
+            if (response.isError) {
+                alert('Error adding device: ' + response.message);
+            } else {
+                alert('Device added successfully!');
+                setDevice({
+                    name: '',
+                    group: '',
+                    type: 'Type 1',
+                    serialNumber: '',
+                    cycles: '',
+                    condition: 'Good',
+                    notes: '',
+                    batteryPercentage: 100,
+                    wattage: 0,
+                    estimatedLife: 0,
+                    estimatedCost: 0,
+                    location: {
+                        longitude: 0,
+                        latitude: 0
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error adding device:', error);
+            alert('Error adding device.');
+        }
     };
 
     return (
         <div className="add-device-container">
             <div className="header">
                 <h1>Add Device</h1>
-                <button className="back-button" onClick={() => window.history.back()}>➜</button>
+                <button className="back-button" onClick={() => window.history.back()}>&#x27A4;</button>
             </div>
 
             <form className="add-device-form">
@@ -69,8 +144,17 @@ const AddDevice = () => {
                             required
                         >
                             <option value="">Select group</option>
-                            <option value="Group 1">Group 1</option>
-                            <option value="Group 2">Group 2</option>
+                            {loading ? (
+                                <option>Loading groups...</option>
+                            ) : groups.length > 0 ? (
+                                groups.map((group) => (
+                                    <option key={group._id} value={group.name}>
+                                        {group.name}
+                                    </option>
+                                ))
+                            ) : (
+                                <option>No groups available</option>
+                            )}
                         </select>
                     </label>
 
@@ -82,9 +166,11 @@ const AddDevice = () => {
                             onChange={handleChange}
                             required
                         >
-                            <option value="">Select type</option>
-                            <option value="Type 1">Type 1</option>
-                            <option value="Type 2">Type 2</option>
+                            {availableTypes.map((type) => (
+                                <option key={type} value={type}>
+                                    {type}
+                                </option>
+                            ))}
                         </select>
                     </label>
                 </div>
@@ -120,7 +206,6 @@ const AddDevice = () => {
                             value={device.condition}
                             onChange={handleChange}
                         >
-                            <option value="">Select condition</option>
                             <option value="Good">Good</option>
                             <option value="Average">Average</option>
                             <option value="Bad">Bad</option>
