@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import {UserAPI} from '../APIs/User'
 import {User} from '../Types/User'
 import { Response } from '../Types/Response';
+import Gundam from '../assets/gundam.avif';
+
 const LoginPage = () => {
     const navigate = useNavigate(); // to navigate to dashboard page if login is successful
     const [email, setEmail] = useState('');
@@ -66,13 +68,14 @@ const LoginPage = () => {
                 </div>
 
                 <div className='buttonField'>
-                    <button onClick={handleRegister} className='buttonStyle' type='submit'>Register</button>
+                    <button onClick={handleRegister} className='loginBtn buttonStyle' type='submit'>Register</button>
                 </div>
 
                 <Link to="/login" className='para para2'>Already have an account?</Link>
             </div>
 
-            <div id='login-image'>
+            <div className='login-image'>
+            <img src={Gundam} alt="" />
             </div>
         </div>
     );

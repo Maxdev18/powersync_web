@@ -9,11 +9,11 @@ interface Device {
   battery: number;
   life: string;
   condition: string;
-  groupId: string;
+  groupID: string;
 }
 
 interface Group {
-  id: string;
+  _id: string;
   name: string;
   devices: Device[];
 }
@@ -27,26 +27,29 @@ function Dashboard() {
   useEffect(() => {
     async function fetchData() {
       try {
-        // Get user ID from localStorage
         const user = JSON.parse(localStorage.getItem("user") as string);
         if (user) {
-          // Fetch groups by user ID
           const groupsResponse = await GroupAPI.getAllGroups(user.id);
-          const groups = groupsResponse.data || []; // Ensure groups is an array
-          console.log("Fetched Groups:", groups); // Debugging log
+          const groups = groupsResponse.data || [];
+          console.log("Fetched Groups:", groups);
           localStorage.setItem("groups", JSON.stringify(groups));
           setGroups(groups);
-
-          // Fetch devices by group IDs
+  
           if (groups.length > 0) {
             const devicesResponse = await DeviceAPI.getDevicesByGroupIds(groups);
-            const devices = devicesResponse.data || []; // Ensure devices is an array
-            console.log("Fetched Devices:", devices); // Debugging log
+            const devices = devicesResponse.data || [];
+            console.log("Fetched Devices:", devices); // Check device structure here
+  
             const updatedGroups = groups.map((group: Group) => {
-              group.devices = devices.filter((device: Device) => device.groupId === group.id) || [];
-              return group;
+              const groupDevices = devices.filter((device: Device) => device.groupID === group._id);
+              console.log("Group Devices for", group.name, groupDevices); // Check filtered devices
+              return {
+                ...group,
+                devices: groupDevices
+              };
             });
-            console.log("Updated Groups with Devices:", updatedGroups); // Debugging log
+  
+            console.log("Updated Groups with Devices:", updatedGroups);
             setGroups(updatedGroups);
           }
         }
@@ -54,9 +57,12 @@ function Dashboard() {
         console.error("Error fetching data", error);
       }
     }
-
+  
     fetchData();
-  }, []); // Empty dependency array to run only once on mount
+  }, []);
+  
+
+  
 
   const handleExpandClick = (groupName: string) => {
     setExpandedGroup(expandedGroup === groupName ? null : groupName);
