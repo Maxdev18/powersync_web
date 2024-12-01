@@ -27,7 +27,8 @@ function Dashboard() {
   const [groups, setGroups] = useState<Group[]>([]);
   const [devicesData, setDevicesData] = useState<Devices[]>([]); // to store the devices from local storage
   const navigate = useNavigate();
-  function getBatteryColorClass(battery: number): string {
+
+  const getBatteryColorClass = (battery: number): string =>{
     if (battery > 50) return "green";
     if (battery > 25) return "yellow";
     return "red";
@@ -36,10 +37,8 @@ function Dashboard() {
     if (condition === "Good") return "green";
     if(condition === "OK") return "yellow";
     return "red";
-  
   };
   
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -82,7 +81,6 @@ function Dashboard() {
     return storedData ? JSON.parse(storedData) : null;
   };
 
-  //this will run when the component mounts
   useEffect(() => {
     getDevicesData() && setDevicesData(getDevicesData());//pass devices data
   }, [])
@@ -104,12 +102,10 @@ function Dashboard() {
         </div>
 
         <div className="mainContainer">
-
           <div className="locationConsumptionContainer">
             <div className="locationContainer">
               <p> MAP WILL GO HERE DUHHH</p>
             </div>
-
             <div className="consumptionContainer">
               <p className="bolderFont">Consumption</p>
               <PowerUsage devices={devicesData}/>
@@ -158,7 +154,6 @@ function Dashboard() {
             )}
           </div>
         </div>
-
       </div>
     </div>
   );
