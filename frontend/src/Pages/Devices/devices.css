@@ -1,110 +1,68 @@
-.dashboard {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(7, 1fr);
-  gap: 8px;
+*{
+  margin: 0%;
+  padding: 0%;
+  font-family: 'Inter', sans-serif;
+}
+
+.devicesPageContainer {
+  background-color: #EDFAFF;
   padding: 20px;
-  background-color: #ffffff;
-  height: 100vh; /* Ensure the dashboard takes the full height */
-  box-sizing: border-box; /* Include padding in height calculation */
-  font-family: "Arial", sans-serif;
+  overflow-y: auto;
+  height: 100vh; 
 }
 
-.location {
-  grid-column: 1 / span 4;
-  grid-row: 1 / span 3;
-  background-color: #f0f0f0;
+.devicesHeader{
+border: 1px solid black;
+display: flex;
+justify-content: space-between;
+margin: 10px;
 }
 
-.consumption {
-  grid-column: 1 / span 4;
-  grid-row: 4 / span 4;
-  background-color: #f0f0f0;
-  overflow-y: auto; /* Enable scrolling if content overflows */
+.iconsContainer{
+  display: flex;  
+  gap: 25px;
 }
 
-.groups {
-  grid-column: 5 / span 6;
-  grid-row: 1 / span 7;
-  background-color: #f0f0f0;
-  overflow-y: auto; /* Enable scrolling if content overflows */
+.bi{
+  font-size: 2.5rem;
 }
 
-.location,
-.consumption,
-.groups {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.bolderFont{
+  font-weight: 700;
+  font-size: 1.5rem;
 }
 
-h2 {
-  border-bottom: 2px solid #ececec;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  color: #333;
+.mainContainer{
+  display: flex;
+  gap: 30px;
+  margin: 10px;
 }
 
-.map-placeholder,
-.graph-placeholder {
-  background-color: #e0e0e0;
-  height: 200px;
+.locationConsumptionContainer{
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid red; */
+  width: 55%;
+  gap: 60px;
+}
+
+.locationContainer{
+  background-color: white;
+  width: 100%;
+  height: 40vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #555;
-  font-style: italic;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.group ul {
-  list-style: none;
-  padding: 0;
-}
-
-.group li {
-  margin-bottom: 15px;
-  background: #fafafa;
-  padding: 10px;
-  border-radius: 5px;
-  border-left: 5px solid #ccc;
-}
-
-p {
-  margin: 5px 0;
-}
-
-li {
-  cursor: pointer;
-}
-
-li:hover {
-  background-color: #f0f0f0; /* Highlight on hover */
-}
-
-.device-details {
-  background-color: #f9f9f9;
-  padding: 15px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
+.consumptionContainer h1{
   margin-bottom: 20px;
 }
-
-hr {
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 10px 0;
-}
-
-.battery-indicator.green {
-  border-left-color: #4caf50; /* Green for 100-50% */
-}
-
-.battery-indicator.yellow {
-  border-left-color: #ffeb3b; /* Yellow for 50-26% */
-}
-
-.battery-indicator.red {
-  border-left-color: #f44336; /* Red for 25-0% */
+.devicesContainer{
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid green;
 }
