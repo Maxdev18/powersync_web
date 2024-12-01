@@ -21,11 +21,6 @@ const Dashboard: React.FC = () => {
   // this will be for daily consumption
   const totalConsumption = devicesData.reduce((sum, device) => sum + device.wattage, 0);
 
-  // Top 5 biggest eaters in descending order
-  const biggestEaters = [...devicesData]
-    .sort((a, b) => b.wattage - a.wattage)
-    .slice(0, 5);
-
   const getBatteryClass = (battery: number) => {
     return battery < 25 ? 'low-battery' : 'high-battery';
   };
