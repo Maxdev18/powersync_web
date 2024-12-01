@@ -17,6 +17,9 @@ const Dashboard: React.FC = () => {
     data,
   } = useQuery("postsData", getData);
   const navigate = useNavigate();
+  const biggestEaters = [...devicesData]
+  .sort((a, b) => b.wattage - a.wattage)
+  .slice(0, 5);
 
   // this will be for daily consumption
   const totalConsumption = devicesData.reduce((sum, device) => sum + device.wattage, 0);
@@ -106,8 +109,7 @@ const Dashboard: React.FC = () => {
                   <h3>Biggest Eaters</h3>
                 </div>
                 <div className='biggestEaterItems'>
-                {data?.devices.sort((a: any, b: any) => b.wattage - a.wattage)
-                .slice(0, 5).map((device: Devices) => {
+                {biggestEaters.map((device: Devices) => {
                   return (
                     <Row className='BiggestEaterItem'> 
                       <Col sm={1}>
