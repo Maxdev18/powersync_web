@@ -25,7 +25,11 @@ function Dashboard() {
   const [groups, setGroups] = useState<Group[]>([]);
   const [devicesData, setDevicesData] = useState<Devices[]>([]); // to store the devices from local storage
   const navigate = useNavigate();
-
+  function getBatteryColorClass(battery: number): string {
+    if (battery > 50) return "green";
+    if (battery > 25) return "yellow";
+    return "red";
+  }
   useEffect(() => {
     async function fetchData() {
       try {
@@ -88,7 +92,7 @@ function Dashboard() {
     navigate("/dashboard/profile");
   };
 
-  return(
+  return (
     <div className="devicesPageContainer">
 
         <div className="devicesHeader">
@@ -113,7 +117,13 @@ function Dashboard() {
           </div>
 
           <div className="devicesContainer">
-
+            <div className="groupsHeader">
+              <h1>Groups</h1>
+              <div className="iconsContainer">
+              <i style={{color:"#12B8FF"}} className="bi bi-plus-square"></i>
+              <i style={{color:'#FFAC12'}} className="bi bi-pencil"></i>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -123,11 +133,6 @@ function Dashboard() {
   );
 }
 
-function getBatteryColorClass(battery: number): string {
-  if (battery > 50) return "green";
-  if (battery > 25) return "yellow";
-  return "red";
-}
 
 export default Dashboard;
 

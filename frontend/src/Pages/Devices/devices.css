@@ -12,7 +12,6 @@
 }
 
 .devicesHeader{
-border: 1px solid black;
 display: flex;
 justify-content: space-between;
 margin: 10px;
@@ -29,7 +28,7 @@ margin: 10px;
 
 .bolderFont{
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 .mainContainer{
@@ -41,9 +40,8 @@ margin: 10px;
 .locationConsumptionContainer{
   display: flex;
   flex-direction: column;
-  /* border: 1px solid red; */
   width: 55%;
-  gap: 60px;
+  gap: 50px;
 }
 
 .locationContainer{
@@ -54,7 +52,7 @@ margin: 10px;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .consumptionContainer h1{
@@ -64,5 +62,16 @@ margin: 10px;
   width: 45%;
   display: flex;
   flex-direction: column;
-  border: 1px solid green;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+.groupsHeader{
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+/* .iconsDevicesContainer{
+  display: flex;
+  gap: 25px;
+} */
