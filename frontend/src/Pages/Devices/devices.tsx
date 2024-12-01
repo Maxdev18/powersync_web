@@ -5,6 +5,7 @@ import { DeviceAPI } from '../../APIs/Devices';
 import { GroupAPI } from '../../APIs/Group';
 import {Devices} from '../../Types/Devices'
 import PowerUsage from "../../components/PowerUsage/powerUsage";
+import Accordion from 'react-bootstrap/Accordion';
 interface Device {
   name: string;
   batteryPercentage: number;
@@ -117,86 +118,51 @@ function Dashboard() {
           </div>
 
           <div className="devicesContainer">
-            <div className="groupsHeader">
-              <h1>Groups</h1>
-              <div className="iconsContainer">
+          <div className="groupsHeader">
+            <h1>Groups</h1>
+            <div className="iconsContainer">
               <i style={{color:"#12B8FF"}} className="bi bi-plus-square"></i>
               <i style={{color:'#FFAC12'}} className="bi bi-pencil"></i>
-              </div>
             </div>
           </div>
-
+          <div className="groupsContainer">
+            {groups.length > 0 ? (
+              <Accordion>
+                {groups.map((group, index) => (
+                  <Accordion.Item key={group._id} eventKey={group._id}>
+                    <Accordion.Header>
+                      {group.name} ({group.devices?.length || 0} devices)
+                    </Accordion.Header>
+                    <Accordion.Body>
+                      {group.devices && group.devices.length > 0 ? (
+                        group.devices.map((device, deviceIndex) => (
+                          <div key={deviceIndex}>
+                            <div className="item-header">
+                              <h4>{device.name}</h4>
+                            </div>
+                            <p>Battery: {device.batteryPercentage}%</p>
+                            <p>Estimated Life: {device.estimatedLife}</p>
+                            <p>Condition: {device.condition}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <p>No devices available in this group.</p>
+                      )}
+                    </Accordion.Body>
+                  </Accordion.Item>
+                ))}
+              </Accordion>
+            ) : (
+              <p>No groups available.</p>
+            )}
+          </div>
         </div>
-        
-    </div>
 
+      </div>
+    </div>
   );
 }
-
 
 export default Dashboard;
 
 
-
-//return (
-  //   <div className="dashboard">
-  //     <div className="location">
-  //       <h2>Location</h2>
-  //       <div className="map-placeholder">[Map will go here]</div>
-  //     </div>
-
-  //     <div className="consumption">
-  //       <h2>Consumption</h2>
-  //       {selectedDevice ? (
-  //         <div className="device-details">
-  //           <h3>{selectedDevice.name} Details</h3>
-  //           <p>Battery: {selectedDevice.batteryPercentage}%</p>
-  //           <p>Estimated Life: {selectedDevice.estimatedLife}</p>
-  //           <p>Condition: {selectedDevice.condition}</p>
-  //           {/* Add more details as needed */}
-  //         </div>
-  //       ) : (
-  //         <p>Select a device to see its details here.</p>
-  //       )}
-  //       <div className="graph-placeholder">[Graph will go here]</div>
-  //     </div>
-
-  //     <div className="groups">
-  //       <h2>Groups</h2>
-  //       <div className="groups-scroll">
-  //         {groups.length > 0 ? (
-  //           groups.map((group, index) => (
-  //             <div key={index} className={`group ${expandedGroup === group.name ? "expanded" : "collapsed"}`}>
-  //               <h3 onClick={() => handleExpandClick(group.name)}>
-  //                 {group.name} ({group.devices?.length || 0} devices) (Click to {expandedGroup === group.name ? "collapse" : "expand"})
-  //               </h3>
-  //               {expandedGroup !== group.name && (
-  //                 <div className="collapsed-info">
-  //                   <p>{group.devices?.length || 0} devices available</p>
-  //                 </div>
-  //               )}
-  //               {expandedGroup === group.name && (
-  //                 <ul>
-  //                   {group.devices.map((device: Device, deviceIndex: number) => (
-  //                     <li key={deviceIndex} className={`battery-indicator ${getBatteryColorClass(device.batteryPercentage)}`}>
-  //                       <div className="item-header">
-  //                         <h4 onClick={() => handleDeviceClick(device)}>{device.name}</h4>
-  //                       </div>
-  //                       <p>Battery: {device.batteryPercentage}%</p>
-  //                       <p>Estimated Life: {device.estimatedLife}</p>
-  //                       <p>Condition: {device.condition}</p>
-  //                       <button onClick={() => handleEditClick(device)}>Edit</button>
-  //                     </li>
-  //                   ))}
-  //                 </ul>
-  //               )}
-  //               {index < groups.length - 1 && <hr />}
-  //             </div>
-  //           ))
-  //         ) : (
-  //           <p>No groups available.</p>
-  //         )}
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
