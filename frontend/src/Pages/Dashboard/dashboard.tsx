@@ -9,6 +9,7 @@ import {Devices} from '../../Types/Devices'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { startDeviceSimulation } from '../../Simulation/simulation';
 
 const Dashboard: React.FC = () => {
   const [userData, setUserData] = useState({} as User); // to store the user data from local storage
@@ -57,11 +58,14 @@ const Dashboard: React.FC = () => {
       getData()
     }
 
-    console.log(devicesData)
     if(devicesData.length === 0) {
       getAllData()
     }
   }, [devicesData])
+
+  useEffect(() => {
+    // startDeviceSimulation()
+  }, [])
 
   const handleProfileClick = () => {
     navigate("/dashboard/profile");
