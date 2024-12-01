@@ -6,6 +6,9 @@ import { GroupAPI } from '../../APIs/Group';
 import {Devices} from '../../Types/Devices'
 import PowerUsage from "../../components/PowerUsage/powerUsage";
 import Accordion from 'react-bootstrap/Accordion';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 interface Device {
   name: string;
   batteryPercentage: number;
@@ -21,8 +24,6 @@ interface Group {
 }
 
 function Dashboard() {
-  const [expandedGroup, setExpandedGroup] = useState<string | null>(null);
-  const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
   const [groups, setGroups] = useState<Group[]>([]);
   const [devicesData, setDevicesData] = useState<Devices[]>([]); // to store the devices from local storage
   const navigate = useNavigate();
@@ -31,6 +32,14 @@ function Dashboard() {
     if (battery > 25) return "yellow";
     return "red";
   }
+  const getConditionColorClass = (condition: string): string => {
+    if (condition === "Good") return "green";
+    if(condition === "OK") return "yellow";
+    return "red";
+  
+  };
+  
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -78,17 +87,7 @@ function Dashboard() {
     getDevicesData() && setDevicesData(getDevicesData());//pass devices data
   }, [])
 
-  const handleExpandClick = (groupName: string) => {
-    setExpandedGroup(expandedGroup === groupName ? null : groupName);
-  };
-
-  const handleDeviceClick = (device: Device) => {
-    setSelectedDevice(device);
-  };
-
-  const handleEditClick = (device: Device) => {
-    navigate(`/editDevice?deviceName=${device.name}`);
-  };
+ 
   const handleProfileClick = () => {
     navigate("/dashboard/profile");
   };
@@ -128,7 +127,7 @@ function Dashboard() {
           <div className="groupsContainer">
             {groups.length > 0 ? (
               <Accordion>
-                {groups.map((group, index) => (
+                {groups.map((group) => (
                   <Accordion.Item key={group._id} eventKey={group._id}>
                     <Accordion.Header>
                       {group.name} ({group.devices?.length || 0} devices)
@@ -136,14 +135,16 @@ function Dashboard() {
                     <Accordion.Body>
                       {group.devices && group.devices.length > 0 ? (
                         group.devices.map((device, deviceIndex) => (
-                          <div key={deviceIndex}>
-                            <div className="item-header">
-                              <h4>{device.name}</h4>
-                            </div>
-                            <p>Battery: {device.batteryPercentage}%</p>
-                            <p>Estimated Life: {device.estimatedLife}</p>
-                            <p>Condition: {device.condition}</p>
-                          </div>
+                          <Container className="deviceContainer" key={deviceIndex}>
+                            <Row className="firstRow">
+                              <Col className="bolderFont" sm={8}>{device.name}</Col>
+                              <Col style={{fontWeight:"600",color:"light blue"}}>Estimated Life: {Math.ceil(parseFloat(device.estimatedLife))} days</Col>
+                            </Row>
+                            <Row className="secondRow">
+                              <Col className={getBatteryColorClass(device.batteryPercentage)} sm={8}>{device.batteryPercentage}%</Col>
+                              <Col className ={getConditionColorClass(device.condition)}>Condition: {device.condition}</Col>
+                            </Row>
+                          </Container>
                         ))
                       ) : (
                         <p>No devices available in this group.</p>
