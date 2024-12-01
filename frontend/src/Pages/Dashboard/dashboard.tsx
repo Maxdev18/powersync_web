@@ -21,6 +21,11 @@ const Dashboard: React.FC = () => {
   // this will be for daily consumption
   const totalConsumption = devicesData.reduce((sum, device) => sum + device.wattage, 0);
 
+  // Top 5 biggest eaters in descending order
+  const biggestEaters = [...devicesData]
+    .sort((a, b) => b.wattage - a.wattage)
+    .slice(0, 5);
+
   const getBatteryClass = (battery: number) => {
     return battery < 25 ? 'low-battery' : 'high-battery';
   };
@@ -74,11 +79,11 @@ const Dashboard: React.FC = () => {
             <p> {(new Date).toLocaleDateString()}</p>
           </div>
           <div className="icons-container">
-            <img
+            <img className='notification-icon'
               src={require("../../assets/notification-bell.png")}
               alt="Notification icon"          
             />
-            <img
+            <img className='profile-icon'
               src={require("../../assets/profile.png")}
               alt="Profile settings"    
               onClick={handleProfileClick}
