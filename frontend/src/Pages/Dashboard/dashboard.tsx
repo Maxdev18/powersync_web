@@ -64,7 +64,7 @@ const Dashboard: React.FC = () => {
   }, [devicesData])
 
   useEffect(() => {
-    // startDeviceSimulation()
+    startDeviceSimulation()
   }, [])
 
   const handleProfileClick = () => {
@@ -115,15 +115,16 @@ const Dashboard: React.FC = () => {
                 <div className='biggestEaterItems'>
                 {biggestEaters.map((device: Devices) => {
                   return (
-                    <Row className='BiggestEaterItem'> 
-                      <Col sm={1}>
-                      <div className='icon'>
-                        <i className="bi bi-lightning-charge"></i>
+                    <div className='BiggestEaterItem'> 
+                      <div className='icon-container'>
+                        <div className='icon'>
+                          <i className="bi bi-lightning-charge"></i>
+                        </div>
+                        <div>{device.name}</div>
                       </div>
-                      </Col>
-                      <Col sm={8}>{device.name}</Col>
-                      <Col className='wattage' sm={3} >{device.wattage.toFixed(2)} kWh</Col>
-                    </Row>
+                      
+                      <div className='wattage'>{device.wattage.toFixed(2)} kWh</div>
+                    </div>
                   )
                 })}
                 </div>
