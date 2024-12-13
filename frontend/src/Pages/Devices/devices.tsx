@@ -137,7 +137,7 @@ function Dashboard() {
                               <Col style={{fontWeight:"600",color:"light blue"}}>Estimated Life: {Math.ceil(parseFloat(device.estimatedLife))} days</Col>
                             </Row>
                             <Row className="secondRow">
-                              <Col className={getBatteryColorClass(device.batteryPercentage)} sm={8}>{device.batteryPercentage}%</Col>
+                              <Col className={getBatteryColorClass(device.batteryPercentage)} sm={6}>{device.batteryPercentage}%</Col>
                               <Col className ={getConditionColorClass(device.condition)}>Condition: {device.condition}</Col>
                             </Row>
                           </Container>
