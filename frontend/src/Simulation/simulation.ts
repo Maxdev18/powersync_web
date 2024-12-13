@@ -37,7 +37,7 @@ async function generateRandomDeviceData(): Promise<void> {
     }
   
     if (groups.length < 1) {
-      alert("No groups exist");
+      // alert("No groups exist");
     } else {
       const dbDevices = await DeviceAPI.getDevicesByGroupIds(groupIDs)
       localStorage.setItem("devices", JSON.stringify([...dbDevices.data]))
