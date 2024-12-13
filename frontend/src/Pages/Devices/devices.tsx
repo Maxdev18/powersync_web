@@ -184,7 +184,7 @@ function Dashboard() {
                           group.devices.map((device, deviceIndex) => (
                             <Container className="deviceContainer" key={deviceIndex}>
                               <Row className="firstRow">
-                                <Col className="bolderFont" sm={8}>
+                                <Col className="bolderFont" sm={6}>
                                   {device.name}
                                 </Col>
                                 <Col style={{ fontWeight: "600", color: "light blue" }}>
@@ -192,7 +192,7 @@ function Dashboard() {
                                 </Col>
                               </Row>
                               <Row className="secondRow">
-                                <Col className={getBatteryColorClass(device.batteryPercentage)} sm={8}>
+                                <Col className={getBatteryColorClass(device.batteryPercentage)} sm={6}>
                                   {device.batteryPercentage}%
                                 </Col>
                                 <Col className={getConditionColorClass(device.condition)}>
