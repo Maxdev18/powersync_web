@@ -11,6 +11,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { startDeviceSimulation } from '../../Simulation/simulation';
 
+let counter = 0;
+
 const Dashboard: React.FC = () => {
   const [userData, setUserData] = useState({} as User); // to store the user data from local storage
   const [devicesData, setDevicesData] = useState<Devices[]>([]); // to store the devices from local storage
@@ -58,8 +60,9 @@ const Dashboard: React.FC = () => {
       getData()
     }
 
-    if(devicesData.length === 0) {
+    if(devicesData.length === 0 && counter === 0) {
       getAllData()
+      counter = 1
     }
   }, [devicesData])
 

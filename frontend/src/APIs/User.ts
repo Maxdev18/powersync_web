@@ -18,7 +18,8 @@ export class UserAPI {
   static async register(credentials: User): Promise<Response> {
     return Axios.post('/api/v1/users/register-user', credentials)
       .then(res => {
-        localStorage.setItem("user", JSON.stringify(res.data.user))
+        localStorage.setItem("user", JSON.stringify(res.data.user._doc))
+        localStorage.setItem("groups", JSON.stringify([]))
         return { message: res.data.message, data: res.data.data, isError: false }
       })
       .catch(err => {

@@ -87,7 +87,7 @@ export class GroupService {
                 return;
             }
     
-            const newGroup = await Group.create({ name: group.name, numberOfDevices: 0, userID: group.userId });
+            const newGroup = await Group.create({ name: group.name, numberOfDevices: 0, userID: group.userID });
             res.status(201).json({ message: "Successfully created group", group: newGroup }).end();
         } catch (error) {
             console.error('Error during group creation:', error);
