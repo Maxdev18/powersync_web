@@ -133,7 +133,7 @@ function Dashboard() {
                         group.devices.map((device, deviceIndex) => (
                           <Container className="deviceContainer" key={deviceIndex}>
                             <Row className="firstRow">
-                              <Col className="bolderFont" sm={8}>{device.name}</Col>
+                              <Col className="bolderFont" sm={6}>{device.name}</Col>
                               <Col style={{fontWeight:"600",color:"light blue"}}>Estimated Life: {Math.ceil(parseFloat(device.estimatedLife))} days</Col>
                             </Row>
                             <Row className="secondRow">
