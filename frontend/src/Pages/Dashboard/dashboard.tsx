@@ -144,7 +144,7 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 <div className='devicesSectionItems'>
-                  {data?.devices.map((device: any, index: any) => (
+                  {data && data.devices.map((device: any, index: any) => (
                     <Row className='deviceItem' key={index}>
                       <Col>{device.name}</Col>
                       <Col>{device.groupName}</Col>

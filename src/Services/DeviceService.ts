@@ -97,10 +97,10 @@ export class DeviceService {
         res.setHeader('Content-Type', 'application/json')
         
         try{
-            const deviceDoc = await Device.findOne({_id: data._id})
+            const deviceDoc = await Device.findOne({_id: data.deviceID })
             //sees if device already is in the system
             if(!deviceDoc){
-                res.status(200).json({message: "Device " + data.deviceID + " doesn't exist"}).end()
+                res.status(404).json({message: "Device " + data.deviceID + " doesn't exist"}).end()
             } else {
                 deviceDoc.name = data.name
                 deviceDoc.type = data.type

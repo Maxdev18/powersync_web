@@ -47,14 +47,12 @@ function Dashboard() {
         if (user) {
           const groupsResponse = await GroupAPI.getAllGroups(user.id);
           const groups = groupsResponse.data || [];
-          console.log("Fetched Groups:", groups);
           localStorage.setItem("groups", JSON.stringify(groups));
           setGroups(groups);
 
           if (groups.length > 0) {
             const devicesResponse = await DeviceAPI.getDevicesByGroupIds(groups);
             const devices = devicesResponse.data || [];
-            console.log("Fetched Devices:", devices);
 
             const updatedGroups = groups.map((group: Group) => {
               const groupDevices = devices.filter((device: Device) => device.groupID === group._id);
@@ -65,7 +63,6 @@ function Dashboard() {
               };
             });
 
-            console.log("Updated Groups with Devices:", updatedGroups);
             setGroups(updatedGroups);
           }
         }
@@ -95,6 +92,10 @@ function Dashboard() {
     // Implement the logic to add a new device to the specified group
     console.log(`Add device to group ${groupId}`);
   };
+  
+  const handleEditClick = (device: Device) => {
+    navigate(`/editDevice?deviceName=${device.name}`);
+  };
 
   return (
     <div className="devicesPageContainer">
@@ -109,7 +110,7 @@ function Dashboard() {
         <div className="mainContainer">
           <div className="locationConsumptionContainer">
             <div className="locationContainer">
-              <p> MAP WILL GO HERE DUHHH</p>
+              <p> MAP WILL GO HERE</p>
             </div>
             <div className="consumptionContainer">
               <p className="bolderFont">Consumption</p>
