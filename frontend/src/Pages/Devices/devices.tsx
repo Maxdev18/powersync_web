@@ -46,14 +46,12 @@ function Dashboard() {
         if (user) {
           const groupsResponse = await GroupAPI.getAllGroups(user.id);
           const groups = groupsResponse.data || [];
-          console.log("Fetched Groups:", groups);
           localStorage.setItem("groups", JSON.stringify(groups));
           setGroups(groups);
 
           if (groups.length > 0) {
             const devicesResponse = await DeviceAPI.getDevicesByGroupIds(groups);
             const devices = devicesResponse.data || [];
-            console.log("Fetched Devices:", devices);
 
             const updatedGroups = groups.map((group: Group) => {
               const groupDevices = devices.filter((device: Device) => device.groupID === group._id);
@@ -64,7 +62,6 @@ function Dashboard() {
               };
             });
 
-            console.log("Updated Groups with Devices:", updatedGroups);
             setGroups(updatedGroups);
           }
         }
@@ -90,9 +87,12 @@ function Dashboard() {
     navigate("/dashboard/profile");
   };
 
+  const handleEditClick = (device: Device) => {
+    navigate(`/editDevice?deviceName=${device.name}`);
+  };
+
   return (
     <div className="devicesPageContainer">
-
         <div className="devicesHeader">
           <p className="bolderFont">Location</p>
           <div className="iconsContainer">
@@ -131,7 +131,7 @@ function Dashboard() {
                     <Accordion.Body>
                       {group.devices && group.devices.length > 0 ? (
                         group.devices.map((device, deviceIndex) => (
-                          <Container className="deviceContainer" key={deviceIndex}>
+                          <Container className="deviceContainer" key={deviceIndex} onClick={() => handleEditClick(device)}>
                             <Row className="firstRow">
                               <Col className="bolderFont" sm={6}>{device.name}</Col>
                               <Col style={{fontWeight:"600",color:"light blue"}}>Estimated Life: {Math.ceil(parseFloat(device.estimatedLife))} days</Col>
