@@ -128,7 +128,8 @@ export class DeviceService {
     }
 
     async deleteDevice(req: Request, res: Response): Promise<void> {
-        const data = req.body;
+        const data = req.query;
+        console.log(data);
         res.setHeader('Content-Type', 'application/json');
         try {
             const deviceDoc = await Device.findOne({ _id: data.deviceID });

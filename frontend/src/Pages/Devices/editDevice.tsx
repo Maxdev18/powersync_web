@@ -9,6 +9,7 @@ import { Devices } from '../../Types/Devices';
 const EditDevice: React.FC = () => {
     const [device, setDevice] = useState({
         name: '',
+        _id: '',
         newName: '',
         group: '',
         type: '',
@@ -71,6 +72,7 @@ const EditDevice: React.FC = () => {
             if (selectedDevice) {
                 setDevice({
                     name: selectedDevice.name,
+                    _id: '',
                     newName: '', // Reset the newName field when switching devices
                     group: groups.find((g) => g._id === selectedDevice.groupID)?.name || '',
                     type: selectedDevice.type || '',
@@ -100,6 +102,7 @@ const EditDevice: React.FC = () => {
             if (selectedDevice) {
                 setDevice({
                     name: selectedDevice.name,
+                    _id: selectedDevice._id,
                     newName: '', // Reset the newName field when switching devices
                     group: groups.find((g) => g._id === selectedDevice.groupID)?.name || '',
                     type: selectedDevice.type || '',
@@ -180,12 +183,8 @@ const EditDevice: React.FC = () => {
     const handleConfirmDelete = async () => {
         setShowPopup(false);
         try {
-            const selectedDevice = devices.find((dev) => dev.name === device.name);
-            if (!selectedDevice) {
-                alert('Device not found.');
-                return;
-            }
-            const deleteResponse = await DeviceAPI.deleteDevice(selectedDevice._id);
+            console.log(device)
+            const deleteResponse = await DeviceAPI.deleteDevice(device as unknown as Devices);
             if (deleteResponse.isError) {
                 alert('Error deleting device: ' + deleteResponse.message);
             } else {
@@ -193,6 +192,7 @@ const EditDevice: React.FC = () => {
                 // Optional: Redirect or clear the form after deletion
                 setDevice({
                     name: '',
+                    _id: '',
                     newName: '',
                     group: '',
                     type: '',
@@ -215,6 +215,7 @@ const EditDevice: React.FC = () => {
             alert('Error deleting device.');
         }
     };
+    
     
 
     const handleCancel = () => {

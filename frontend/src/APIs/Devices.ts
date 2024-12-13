@@ -28,7 +28,8 @@ export class DeviceAPI {
     }
 
     static async deleteDevice(device: Devices): Promise<Response> {
-        return Axios.delete('/api/v1/devices/delete-device')
+        console.log(device._id)
+        return Axios.delete('/api/v1/devices/delete-device', {params: {deviceID:device._id}})
           .then(res => {
             return { message: res.data.message, data: res.data.data, isError: false }
           })
@@ -152,7 +153,7 @@ export class DeviceAPI {
           })
       }
       static async getDeviceByName(device: Devices): Promise<Response> {
-        return Axios.get('/api/v1/devices/get-device-by-name')
+        return Axios.get('/api/v1/devices/get-device-by-name', {params: {deviceid:device.name}})
           .then(res => {
             return { message: res.data.message, data: res.data.data, isError: false }
           })
