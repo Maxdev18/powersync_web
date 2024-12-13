@@ -42,15 +42,15 @@ export const ProfilePage: React.FC = () => {
         <div className="profile-header-container">
             <h1>Profile</h1>
             <div className="icons-container">
-            <img
-                src={require("../../assets/notification-bell.png")}
-                alt="Notification icon"
-                onClick={handleNotificationClick} />
-
+            <img className='notification-icon'
+              src={require("../../assets/notification-bell.png")}
+              alt="Notification icon"          
+            />
             <a href="/dashboard/profile">
-                <img
-                    src={require("../../assets/profile.png")}
-                    alt="Profile settings" />
+                <img className='profile-icon'
+                src={require("../../assets/profile.png")}
+                alt="Profile settings"    
+                />
             </a>
             </div>
         </div>

@@ -41,7 +41,8 @@ body {
 }
 
 .notification-icon, .profile-icon {
-  font-size: 25px; 
+  width: 25px;
+  height: 25px;
 }
 
 .main-content {
@@ -90,6 +91,7 @@ body {
 
 .biggestEaters {
   display: flex;
+  overflow-y: hidden;
   flex-direction: column;
   background-color: #333;
   border-radius: 10px;
@@ -113,7 +115,7 @@ body {
   border: 1px solid #333;
   border-color: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 10px !important;
   font-weight: 600;
   background-color: #f4f3f3;
   display: flex;
@@ -180,7 +182,7 @@ body {
   border: 1px solid #333;
   border-color: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 10px !important;
   font-weight: 600;
   background-color: #f4f3f3;
 }

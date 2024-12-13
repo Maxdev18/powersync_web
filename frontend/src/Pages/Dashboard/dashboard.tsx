@@ -113,9 +113,9 @@ const Dashboard: React.FC = () => {
                   <h3>Biggest Eaters</h3>
                 </div>
                 <div className='biggestEaterItems'>
-                {biggestEaters.map((device: Devices) => {
+                {biggestEaters.map((device: Devices, i) => {
                   return (
-                    <div className='BiggestEaterItem'> 
+                    <div className='BiggestEaterItem' key={i}> 
                       <div className='icon-container'>
                         <div className='icon'>
                           <i className="bi bi-lightning-charge"></i>
