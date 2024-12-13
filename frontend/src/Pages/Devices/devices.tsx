@@ -151,7 +151,7 @@ function Dashboard() {
         <div className="mainContainer">
           <div className="locationConsumptionContainer">
             <div className="locationContainer">
-              <p> MAP WILL GO HERE DUHHH</p>
+              <p> MAP WILL GO HERE</p>
             </div>
             <div className="consumptionContainer">
               <p className="bolderFont">Consumption</p>
