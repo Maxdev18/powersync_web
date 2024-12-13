@@ -34,8 +34,8 @@ function Dashboard() {
     return "red";
   }
   const getConditionColorClass = (condition: string): string => {
-    if (condition === "Good") return "green";
-    if(condition === "OK") return "yellow";
+    if (condition === "Good" || condition === "Great") return "green";
+    if(condition === "OK" || condition === "Average") return "yellow";
     return "red";
   };
   
