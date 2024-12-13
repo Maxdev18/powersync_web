@@ -47,12 +47,14 @@ function Dashboard() {
         if (user) {
           const groupsResponse = await GroupAPI.getAllGroups(user.id);
           const groups = groupsResponse.data || [];
+          console.log("Fetched Groups:", groups);
           localStorage.setItem("groups", JSON.stringify(groups));
           setGroups(groups);
 
           if (groups.length > 0) {
             const devicesResponse = await DeviceAPI.getDevicesByGroupIds(groups);
             const devices = devicesResponse.data || [];
+            console.log("Fetched Devices:", devices);
 
             const updatedGroups = groups.map((group: Group) => {
               const groupDevices = devices.filter((device: Device) => device.groupID === group._id);
@@ -63,6 +65,7 @@ function Dashboard() {
               };
             });
 
+            console.log("Updated Groups with Devices:", updatedGroups);
             setGroups(updatedGroups);
           }
         }
@@ -89,12 +92,13 @@ function Dashboard() {
   };
 
   const handleAddDeviceClick = (groupId: string) => {
-    // Implement the logic to add a new device to the specified group
+    navigate("/addDevice");
     console.log(`Add device to group ${groupId}`);
   };
-  
-  const handleEditClick = (device: Device) => {
-    navigate(`/editDevice?deviceName=${device.name}`);
+
+  const handleDeviceOptionsClick = (deviceId: string) => {
+    navigate("/editDevice");
+    console.log(`Options clicked for device ${deviceId}`);
   };
 
   return (
@@ -110,7 +114,7 @@ function Dashboard() {
         <div className="mainContainer">
           <div className="locationConsumptionContainer">
             <div className="locationContainer">
-              <p> MAP WILL GO HERE</p>
+              <p> MAP WILL GO HERE DUHHH</p>
             </div>
             <div className="consumptionContainer">
               <p className="bolderFont">Consumption</p>
@@ -146,7 +150,7 @@ function Dashboard() {
                                 <Col className={getBatteryColorClass(device.batteryPercentage)} sm={8}>{device.batteryPercentage}%</Col>
                                 <Col className ={getConditionColorClass(device.condition)}>Condition: {device.condition}</Col>
                                 <Col className="deviceButton" sm={1}>
-                                  <button className="deviceButton"><i className="bi bi-three-dots-vertical"></i></button>
+                                  <button className="deviceButton" onClick={() => handleDeviceOptionsClick(device.name)}><i className="bi bi-three-dots-vertical"></i></button>
                                 </Col>
                               </Row>
                             </Container>
