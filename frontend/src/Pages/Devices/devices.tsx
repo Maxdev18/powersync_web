@@ -1,14 +1,15 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./devices.css";
 import { useNavigate } from 'react-router-dom';
 import { DeviceAPI } from '../../APIs/Devices';
 import { GroupAPI } from '../../APIs/Group';
-import {Devices} from '../../Types/Devices'
+import { Devices } from '../../Types/Devices';
 import PowerUsage from "../../components/PowerUsage/powerUsage";
 import Accordion from 'react-bootstrap/Accordion';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+
 interface Device {
   name: string;
   batteryPercentage: number;
@@ -35,7 +36,7 @@ function Dashboard() {
   }
   const getConditionColorClass = (condition: string): string => {
     if (condition === "Good" || condition === "Great") return "green";
-    if(condition === "OK" || condition === "Average") return "yellow";
+    if (condition === "OK" || condition === "Average") return "yellow";
     return "red";
   };
   
@@ -90,9 +91,13 @@ function Dashboard() {
     navigate("/dashboard/profile");
   };
 
+  const handleAddDeviceClick = (groupId: string) => {
+    // Implement the logic to add a new device to the specified group
+    console.log(`Add device to group ${groupId}`);
+  };
+
   return (
     <div className="devicesPageContainer">
-
         <div className="devicesHeader">
           <p className="bolderFont">Location</p>
           <div className="iconsContainer">
@@ -113,52 +118,56 @@ function Dashboard() {
           </div>
 
           <div className="devicesContainer">
-          <div className="groupsHeader">
-            <h1>Groups</h1>
-            <div className="iconsContainer">
-              <i style={{color:"#12B8FF"}} className="bi bi-plus-square"></i>
-              <i style={{color:'#FFAC12'}} className="bi bi-pencil"></i>
+            <div className="groupsHeader">
+              <h1>Groups</h1>
+              <div className="iconsContainer">
+                <i style={{color:"#12B8FF"}} className="bi bi-plus-square"></i>
+                <i style={{color:'#FFAC12'}} className="bi bi-pencil"></i>
+              </div>
             </div>
-          </div>
-          <div className="groupsContainer">
-            {groups.length > 0 ? (
-              <Accordion>
-                {groups.map((group) => (
-                  <Accordion.Item key={group._id} eventKey={group._id}>
-                    <Accordion.Header>
-                      {group.name} ({group.devices?.length || 0} devices)
-                    </Accordion.Header>
-                    <Accordion.Body>
-                      {group.devices && group.devices.length > 0 ? (
-                        group.devices.map((device, deviceIndex) => (
-                          <Container className="deviceContainer" key={deviceIndex}>
-                            <Row className="firstRow">
-                              <Col className="bolderFont" sm={6}>{device.name}</Col>
-                              <Col style={{fontWeight:"600",color:"light blue"}}>Estimated Life: {Math.ceil(parseFloat(device.estimatedLife))} days</Col>
-                            </Row>
-                            <Row className="secondRow">
-                              <Col className={getBatteryColorClass(device.batteryPercentage)} sm={8}>{device.batteryPercentage}%</Col>
-                              <Col className ={getConditionColorClass(device.condition)}>Condition: {device.condition}</Col>
-                            </Row>
-                          </Container>
-                        ))
-                      ) : (
-                        <p>No devices available in this group.</p>
-                      )}
-                    </Accordion.Body>
-                  </Accordion.Item>
-                ))}
-              </Accordion>
-            ) : (
-              <p>No groups available.</p>
-            )}
+            <div className="groupsContainer">
+              {groups.length > 0 ? (
+                <Accordion>
+                  {groups.map((group) => (
+                    <Accordion.Item key={group._id} eventKey={group._id}>
+                      <Accordion.Header>
+                        {group.name} ({group.devices?.length || 0} devices)
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        {group.devices && group.devices.length > 0 ? (
+                          group.devices.map((device, deviceIndex) => (
+                            <Container className="deviceContainer" key={deviceIndex}>
+                              <Row className="firstRow">
+                                <Col className="bolderFont" sm={8}>{device.name}</Col>
+                                <Col style={{fontWeight:"600",color:"light blue"}}>Estimated Life: {Math.ceil(parseFloat(device.estimatedLife))} days</Col>
+                              </Row>
+                              <Row className="secondRow">
+                                <Col className={getBatteryColorClass(device.batteryPercentage)} sm={8}>{device.batteryPercentage}%</Col>
+                                <Col className ={getConditionColorClass(device.condition)}>Condition: {device.condition}</Col>
+                                <Col className="deviceButton" sm={1}>
+                                  <button className="deviceButton"><i className="bi bi-three-dots-vertical"></i></button>
+                                </Col>
+                              </Row>
+                            </Container>
+                          ))
+                        ) : (
+                          <p>No devices available in this group.</p>
+                        )}
+                        <button className="addDeviceButton" onClick={() => handleAddDeviceClick(group._id)}>
+                          Add Device
+                        </button>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  ))}
+                </Accordion>
+              ) : (
+                <p>No groups available.</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }
 
 export default Dashboard;
-
-

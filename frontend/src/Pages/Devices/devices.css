@@ -112,3 +112,33 @@ i:hover{
   cursor: pointer;
 }
 
+.deviceButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: gray;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.deviceButton:hover {
+  color: darkgray;
+}
+
+.addDeviceButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0 0 20px 20px;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.addDeviceButton:hover {
+  background-color: #0056b3;
+}
