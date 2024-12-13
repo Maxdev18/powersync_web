@@ -9,6 +9,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Modal, Button, Form } from 'react-bootstrap'; // Import modal components
 
 interface Device {
   name: string;
@@ -27,13 +28,16 @@ interface Group {
 function Dashboard() {
   const [groups, setGroups] = useState<Group[]>([]);
   const [devicesData, setDevicesData] = useState<Devices[]>([]); // to store the devices from local storage
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
+  const [groupName, setGroupName] = useState(''); // State to store the new group name
   const navigate = useNavigate();
 
-  const getBatteryColorClass = (battery: number): string =>{
+  const getBatteryColorClass = (battery: number): string => {
     if (battery > 50) return "green";
     if (battery > 25) return "yellow";
     return "red";
-  }
+  };
+  
   const getConditionColorClass = (condition: string): string => {
     if (condition === "Good" || condition === "Great") return "green";
     if (condition === "OK" || condition === "Average") return "yellow";
@@ -58,7 +62,6 @@ function Dashboard() {
 
             const updatedGroups = groups.map((group: Group) => {
               const groupDevices = devices.filter((device: Device) => device.groupID === group._id);
-              console.log("Group Devices for", group.name, groupDevices);
               return {
                 ...group,
                 devices: groupDevices
@@ -83,10 +86,9 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    getDevicesData() && setDevicesData(getDevicesData());//pass devices data
-  }, [])
+    getDevicesData() && setDevicesData(getDevicesData()); //pass devices data
+  }, []);
 
- 
   const handleProfileClick = () => {
     navigate("/dashboard/profile");
   };
@@ -99,6 +101,41 @@ function Dashboard() {
   const handleDeviceOptionsClick = (deviceId: string) => {
     navigate("/editDevice");
     console.log(`Options clicked for device ${deviceId}`);
+  };
+
+  // Handle the opening and closing of the modal
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleGroupNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGroupName(e.target.value);
+  };
+
+  // Handle the form submission to create a new group
+  const handleCreateGroup = async () => {
+    try {
+      if (!groupName) {
+        alert("Please enter a valid group name.");
+        return;
+      }
+
+      // Send request to create a new group in the backend
+      const user = JSON.parse(localStorage.getItem("user") as string);
+      if (user) {
+        const response = await GroupAPI.createGroup({
+          name: groupName,
+          userID: user.id,
+          numberOfDevices: 0
+        });
+
+        const newGroup = response.data;
+        setGroups([...groups, newGroup]); // Add the new group to the local state
+        localStorage.setItem("groups", JSON.stringify([...groups, newGroup])); // Update localStorage
+        handleCloseModal(); // Close the modal after creation
+      }
+    } catch (error) {
+      console.error("Error creating group", error);
+    }
   };
 
   return (
@@ -118,7 +155,7 @@ function Dashboard() {
             </div>
             <div className="consumptionContainer">
               <p className="bolderFont">Consumption</p>
-              <PowerUsage devices={devicesData}/>
+              <PowerUsage devices={devicesData} />
             </div>
           </div>
 
@@ -126,8 +163,12 @@ function Dashboard() {
             <div className="groupsHeader">
               <h1>Groups</h1>
               <div className="iconsContainer">
-                <i style={{color:"#12B8FF"}} className="bi bi-plus-square"></i>
-                <i style={{color:'#FFAC12'}} className="bi bi-pencil"></i>
+                <i
+                  style={{ color: "#12B8FF" }}
+                  className="bi bi-plus-square"
+                  onClick={handleShowModal} // Open modal when the button is clicked
+                ></i>
+                <i style={{ color: '#FFAC12' }} className="bi bi-pencil"></i>
               </div>
             </div>
             <div className="groupsContainer">
@@ -143,12 +184,20 @@ function Dashboard() {
                           group.devices.map((device, deviceIndex) => (
                             <Container className="deviceContainer" key={deviceIndex}>
                               <Row className="firstRow">
-                                <Col className="bolderFont" sm={8}>{device.name}</Col>
-                                <Col style={{fontWeight:"600",color:"light blue"}}>Estimated Life: {Math.ceil(parseFloat(device.estimatedLife))} days</Col>
+                                <Col className="bolderFont" sm={8}>
+                                  {device.name}
+                                </Col>
+                                <Col style={{ fontWeight: "600", color: "light blue" }}>
+                                  Estimated Life: {Math.ceil(parseFloat(device.estimatedLife))} days
+                                </Col>
                               </Row>
                               <Row className="secondRow">
-                                <Col className={getBatteryColorClass(device.batteryPercentage)} sm={8}>{device.batteryPercentage}%</Col>
-                                <Col className ={getConditionColorClass(device.condition)}>Condition: {device.condition}</Col>
+                                <Col className={getBatteryColorClass(device.batteryPercentage)} sm={8}>
+                                  {device.batteryPercentage}%
+                                </Col>
+                                <Col className={getConditionColorClass(device.condition)}>
+                                  Condition: {device.condition}
+                                </Col>
                                 <Col className="deviceButton" sm={1}>
                                   <button className="deviceButton" onClick={() => handleDeviceOptionsClick(device.name)}><i className="bi bi-three-dots-vertical"></i></button>
                                 </Col>
@@ -171,6 +220,34 @@ function Dashboard() {
             </div>
           </div>
         </div>
+
+        {/* Modal for adding new group */}
+        <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Create a New Group</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group className="mb-3" controlId="formGroupName">
+                <Form.Label>Group Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter group name"
+                  value={groupName}
+                  onChange={handleGroupNameChange}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleCreateGroup}>
+              Create Group
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
   );
 }
