@@ -3,6 +3,8 @@ import './editDevice.css';
 import { GroupAPI } from '../../APIs/Group';
 import { DeviceAPI } from '../../APIs/Devices';
 import { useLocation } from 'react-router-dom';
+import { Devices } from '../../Types/Devices'; 
+
 
 const EditDevice: React.FC = () => {
     const [device, setDevice] = useState({
@@ -27,6 +29,7 @@ const EditDevice: React.FC = () => {
     const [devices, setDevices] = useState<{ name: string; _id: string; groupID: string; [key: string]: any }[]>([]);
     const [groups, setGroups] = useState<{ name: string; _id: string }[]>([]);
     const [loading, setLoading] = useState(true);
+    const [showPopup, setShowPopup] = useState(false); // For the popup
 
     const location = useLocation();
 
@@ -170,6 +173,54 @@ const EditDevice: React.FC = () => {
         }
     };
 
+    const handleDelete = () => {
+        setShowPopup(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        setShowPopup(false);
+        try {
+            const selectedDevice = devices.find((dev) => dev.name === device.name);
+            if (!selectedDevice) {
+                alert('Device not found.');
+                return;
+            }
+            const deleteResponse = await DeviceAPI.deleteDevice(selectedDevice._id);
+            if (deleteResponse.isError) {
+                alert('Error deleting device: ' + deleteResponse.message);
+            } else {
+                alert('Device deleted successfully!');
+                // Optional: Redirect or clear the form after deletion
+                setDevice({
+                    name: '',
+                    newName: '',
+                    group: '',
+                    type: '',
+                    serialNumber: '',
+                    cycles: '',
+                    condition: 'Good',
+                    notes: '',
+                    batteryPercentage: 0,
+                    wattage: 0,
+                    estimatedLife: 0,
+                    estimatedCost: 0,
+                    location: {
+                        longitude: 0,
+                        latitude: 0,
+                    },
+                });
+            }
+        } catch (error) {
+            console.error('Error deleting device:', error);
+            alert('Error deleting device.');
+        }
+    };
+    
+
+    const handleCancel = () => {
+        setShowPopup(false);
+    };
+
     return (
         <div className="edit-device-container">
             <div className="header">
@@ -266,7 +317,21 @@ const EditDevice: React.FC = () => {
                 <button type="button" className="save-button" onClick={handleSave}>
                     Save
                 </button>
+
+                <button type="button" className="delete-button" onClick={handleDelete}>
+                    Delete
+                </button>
             </form>
+
+            {showPopup && (
+                <div className="popup">
+                    <p>Are you sure?</p>
+                    <div className="popup-buttons">
+                        <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+                        <button className="confirm-button" onClick={handleConfirmDelete}>Yes</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
