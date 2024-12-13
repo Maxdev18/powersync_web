@@ -17,6 +17,10 @@ export const startDeviceSimulation = (): void => {
 
 async function generateRandomDeviceData(): Promise<void> {
   const groups: Group[] = JSON.parse(localStorage.getItem("groups") as string)
+
+  if(groups.length > 0) {
+
+  }
   const groupIDs: any = groups.map(group => group._id)
   const devices: Response = await DeviceAPI.getDevicesByGroupIds(groupIDs)
   const updatedDevices: Devices[] = []
