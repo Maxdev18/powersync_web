@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {UserAPI} from '../APIs/User'
 import {User} from '../Types/User'
 import { Response } from '../Types/Response';
-import Gundam from '../assets/gundam.avif';
+import Gundam from '../assets/coolRobot.jpg';
 
 const LoginPage = () => {
     const navigate = useNavigate(); // to navigate to dashboard page if login is successful
