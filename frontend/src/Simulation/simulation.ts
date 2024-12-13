@@ -21,24 +21,26 @@ async function generateRandomDeviceData(): Promise<void> {
   const devices: Response = await DeviceAPI.getDevicesByGroupIds(groupIDs)
   const updatedDevices: Devices[] = []
 
-  for(let i = 0; i < devices.data.length; i++) {
-    const device: Devices = devices.data[i]
-    const randomBatteryPercentage = Math.ceil(Math.random() * 100)
-
-    device.batteryPercentage = randomBatteryPercentage
-    device.cycles = Math.ceil(Math.random() * 500)
-    device.wattage = Number((Math.random() * 10).toFixed(2))
-    device.estimatedCost = Number((device.wattage * .18).toFixed(2))
-    device.estimatedLife = Number((Math.random() * 1000).toFixed(2))
-
-    await DeviceAPI.updateDevice(device)
-    updatedDevices.push(device)
-  }
-
-  if (groups.length < 1) {
-    alert("No groups exist");
-  } else {
-    const dbDevices = await DeviceAPI.getDevicesByGroupIds(groupIDs)
-    localStorage.setItem("devices", JSON.stringify([...dbDevices.data]))
+  if(devices.data !== undefined) {
+    for(let i = 0; i < devices.data.length; i++) {
+      const device: Devices = devices.data[i]
+      const randomBatteryPercentage = Math.ceil(Math.random() * 100)
+  
+      device.batteryPercentage = randomBatteryPercentage
+      device.cycles = Math.ceil(Math.random() * 500)
+      device.wattage = Number((Math.random() * 10).toFixed(2))
+      device.estimatedCost = Number((device.wattage * .18).toFixed(2))
+      device.estimatedLife = Number((Math.random() * 1000).toFixed(2))
+  
+      await DeviceAPI.updateDevice(device)
+      updatedDevices.push(device)
+    }
+  
+    if (groups.length < 1) {
+      alert("No groups exist");
+    } else {
+      const dbDevices = await DeviceAPI.getDevicesByGroupIds(groupIDs)
+      localStorage.setItem("devices", JSON.stringify([...dbDevices.data]))
+    }
   }
 }
