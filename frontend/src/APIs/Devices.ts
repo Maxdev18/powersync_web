@@ -5,25 +5,28 @@ import { Group } from '../Types/Group'
 
 export class DeviceAPI {
     static async createDevice(device: Devices): Promise<Response> {
-        return Axios.post('/api/v1/devices/create-device', device)
-          .then(res => {
-            return { message: res.data.message, data: res.data.data, isError: false }
-          })
-          .catch(err => {
-            console.log(err)
-            return { message: "Something went wrong", isError: true }
-          })
-      }
+      return Axios.post('/api/v1/devices/create-device', device)
+        .then(res => {
+          return { message: res.data.message, data: res.data.data, isError: false }
+        })
+        .catch(err => {
+          console.log(err)
+          return { message: "Something went wrong", isError: true }
+        })
+    }
+
     static async updateDevice(device: Devices): Promise<Response> {
-        return Axios.put('/api/v1/devices/update-device', device)
-          .then(res => {
-            return { message: res.data.message, data: res.data.data, isError: false }
-          })
-          .catch(err => {
-            console.log(err)
-            return { message: "Something went wrong", isError: true }
-          })
-      }
+      console.log("New updated device: ", device)
+      return Axios.put('/api/v1/devices/update-device', device)
+        .then(res => {
+          return { message: res.data.message, data: res.data.data, isError: false }
+        })
+        .catch(err => {
+          console.log(err)
+          return { message: "Something went wrong", isError: true }
+        })
+    }
+
     static async deleteDevice(device: Devices): Promise<Response> {
         return Axios.delete('/api/v1/devices/delete-device')
           .then(res => {
