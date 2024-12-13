@@ -22,21 +22,29 @@ export class GroupService {
         }
     }
 
-    async deleteGroup(req: Request, res: Response) {
-        const { name } = req.body; //Get the group name from the request body
+    async deleteGroup(req: Request, res: Response): Promise<void> {
+        const {groupId } = req.query;  // Get the group ID from the request body
+    
+   
+    
         res.setHeader('Content-Type', 'application/json');
         try {
-            const deletedGroup = await Group.findOneAndDelete({ name });
+            // Use _id for deletion (ensure _id is a valid ObjectId)
+            const deletedGroup = await Group.findByIdAndDelete(groupId);
+    
             if (deletedGroup) {
+                // Successfully deleted the group
                 res.status(200).json({ message: "Successfully deleted group", group: deletedGroup }).end();
             } else {
+                // Group not found
                 res.status(404).json({ message: "Group not found" }).end();
             }
         } catch (error) {
-            console.log(error);
+            console.log("Error deleting group:", error);
             res.status(500).json({ message: "Internal server error" }).end();
         }
     }
+    
 
     async getGroup(req: Request, res: Response) {
         const { name } = req.body; //Getting the group name from the request body

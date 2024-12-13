@@ -185,6 +185,11 @@ const EditDevice: React.FC = () => {
         try {
             console.log(device)
             const deleteResponse = await DeviceAPI.deleteDevice(device as unknown as Devices);
+            const selectedDevice = devices.find((dev) => dev.name === device.name);
+            if (!selectedDevice) {
+                alert('Device not found.');
+                return;
+            }
             if (deleteResponse.isError) {
                 alert('Error deleting device: ' + deleteResponse.message);
             } else {

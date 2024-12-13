@@ -26,10 +26,11 @@ interface Group {
 }
 
 function Dashboard() {
-  const [groups, setGroups] = useState<Group[]>([]);
+  const [groups, setGroups] = useState<Group[]>([]); // State to store groups
   const [devicesData, setDevicesData] = useState<Devices[]>([]); // to store the devices from local storage
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const [groupName, setGroupName] = useState(''); // State to store the new group name
+  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null); // State to track the selected group
   const navigate = useNavigate();
 
   const getBatteryColorClass = (battery: number): string => {
@@ -37,13 +38,13 @@ function Dashboard() {
     if (battery > 25) return "yellow";
     return "red";
   };
-  
+
   const getConditionColorClass = (condition: string): string => {
     if (condition === "Good" || condition === "Great") return "green";
     if (condition === "OK" || condition === "Average") return "yellow";
     return "red";
   };
-  
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -80,7 +81,7 @@ function Dashboard() {
     fetchData();
   }, []);
 
-  const getDevicesData = () => { 
+  const getDevicesData = () => {
     const storedData = localStorage.getItem('devices');
     return storedData ? JSON.parse(storedData) : null;
   };
@@ -138,117 +139,152 @@ function Dashboard() {
     }
   };
 
+  // Handle deleting a group
+  const handleDeleteGroup = async (groupId: string) => {
+    try {
+      const response = await GroupAPI.deleteGroup(groupId); // Call API to delete the group
+      if (!response.isError) {
+        // Remove the deleted group from the state
+        setGroups(groups.filter(group => group._id !== groupId));
+        localStorage.setItem("groups", JSON.stringify(groups.filter(group => group._id !== groupId)));
+        setSelectedGroupId(null); // Reset the selected group after deletion
+      }
+    } catch (error) {
+      console.error("Error deleting group", error);
+    }
+  };
+
+  // Handle selecting a group
+  const handleSelectGroup = (groupId: string) => {
+    setSelectedGroupId(groupId === selectedGroupId ? null : groupId); // Toggle group selection
+  };
+
   return (
     <div className="devicesPageContainer">
-        <div className="devicesHeader">
-          <p className="bolderFont">Location</p>
-          <div className="iconsContainer">
-            <i className="bi bi-bell-fill"></i>
-            <i onClick={handleProfileClick} className="bi bi-person-circle"></i>
-          </div>
+      <div className="devicesHeader">
+        <p className="bolderFont">Location</p>
+        <div className="iconsContainer">
+          <i className="bi bi-bell-fill"></i>
+          <i onClick={handleProfileClick} className="bi bi-person-circle"></i>
         </div>
-
-        <div className="mainContainer">
-          <div className="locationConsumptionContainer">
-            <div className="locationContainer">
-              <p> MAP WILL GO HERE</p>
-            </div>
-            <div className="consumptionContainer">
-              <p className="bolderFont">Consumption</p>
-              <PowerUsage devices={devicesData} />
-            </div>
-          </div>
-
-          <div className="devicesContainer">
-            <div className="groupsHeader">
-              <h1>Groups</h1>
-              <div className="iconsContainer">
-                <i
-                  style={{ color: "#12B8FF" }}
-                  className="bi bi-plus-square"
-                  onClick={handleShowModal} // Open modal when the button is clicked
-                ></i>
-                <i style={{ color: '#FFAC12' }} className="bi bi-pencil"></i>
-              </div>
-            </div>
-            <div className="groupsContainer">
-              {groups.length > 0 ? (
-                <Accordion>
-                  {groups.map((group) => (
-                    <Accordion.Item key={group._id} eventKey={group._id}>
-                      <Accordion.Header>
-                        {group.name} ({group.devices?.length || 0} devices)
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        {group.devices && group.devices.length > 0 ? (
-                          group.devices.map((device, deviceIndex) => (
-                            <Container className="deviceContainer" key={deviceIndex}>
-                              <Row className="firstRow">
-                                <Col className="bolderFont" sm={6}>
-                                  {device.name}
-                                </Col>
-                                <Col style={{ fontWeight: "600", color: "light blue" }}>
-                                  Estimated Life: {Math.ceil(parseFloat(device.estimatedLife))} days
-                                </Col>
-                              </Row>
-                              <Row className="secondRow">
-                                <Col className={getBatteryColorClass(device.batteryPercentage)} sm={6}>
-                                  {device.batteryPercentage}%
-                                </Col>
-                                <Col className={getConditionColorClass(device.condition)}>
-                                  Condition: {device.condition}
-                                </Col>
-                                <Col className="deviceButton" sm={1}>
-                                  <button className="deviceButton" onClick={() => handleDeviceOptionsClick(device.name)}><i className="bi bi-three-dots-vertical"></i></button>
-                                </Col>
-                              </Row>
-                            </Container>
-                          ))
-                        ) : (
-                          <p>No devices available in this group.</p>
-                        )}
-                        <button className="addDeviceButton" onClick={() => handleAddDeviceClick(group._id)}>
-                          Add Device
-                        </button>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  ))}
-                </Accordion>
-              ) : (
-                <p>No groups available.</p>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Modal for adding new group */}
-        <Modal show={showModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Create a New Group</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group className="mb-3" controlId="formGroupName">
-                <Form.Label>Group Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter group name"
-                  value={groupName}
-                  onChange={handleGroupNameChange}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleCreateGroup}>
-              Create Group
-            </Button>
-          </Modal.Footer>
-        </Modal>
       </div>
+
+      <div className="mainContainer">
+        <div className="locationConsumptionContainer">
+          <div className="locationContainer">
+            <p> MAP PLACE HOLDER</p>
+          </div>
+          <div className="consumptionContainer">
+            <p className="bolderFont">Consumption</p>
+            <PowerUsage devices={devicesData} />
+          </div>
+        </div>
+
+        <div className="devicesContainer">
+          <div className="groupsHeader">
+            <h1>Groups</h1>
+            <div className="iconsContainer">
+              <i
+                style={{ color: "#12B8FF" }}
+                className="bi bi-plus-square"
+                onClick={handleShowModal} // Open modal when the button is clicked
+              ></i>
+              <i style={{ color: '#FFAC12' }} className="bi bi-pencil"></i>
+            </div>
+          </div>
+          <div className="groupsContainer">
+            {groups.length > 0 ? (
+              <Accordion>
+                {groups.map((group) => (
+                  <Accordion.Item key={group._id} eventKey={group._id}>
+                    <Accordion.Header onClick={() => handleSelectGroup(group._id)}>
+                      {group.name} ({group.devices?.length || 0} devices)
+                    </Accordion.Header>
+                    <Accordion.Body>
+                      {group.devices && group.devices.length > 0 ? (
+                        group.devices.map((device, deviceIndex) => (
+                          <Container className="deviceContainer" key={deviceIndex}>
+                            <Row className="firstRow">
+                              <Col className="bolderFont" sm={6}>
+                                {device.name}
+                              </Col>
+                              <Col style={{ fontWeight: "600", color: "light blue" }} sm={6}>
+                                Estimated Life: {Math.ceil(parseFloat(device.estimatedLife))} days
+                              </Col>
+                            </Row>
+                            <Row className="secondRow">
+                              <Col className={getBatteryColorClass(device.batteryPercentage)} sm={6}>
+                                {device.batteryPercentage}%
+                              </Col>
+                              <Col className={getConditionColorClass(device.condition)} sm={6}>
+                                Condition: {device.condition}
+                              </Col>
+                              <Col className="deviceButton" sm={1}>
+                                <button className="deviceButton" onClick={() => handleDeviceOptionsClick(device.name)}>
+                                  <i className="bi bi-three-dots-vertical"></i>
+                                </button>
+                              </Col>
+                            </Row>
+                          </Container>
+                        ))
+                      ) : (
+                        <p>No devices available in this group.</p>
+                      )}
+                      <button className="addDeviceButton" onClick={() => handleAddDeviceClick(group._id)}>
+                        Add Device
+                      </button>
+                    </Accordion.Body>
+
+                    {/* Show the Delete button only if the group is selected */}
+                    {selectedGroupId === group._id && (
+                      <div style={{ textAlign: "center", marginTop: "10px" }}>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={() => handleDeleteGroup(group._id)} // Add delete functionality
+                        >
+                          Delete Group
+                        </Button>
+                      </div>
+                    )}
+                  </Accordion.Item>
+                ))}
+              </Accordion>
+            ) : (
+              <p>No groups available.</p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Modal for adding new group */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create a New Group</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="formGroupName">
+              <Form.Label>Group Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter group name"
+                value={groupName}
+                onChange={handleGroupNameChange}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleCreateGroup}>
+            Create Group
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
 }
 
