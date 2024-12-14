@@ -123,9 +123,10 @@ function Dashboard() {
       // Send request to create a new group in the backend
       const user = JSON.parse(localStorage.getItem("user") as string);
       if (user) {
+        console.log(user._id)
         const response = await GroupAPI.createGroup({
           name: groupName,
-          userID: user.id,
+          userID: user._id,
           numberOfDevices: 0
         });
 
