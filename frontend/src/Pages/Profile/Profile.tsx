@@ -31,7 +31,7 @@ export const ProfilePage: React.FC = () => {
             firstName,
             lastName,
             theme: isDark ? "dark" : "light",
-            id: JSON.parse(localStorage.getItem("user") as string)._id
+            id: JSON.parse(localStorage.getItem("user") as string)._id || JSON.parse(localStorage.getItem("user") as string).id
         }
 
         await UserAPI.updateUser(user)
