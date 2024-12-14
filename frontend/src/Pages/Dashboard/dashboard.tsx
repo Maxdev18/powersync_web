@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
   const estimatedCost = devicesData.reduce((sum, device) => sum + device.estimatedCost, 0);
 
   async function getData() {
-    const groups = (await GroupAPI.getAllGroups(JSON.parse(localStorage.getItem("user") as string)._id)).data //update groups from db
+    const groups = (await GroupAPI.getAllGroups(JSON.parse(localStorage.getItem("user") as string)._id || JSON.parse(localStorage.getItem("user") as string).id)).data //update groups from db
     const devices = (await DeviceAPI.getDevicesByGroupIds(JSON.parse(localStorage.getItem("groups") as string))).data //update devices from db
 
     return { groups, devices }

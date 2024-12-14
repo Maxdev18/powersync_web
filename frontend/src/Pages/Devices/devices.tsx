@@ -50,7 +50,7 @@ function Dashboard() {
       try {
         const user = JSON.parse(localStorage.getItem("user") as string);
         if (user) {
-          const groupsResponse = await GroupAPI.getAllGroups(user._id);
+          const groupsResponse = await GroupAPI.getAllGroups(user._id || user.id);
           const groups = groupsResponse.data || [];
           console.log("Fetched Groups:", groups);
           localStorage.setItem("groups", JSON.stringify(groups));
@@ -126,7 +126,7 @@ function Dashboard() {
         console.log(user._id)
         const response = await GroupAPI.createGroup({
           name: groupName,
-          userID: user._id,
+          userID: user._id || user.id,
           numberOfDevices: 0
         });
 

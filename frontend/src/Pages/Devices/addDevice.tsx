@@ -33,7 +33,7 @@ const AddDevice: React.FC = () => {
 
             if (user) {
                 try {
-                    const response = await GroupAPI.getAllGroups(user._id);
+                    const response = await GroupAPI.getAllGroups(user._id || user.id);
                     setGroups(response.data || []);
                 } catch (error) {
                     console.error('Error fetching groups:', error);

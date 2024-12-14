@@ -40,7 +40,7 @@ const EditDevice: React.FC = () => {
 
             if (user) {
                 try {
-                    const groupResponse = await GroupAPI.getAllGroups(user._id);
+                    const groupResponse = await GroupAPI.getAllGroups(user._id || user.id);
                     setGroups(groupResponse.data || []);
 
                     if (groupResponse.data && groupResponse.data.length > 0) {
